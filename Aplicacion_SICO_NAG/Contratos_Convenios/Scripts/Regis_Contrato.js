@@ -10,9 +10,10 @@ $(document).ready(function () {
     $('input#input_text, textarea#textarea1').characterCounter();
     consultar();
   
-    $(document).on("click", "#datatable", function (e) {
+    $(document).onload( "#datatable", function (e) {
         e.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
+        console.log(data);
         if (data.Esta_Doc == "P1") {
             document.getElementById('.Subir_final').disabled = false;
         }
@@ -233,7 +234,7 @@ $(document).ready(function () {
                             },
                             {
                                 extend: 'copyHtml5',
-                                title: 'Reporte Centros Educativos',
+                                title: 'Contratos',
                                 exportOptions: {
                                     columns: [':visible']
                                 }
@@ -241,7 +242,7 @@ $(document).ready(function () {
                             },
                             {
                                 extend: 'excelHtml5',
-                                title: 'Reporte Centros Educativos',
+                                title: 'Contratos',
                                 exportOptions: {
                                     columns: [':visible']
                                 }
@@ -249,7 +250,7 @@ $(document).ready(function () {
                             {
                                 extend: 'pdfHtml5',
                                 download: 'open',
-                                title: 'Reporte Centros Educativos',
+                                title: 'Contratos',
                                 exportOptions: {
                                     columns: [':visible']
                                 }
@@ -257,7 +258,7 @@ $(document).ready(function () {
                             {
                                 extend: 'print',
                                 text: 'Imprimir',
-                                title: 'Reporte Centros Educativos',
+                                title: 'Contratos',
                                 exportOptions: {
                                     columns: [':visible']
                                 }
@@ -286,7 +287,7 @@ $(document).ready(function () {
                                 data: "Tip_Doc"
                             },
 
-                            {
+                            {   
                                 "className": "dt-left",
                                 data: "Esta_Doc"
                             },
