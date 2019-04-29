@@ -267,7 +267,7 @@ $(document).ready(function () {
                         ],
                         data: response.d,
                        
-                        columns: [
+                        columns:  [
                             {
                                 defaultContent: '<button  title="Actualizar" class=" btn waves-effect waves-light btn_Actualizar blue lighten-2" type="submit" style="position: static"><i class="material-icons">update</i></button>&nbsp;' +
                                     '<button  title="Subir Archivo Memo" class=" btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger" type="submit" style="position: static" href="#modal"><i class="material-icons">file_upload</i></button>&nbsp;' +
@@ -302,7 +302,7 @@ $(document).ready(function () {
                                 data: "Fech_fin"
                             },
 
-                        ],
+                        ], 
                        
                     });       
                     
