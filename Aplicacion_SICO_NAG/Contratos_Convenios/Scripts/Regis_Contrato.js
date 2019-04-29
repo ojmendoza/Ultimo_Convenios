@@ -11,7 +11,7 @@ $(document).ready(function () {
     consultar();
     //evaluar();
 
-    $(document).load("#datatable" function (e) {   
+    $(document).load( function (e) {   
         e.preventDefault();
         var datos = tabla.row($(this).parents("tr")).data();
             if (datos.Esta_Doc == "P1") {
