@@ -11,11 +11,11 @@ $(document).ready(function () {
     consultar();
     //evaluar();
 
-    $(document).load( function (e) {   
+    $(document).on("click","#datatable", function (e) {   
         e.preventDefault();
         var datos = tabla.row($(this).parents("tr")).data();
             if (datos.Esta_Doc == "P1") {
-                document.getElementById('.Subir_final').disabled = false;
+                document.getElementById('.Subir_final').classList.add( "disabled");
             }
         
     });
