@@ -4,21 +4,33 @@ var base64;
 var datos;
 var tabla;
 var archivo;
+
 $(document).ready(function () {
     $('select').material_select();
     $(".modal").modal();
     $('input#input_text, textarea#textarea1').characterCounter();
-    consultar();
-    //evaluar();
-
-    $(document).on("click","#datatable", function (e) {   
-        e.preventDefault();
-        var datos = tabla.row($(this).parents("tr")).data();
-            if (datos.Esta_Doc == "P1") {
-                document.getElementById('.Subir_final').classList.add( "disabled");
-            }
+   
+    consultar(function () {
         
+    }); 
+
+    $(document).on('click', '.Subir_memo', function (e) {
+        e.preventDefault();
+        Materialize.toast("love and sex", 10000)
+        var row = $(this).parent().parent()[0];
+        var data = tabla.row($(this).parents("tr")).data();
+        console.log(data);
+        if (data.Esta_Doc == 'P1') {
+            //document.getElementById('.Subir_final').classList.add("disabled");
+            $(".Subir_final").hide()
+        }
     });
+
+    function evaluar(callback) { 
+        
+        
+        setTimeout(function () { callback(); },7000)
+    };
    
     //  format: 'yyyy/mmm/dd' ,
     $('#fech_inicio, #fech_final').pickadate({
@@ -70,7 +82,6 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 200);
 
     };
-
     //funcion guardar archivo
     function guardarArchivo(callback) {
         datos = document.getElementById("bina").value;
@@ -194,7 +205,7 @@ $(document).ready(function () {
     };
 
     //FUNCION DE LLENAR DATATABLE
-    function consultar() {
+    function consultar(callback) {
        
             $.ajax({
                 type: "POST",
@@ -314,7 +325,7 @@ $(document).ready(function () {
                     Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
                 }
              });        
-
+        setTimeout(function () { callback(); }, 50)
     };
 
     //Funcion para llenar los datos en los textbox a Modificar  
@@ -434,14 +445,14 @@ $(document).ready(function () {
             return false;
            
         }
-    };
+    };   
     $(document).on("change", '#file', function (e) {
         e.preventDefault();
         tabla.destroy();
         $('.btn_Actualizar').hide();
         $('.Subir_memo').hide();
         $('.Subir_final').hide();
-    }),
+    });
 
     $('#file').on('change', function () {
         solo_pdf(this);     
@@ -456,7 +467,7 @@ $(document).ready(function () {
 
     });
 
-    //subir el archivo del memo
+    ////subir el archivo del memo
     $(document).on("click", '.Subir_memo', function (e) {
         e.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
@@ -482,7 +493,7 @@ $(document).ready(function () {
     });
 
     //subir el archivo final    
-    $(document).on("click", '.Subir_final', function (e) {
+     $(document).on("click", '.Subir_final', function (e) {
         e.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
