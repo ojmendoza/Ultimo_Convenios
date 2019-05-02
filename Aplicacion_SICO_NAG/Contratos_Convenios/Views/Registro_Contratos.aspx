@@ -90,6 +90,7 @@
                       <thead>
                          <tr>
                             <th>Acciones</th>
+                         
                              <th>Id</th>                                                          
 			                 <th>Titulo del Contrato</th>
                              <th>Tipo de Documento</th>

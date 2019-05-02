@@ -10,27 +10,7 @@ $(document).ready(function () {
     $(".modal").modal();
     $('input#input_text, textarea#textarea1').characterCounter();
    
-    consultar(function () {
-        
-    }); 
-
-    $(document).on('click', '.Subir_memo', function (e) {
-        e.preventDefault();
-        Materialize.toast("love and sex", 10000)
-        var row = $(this).parent().parent()[0];
-        var data = tabla.row($(this).parents("tr")).data();
-        console.log(data);
-        if (data.Esta_Doc == 'P1') {
-            //document.getElementById('.Subir_final').classList.add("disabled");
-            $(".Subir_final").hide()
-        }
-    });
-
-    function evaluar(callback) { 
-        
-        
-        setTimeout(function () { callback(); },7000)
-    };
+    consultar();      
    
     //  format: 'yyyy/mmm/dd' ,
     $('#fech_inicio, #fech_final').pickadate({
@@ -205,7 +185,7 @@ $(document).ready(function () {
     };
 
     //FUNCION DE LLENAR DATATABLE
-    function consultar(callback) {
+    function consultar() {
        
             $.ajax({
                 type: "POST",
@@ -281,9 +261,10 @@ $(document).ready(function () {
                         columns:  [
                             {
                                 defaultContent: '<button  title="Actualizar" class=" btn waves-effect waves-light btn_Actualizar blue lighten-2" type="submit" style="position: static"><i class="material-icons">update</i></button>&nbsp;' +
-                                    '<button  title="Subir Archivo Memo" class=" btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger" type="submit" style="position: static" href="#modal"><i class="material-icons">file_upload</i></button>&nbsp;' +
-                                    '<button  title="Subir Archivo final" class=" btn waves-effect waves-light Subir_final red lighten-2 modal-trigger" type="submit" style="position: static" href="#modal1"><i class="material-icons">file_upload</i></button>&nbsp;'
-                            },
+                                    '<button  title="Subir Archivo Memo" class=" btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger" id="Subir_memo" type="submit" style="position: Static" href="#modal"><i class="material-icons">file_upload</i></button>&nbsp;' +
+                                    '<button  title="Subir Archivo final" class= " btn waves-effect waves-light Subir_final red lighten-2 modal-trigger" id="Subir_final" type="submit" style="position Static" href="#modal1" > <i class="material-icons">file_upload</i></button>'
+                                
+                            },                           
 
                             {
                                 "className": "dt-center",
@@ -314,9 +295,81 @@ $(document).ready(function () {
                             },
 
                         ], 
+                     
+                        
                        
-                    });       
-                    
+                    }); 
+
+                    $(function () {
+                        var index = [];
+                        var estado = [];
+                        var rows = $("#datatable").dataTable().fnGetNodes();
+                        for (var i = 0; i < rows.length; i++) {
+                            // Get HTML of 3rd column (for exa mple)    
+                            index.push($(rows[i]).find("td:eq(1)").html());
+                            estado.push($(rows[i]).find("td:eq(4)").html());
+
+                            if ((estado[i] == "P1") && (index[i] == (i + 1))) {
+                                $("#Subir_memo").hide();
+                                $("#Subir_final").hide()
+                            } else
+                                if ((estado[i] == "P2") && (index[i] == "3")) {
+                                    $("#Subir_memo").show();
+                                    $("#Subir_final").hide();
+
+                                } else
+                                {
+                                    Materialize.toast('love and sex', 2000);
+                                }
+
+                            //if ((estado[i] == "P2")) {
+                            //    $("#Subir_memo").hide();
+                            //    $("#Subir_final").hide()
+                            //} else {
+                            //    $("#Subir_memo").show();
+                            //    $("#Subir_final").hide();
+                            //} 
+                            console.log(estado[i]);
+                            console.log("aqui entra el valor: "+ ( i+1) )
+                            console.log(index[i]); 
+                          
+                        }
+                        console.log(estado);
+                        console.log(index);
+                        
+                    });
+                    //tabla.rows().every(function () {
+                        
+                    //    var index;
+                    //    var estado;
+                    //    estado = this.data().Esta_Doc;
+                    //    index = this.data().Id;
+                    //    if ((estado == "P1") && (index == index)) {
+                    //        //tabla.destroy();
+                    //        $(".Subir_memo").attr('disabled', true);
+                    //        $(".Subir_final").attr('disabled', true);
+                    //    }
+                    //    if ((estado == "P2") && (index == index))  {
+                    //        //tabla.destroy();
+                    //        $(".Subir_memo").attr('Enable', true);
+                    //        $(".Subir_final").attr('disable', true);
+                    //    }
+                    //    if ((estado == "P3") && (index == index)) {
+                    //        //tabla.destroy();
+                    //        $(".Subir_memo").attr('disable', true);
+                    //        $(".Subir_final").attr('Enable', true);
+                    //    }
+                    //    console.log(' los resultados son: ' + estado + ' y el codigo es:' + index);
+                        
+                    //}); 
+
+                    //var datos = response.d;
+                    ////console.log(datos);
+                    //if ((datos.Esta_Doc = "P1") && (datos.Id = "1")) {
+                    //    $(".Subir_memo").attr('disabled', true);
+                    //    $(".Subir_final").attr('disabled', true);
+                    //}
+                   
                 },
                 failure: function (response) {
                     Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
@@ -325,7 +378,7 @@ $(document).ready(function () {
                     Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
                 }
              });        
-        setTimeout(function () { callback(); }, 50)
+       
     };
 
     //Funcion para llenar los datos en los textbox a Modificar  
