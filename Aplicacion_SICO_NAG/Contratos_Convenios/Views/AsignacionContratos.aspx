@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="../Scripts/Asignacion.js"></script>
+    <script src="../Scripts/Contratos_revisar.js"></script>
     <link href="../Css/Consulta.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -13,6 +13,7 @@
                     <i class="mdi-action-bug-report circle red darken-2"></i>
                     <span class="collection-header">Contratos</span>
                     <p>Asignados a ti </p>
+                    <input type="text" style="display:block" id="id" />
                 </li>
             </ul>
             <div class="card-content black-text">
@@ -34,6 +35,19 @@
             </div>
         </div>
     </div>
+
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="card-title center">Documentos PDF</span>
+               <table id="dataModal" class="mdl-data-table display nowrap "   style="width:100%"  border: black 5px solid; >
+                     <thead class="center">
+                           <tr >   
+                               <th>PDF</th>
+                          </tr>
+                    </thead>
+               </table>   
+              </div>
+       </div>
 
 </asp:Content>
 

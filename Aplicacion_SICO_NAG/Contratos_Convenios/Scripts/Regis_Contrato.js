@@ -300,44 +300,34 @@ $(document).ready(function () {
                        
                     }); 
 
-                    $(function () {
-                        var index = [];
-                        var estado = [];
-                        var rows = $("#datatable").dataTable().fnGetNodes();
-                        for (var i = 0; i < rows.length; i++) {
-                            // Get HTML of 3rd column (for exa mple)    
-                            index.push($(rows[i]).find("td:eq(1)").html());
-                            estado.push($(rows[i]).find("td:eq(4)").html());
+                    //$(function () {
+                    //    var index = [];
+                    //    var estado = [];
+                    //    var rows = $("#datatable").dataTable().fnGetNodes();
+                    //    for (var i = 0; i < rows.length; i++) {                            
+                    //            index.push($(rows[i]).find("td:eq(1)").html());
+                    //            estado.push($(rows[i]).find("td:eq(4)").html());
 
-                            if ((estado[i] == "P1") && (index[i] == (i + 1))) {
-                                $("#Subir_memo").hide();
-                                $("#Subir_final").hide()
-                            } else
-                                if ((estado[i] == "P2") && (index[i] == "3")) {
-                                    $("#Subir_memo").show();
-                                    $("#Subir_final").hide();
+                    //            if ((estado[i] == "P1") ) {
+                    //                $("#Subir_memo").hide();
+                    //                $("#Subir_final").hide()
+                    //            } else
+                    //                if ((estado[i] == "P2") ) {
+                    //                    $("#Subir_memo").show();
+                    //                    $("#Subir_final").hide();
 
-                                } else
-                                {
-                                    Materialize.toast('love and sex', 2000);
-                                }
+                    //                } else {
+                    //                    Materialize.toast('love and sex', 2000);
+                    //                }
 
-                            //if ((estado[i] == "P2")) {
-                            //    $("#Subir_memo").hide();
-                            //    $("#Subir_final").hide()
-                            //} else {
-                            //    $("#Subir_memo").show();
-                            //    $("#Subir_final").hide();
-                            //} 
-                            console.log(estado[i]);
-                            console.log("aqui entra el valor: "+ ( i+1) )
-                            console.log(index[i]); 
-                          
-                        }
-                        console.log(estado);
-                        console.log(index);
+                    //            console.log(estado[i]);
+                    //            //console.log("aqui entra el valor: " + (i + 1))
+                    //            console.log(index[i]);                                                     
+                    //    }
+                    //    console.log(estado);
+                    //    console.log(index);
                         
-                    });
+                    //});
                     //tabla.rows().every(function () {
                         
                     //    var index;
