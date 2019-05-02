@@ -43,7 +43,7 @@ Partial Class Views_AsignacionContratos
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function Visualizar(ByVal codigo As Integer) As PropiedadesContratoConvenio()
-        Dim sql = "SELECT [registro_borrador] FROM [dbo].[CONVENIOS_CONTRATOS] where [cod_cenv_tra]=" & codigo & ";"
+        Dim sql = "SELECT [registro_borrador] FROM [dbo].[CONVENIOS_CONTRATOS] where [cod_cenv_tra]=" & CInt(codigo) & ";"
 
         Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
         Using con As New SqlConnection(cadena)
@@ -52,7 +52,8 @@ Partial Class Views_AsignacionContratos
             Using rdr As SqlDataReader = cmd.ExecuteReader()
                 While rdr.Read()
                     Dim fila As New PropiedadesContratoConvenio()
-                    fila.Regis_borrador = CStr("<div class='embed-container'><iframe width='560' height='315' src='" & rdr.Item("registro_borrador").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
+                    'CStr("<div class='embed-container'><iframe width='560' height='315' src='" & rdr.Item("registro_borrador").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
+                    fila.Regis_borrador = rdr.Item("registro_borrador").ToString()
                     filas.Add(fila)
                 End While
             End Using

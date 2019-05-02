@@ -3,7 +3,7 @@
 $(document).ready(function () {
 
     $('select').material_select();
-    $(".modal").modal();
+    $('.modal').modal();
 
     consultar();
 
@@ -97,7 +97,7 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (r) {
 
-                    tabla = $("#dataModal").DataTable({
+                tabla =   $("#dataModal").DataTable({
                         "scrollX": true,
                         "scrollY": 400,
                         "searching": false,
@@ -136,22 +136,29 @@ $(document).ready(function () {
     };
 
     $('.ver').click(function (e) {
-        e.preventDefault();
+        e.preventDefault()
+       
         $('.modal').modal({
-            dismissible: true,
+            //dismissible: true,
             ready: function () {
                 tabla.destroy();
                 visualizar();
             },
-            complete: function () { tabla.destroy(); consultar(); }
+            complete: function () {consultar();}
 
         })
     });
+    
 
     $(document).on('click', '.ver', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id)
+        //tabla.destroy();
+        visualizar();
+        //tabla.destroy();
+        //consultar();
+        
 
     });
 });
