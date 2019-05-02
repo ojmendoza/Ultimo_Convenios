@@ -53,7 +53,7 @@ Partial Class Views_AsignacionContratos
                 While rdr.Read()
                     Dim fila As New PropiedadesContratoConvenio()
                     'CStr("<div class='embed-container'><iframe width='560' height='315' src='" & rdr.Item("registro_borrador").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
-                    fila.Regis_borrador = rdr.Item("registro_borrador").ToString()
+                    fila.Regis_borrador = CStr("<div class='embed-container'><iframe width='600' height='415' src='" & rdr.Item("registro_borrador").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
                     filas.Add(fila)
                 End While
             End Using

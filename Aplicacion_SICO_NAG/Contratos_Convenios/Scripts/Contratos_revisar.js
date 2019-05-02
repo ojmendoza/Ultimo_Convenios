@@ -3,7 +3,7 @@
 $(document).ready(function () {
 
     $('select').material_select();
-    $('.modal').modal();
+    $('#modal2').modal();
 
     consultar();
 
@@ -54,8 +54,7 @@ $(document).ready(function () {
                         },
 
                         {
-                            defaultContent: '<a title="Descargar" class="btn task-cat green darken-2 modal-trigger  descargar">Descargar</a>' +
-                                ' <a title="Ver" class="btn task-cat blue darken-2 modal-trigger ver" href="#modal2" >Visualizar</a>'
+                            defaultContent: ' <a title="Ver y Descargar" class="btn task-cat blue darken-2 modal-trigger ver" href="#modal2" ><i class="material-icons">file_download</i></a>'
                         },
 
                         {
@@ -86,7 +85,7 @@ $(document).ready(function () {
 
     };
 
-    function visualizar() {
+    function visualizar(callback) {
         var codigo = $("[id*=id]").val();
         $(function () {
             $.ajax({
@@ -98,8 +97,7 @@ $(document).ready(function () {
                 success: function (r) {
 
                 tabla =   $("#dataModal").DataTable({
-                        "scrollX": true,
-                        "scrollY": 400,
+                        "scrollX": true,                        
                         "searching": false,
                         "language": {
                             "lengthMenu": "",
@@ -113,9 +111,9 @@ $(document).ready(function () {
                                 "next": "Siguiente",
                                 "previous": "Anterior"
                             }
-                        },
+                    },
+                         retrieve: true,
                         data: r.d,
-
                         columns: [
                             {
 
@@ -132,33 +130,47 @@ $(document).ready(function () {
 
             });
         });
+        setTimeout(function () { callback(); },200)
 
     };
 
-    $('.ver').click(function (e) {
-        e.preventDefault()
-       
-        $('.modal').modal({
-            //dismissible: true,
-            ready: function () {
-                tabla.destroy();
-                visualizar();
-            },
-            complete: function () {consultar();}
 
-        })
-    });
+    //$('.ver').click(function () {
+    //    //e.preventDefault()
+       
+    //    //$('#modal2').modal({
+    //    //    dismissible: true,
+    //    //    ready: function () {
+    //    //        //tabla.destroy();
+    //    //        //visualizar(function () { tabla.destroy(); consultar(); });
+                
+    //    //    },
+    //    //    complete: function () {
+    //    //        tabla.destroy();
+    //    //        consultar(); 
+               
+    //    //    }
+
+    //    //})
+        
+    //});
     
 
-    $(document).on('click', '.ver', function (event) {
+    $(document).on('click', '.ver', function (event) {      
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id)
-        //tabla.destroy();
-        visualizar();
-        //tabla.destroy();
-        //consultar();
-        
-
+        $("[id*=id]").val(data.Id);        
+        visualizar(function () { tabla.destroy(); consultar(); });
+      
     });
+
+    function actualizar() {
+        location.reload(true);
+    };
+    var limpiar = function () {
+        $("[id*=id]").val("");
+       
+
+    }
+
 });

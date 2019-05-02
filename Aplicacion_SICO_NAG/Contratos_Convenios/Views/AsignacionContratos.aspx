@@ -13,7 +13,7 @@
                     <i class="mdi-action-bug-report circle red darken-2"></i>
                     <span class="collection-header">Contratos</span>
                     <p>Asignados a ti </p>
-                    <input type="text" style="display:block" id="id" />
+                    <input type="text" style="display:none" id="id" />
                 </li>
             </ul>
             <div class="card-content black-text">

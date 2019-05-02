@@ -59,6 +59,25 @@ Public Class Registro_Contratos
         End Try
     End Function
 #End Region
+#Region "guardar archivo"
+    <WebMethod()>
+    Public Shared Function Guardar_btn(datos As PropiedadesContratoConvenio) As String
+        Dim query As New Conexion
+        Dim insertString As String
+        Dim codigo As New VARIABLES
+        codigo.cod_cont = CInt(query.ObtenerCodigo("CONVENIOS_CONTRATOS", "cod_cenv_tra"))
+        Try
+            insertString = "insert into BOTONES ([cod_cenv_tra],[etiqueta],[btn]) values(@id,@etiqueta,@btn)"
+            Dim param As SqlParameter() = New SqlParameter(1) {}
+            param(0) = New SqlParameter("@id", codigo.cod_cont)
+            param(1) = New SqlParameter("@etiqueta", datos.Datos)
+            param(1) = New SqlParameter("@btn", datos.Btn)
+            Return query.insertar(insertString, param)
+        Catch ex As Exception
+            Return ex.Message
+        End Try
+    End Function
+#End Region
 
 #Region "actualizar"
     <WebMethod()>
