@@ -89,8 +89,8 @@
                   <table id="datatable" class=" mdl-data-table display nowrap "   style="width:100%"  border: black 5px solid; >
                       <thead>
                          <tr>
-                            <th>Acciones</th>
-                         
+                            <th>Actualizar</th>
+                             <th>Archivos</th>
                              <th>Id</th>                                                          
 			                 <th>Titulo del Contrato</th>
                              <th>Tipo de Documento</th>

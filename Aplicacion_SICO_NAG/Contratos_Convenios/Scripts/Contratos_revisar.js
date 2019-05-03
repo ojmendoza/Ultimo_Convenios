@@ -62,9 +62,8 @@ $(document).ready(function () {
                             data: "Fech_inicio"
                         },
                         {
-                            defaultContent: '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1">P1</a>' +
-                                ' <a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2">P2</a>' +
-                                ' <a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3">P3</a>'
+                            "className": "dt-left",
+                            data: "Btn"
                         },
                         {
                             "className": "dt-left",

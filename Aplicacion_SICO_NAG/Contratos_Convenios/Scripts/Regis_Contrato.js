@@ -62,6 +62,7 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 200);
 
     };
+
     //funcion guardar archivo
     function guardarArchivo(callback) {
         datos = document.getElementById("bina").value;
@@ -213,7 +214,7 @@ $(document).ready(function () {
             guardarArchivo(function () {
                 guardarbtn(function () {
                     Materialize.toast('Datos insertados correctamente', 4000, 'rounded');
-                    limpiar();
+                    //limpiar();
                 });
             });
         });
@@ -296,12 +297,14 @@ $(document).ready(function () {
                        
                         columns:  [
                             {
-                                defaultContent: '<button  title="Actualizar" class=" btn waves-effect waves-light btn_Actualizar blue lighten-2" type="submit" style="position: static"><i class="material-icons">update</i></button>&nbsp;' +
-                                    '<button  title="Subir Archivo Memo" class=" btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger" disabled="true" id="Subir_memo" type="submit"  style="position: Static" href="#modal"><i class="material-icons">file_upload</i></button>&nbsp;' +
-                                    '<button  title="Subir Archivo final" class= " btn waves-effect waves-light Subir_final red lighten-2 modal-trigger" disabled="true" id="Subir_final" type="submit" style="position Static" href="#modal1" > <i class="material-icons">file_upload</i></button>'
+                                defaultContent: '<button  title="Actualizar" class=" btn waves-effect waves-light btn_Actualizar blue lighten-2" type="submit" style="position: static"><i class="material-icons">update</i></button>&nbsp;' 
+                                   
                                 
                             },                           
-
+                            {
+                                "className": "dt-center",
+                                data: "Datos"
+                            },
                             {
                                 "className": "dt-center",
                                 data: "Id"

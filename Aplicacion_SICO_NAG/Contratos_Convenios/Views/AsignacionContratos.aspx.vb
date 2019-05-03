@@ -17,7 +17,7 @@ Partial Class Views_AsignacionContratos
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function seleccionar() As PropiedadesContratoConvenio()
-        Dim sql = "SELECT [cod_cenv_tra],[nombre_documento],[estado_documento],[fech_inicio] FROM [dbo].[CONVENIOS_CONTRATOS] where [tipo_documento]='Contrato'"
+        Dim sql = "   SELECT CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[btn],[fech_inicio] FROM CONVENIOS_CONTRATOS inner join BOTONES on (CONVENIOS_CONTRATOS.cod_cenv_tra = BOTONES.cod_cenv_tra)  where [tipo_documento]='Contrato'"
 
         Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
         Using con As New SqlConnection(cadena)
@@ -28,7 +28,7 @@ Partial Class Views_AsignacionContratos
                     Dim fila As New PropiedadesContratoConvenio()
                     fila.Id = rdr.Item("cod_cenv_tra").ToString()
                     fila.Nombre = rdr.Item("nombre_documento").ToString()
-                    fila.Esta_Doc = rdr.Item("estado_documento").ToString()
+                    fila.Btn = rdr.Item("btn").ToString()
                     fila.Fech_inicio = rdr.Item("fech_inicio").ToString()
 
 
