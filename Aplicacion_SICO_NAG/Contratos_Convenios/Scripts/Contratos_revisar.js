@@ -1,4 +1,6 @@
 ﻿var tabla;
+var btn;
+var etiqueta;
 
 $(document).ready(function () {
 
@@ -54,7 +56,8 @@ $(document).ready(function () {
                         },
 
                         {
-                            defaultContent: ' <a title="Ver y Descargar" class="btn task-cat blue darken-2 modal-trigger ver" href="#modal2" ><i class="material-icons">file_download</i></a>'
+                            
+                            defaultContent: ' <a title="Ver y Descargar" class="btn task-cat blue darken-2 modal-trigger ver" id="love" href="#modal2" ><i class="material-icons">file_download</i></a>'
                         },
 
                         {
@@ -133,6 +136,50 @@ $(document).ready(function () {
 
     };
 
+    function actualizar_prioridad(callback) {
+        if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>') {
+            btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
+            etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='false' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+
+        } else
+            if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>') {
+                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">P3</a>'
+                etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='false' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+
+            } else {
+                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3 disable" id="btn_p3">P3</a>'
+                etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' hidden='hidden' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' hidden='hidden' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+
+            }
+
+        var datosContratos = {};
+        datosContratos.Id = $("[id*=id]").val();
+        datosContratos.Esta_Doc = $("[id*=datos]").val()
+        datosContratos.Datos = etiqueta;
+        datosContratos.Btn = btn;
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Views/AsignacionContratos.aspx/Actualizar_prioridad",
+                data: JSON.stringify({ 'datos': datosContratos }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    // Materialize.toast('Datos insertados correctamente', 4000, 'rounded')
+
+                },
+                error: function (response, xhr) {
+                    Materialize.toast('Error, Los datos no pudieron ser insertados', 4000, 'rounded');
+                    console.log(response.d);
+                }
+
+            });
+        });
+        setTimeout(function () { callback(); }, 200);
+
+    };
+
+
 
     //$('.ver').click(function () {
     //    //e.preventDefault()
@@ -160,8 +207,46 @@ $(document).ready(function () {
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);        
         visualizar(function () { tabla.destroy(); consultar(); });
-      
+               
     });
+    
+    $(document).on('click', '.btn_p1', function (event) {
+        event.preventDefault();         
+        var final;
+        var data = tabla.row($(this).parents("tr")).data();
+        $("[id*=id]").val(data.Id);       
+        d = document.getElementById("btn_p1");       
+        $("[id*=datos]").val(d.outerHTML)
+        
+        $.confirm({
+            title: 'Confirmar!',
+            content: '¿Esta Seguro que desea confirmar que suban el archivo(memo)?',
+            buttons: {
+                Aceptar: function () {
+                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!",2000,'green') });
+                    consultar();
+                },
+                Cancelar: function () {
+
+                }
+
+            }
+        });
+       
+    });
+    $(document).on('click', '.btn_p2', function (event) {
+        event.preventDefault();
+        d = document.getElementById("btn_p2");
+        console.log(d.outerHTML);
+    });
+
+    $(document).on('click', '.btn_p3', function (event) {
+        event.preventDefault();
+        d = document.getElementById("btn_p3");
+        console.log(d.outerHTML);
+    });
+
+   
 
     function actualizar() {
         location.reload(true);

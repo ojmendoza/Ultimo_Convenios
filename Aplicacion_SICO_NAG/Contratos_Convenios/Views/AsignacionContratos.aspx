@@ -14,6 +14,7 @@
                     <span class="collection-header">Contratos</span>
                     <p>Asignados a ti </p>
                     <input type="text" style="display:none" id="id" />
+                    <input type="text" style="display:none" id="datos" />
                 </li>
             </ul>
             <div class="card-content black-text">

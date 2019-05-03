@@ -17,7 +17,7 @@ Partial Class Views_AsignacionContratos
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function seleccionar() As PropiedadesContratoConvenio()
-        Dim sql = "   SELECT CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[btn],[fech_inicio] FROM CONVENIOS_CONTRATOS inner join BOTONES on (CONVENIOS_CONTRATOS.cod_cenv_tra = BOTONES.cod_cenv_tra)  where [tipo_documento]='Contrato'"
+        Dim sql = "SELECT CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[btn],[fech_inicio] FROM CONVENIOS_CONTRATOS inner join BOTONES on (CONVENIOS_CONTRATOS.cod_cenv_tra = BOTONES.cod_cenv_tra)  where [tipo_documento]='Contrato';"
 
         Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
         Using con As New SqlConnection(cadena)
@@ -39,6 +39,7 @@ Partial Class Views_AsignacionContratos
         Return filas.ToArray()
     End Function
 #End Region
+
 #Region "Visualizar"
     <Services.WebMethod()>
     <ScriptMethod()>
@@ -59,6 +60,41 @@ Partial Class Views_AsignacionContratos
             End Using
         End Using
         Return filas.ToArray()
+    End Function
+#End Region
+
+#Region "PRIORIDADES"
+    <WebMethod()>
+    Public Shared Function Actualizar_prioridad(datos As PropiedadesContratoConvenio) As String
+        Dim query As New Conexion
+        Dim updatestring As String
+
+        Try
+            updatestring = "begin tran " &
+                  "declare @valor varchar(max); " &
+                 " set @valor=(select btn from BOTONES where cod_cenv_tra=@id); " &
+                  "if (@valor=@valorC)" &
+                 " begin" &
+                 " update BOTONES set etiqueta=@etiqueta,btn=@btn where cod_cenv_tra=@id;" &
+                 " end" &
+                 " else if(@valor=@valorC)" &
+                 " begin" &
+                 " update BOTONES set etiqueta=@etiqueta,btn=@btn where cod_cenv_tra=@id;" &
+                "  end" &
+                 " else   " &
+                 " begin" &
+                "	update BOTONES set etiqueta=@etiqueta,btn=@btn where cod_cenv_tra=@id;" &
+                "  end " &
+                "  commit tran"
+            Dim param As SqlParameter() = New SqlParameter(3) {}
+            param(0) = New SqlParameter("@id", datos.Id)
+            param(1) = New SqlParameter("@valorC", datos.Esta_Doc)
+            param(2) = New SqlParameter("@etiqueta", datos.Datos)
+            param(3) = New SqlParameter("@btn", datos.Btn)
+            Return query.insertar(updatestring, param)
+        Catch ex As Exception
+            Return ex.Message
+        End Try
     End Function
 #End Region
 End Class
