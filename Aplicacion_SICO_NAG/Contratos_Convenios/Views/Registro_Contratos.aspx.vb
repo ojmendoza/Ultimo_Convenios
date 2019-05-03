@@ -89,14 +89,18 @@ Public Class Registro_Contratos
         Try
             Using conexion As SqlConnection = New SqlConnection(cadena)
                 conexion.Open()
-                insertString = "Update CONVENIOS_CONTRATOS set nombre_documento=@nombre_documento,fech_inicio=@fech_inicio,estado_documento=@estado_documento,fech_final=@fech_final" &
-                    " where cod_cenv_tra=@id "
+                insertString = "begin tran " &
+                    "Update BOTONES SET btn=@Btn where cod_cenv_tra=@id; " &
+                    "Update CONVENIOS_CONTRATOS set nombre_documento=@nombre_documento,fech_inicio=@fech_inicio,estado_documento=@estado_documento,fech_final=@fech_final" &
+                    " where cod_cenv_tra=@id; " &
+                    "commit tran"
                 Dim comando As SqlCommand = New SqlCommand(insertString, conexion)
                 comando.Parameters.AddWithValue("@id", datos.Id)
                 comando.Parameters.AddWithValue("@nombre_documento", datos.Nombre)
                 comando.Parameters.AddWithValue("@fech_inicio", datos.Fech_inicio)
                 comando.Parameters.AddWithValue("@fech_final", datos.Fech_fin)
                 comando.Parameters.AddWithValue("@estado_documento", datos.Esta_Doc)
+                comando.Parameters.AddWithValue("@Btn", datos.Btn)
 
                 res = comando.ExecuteNonQuery()
             End Using
