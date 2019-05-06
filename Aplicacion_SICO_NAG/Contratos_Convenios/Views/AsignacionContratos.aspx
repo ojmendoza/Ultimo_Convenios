@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="../Scripts/Contratos_revisar.js"></script>   
-    <link href="../Css/Diseño.css" rel="stylesheet" />
+   <link href="../Css/estilos.css" rel="stylesheet" />
   
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">

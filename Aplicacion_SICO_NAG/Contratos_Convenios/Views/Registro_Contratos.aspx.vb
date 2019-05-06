@@ -68,11 +68,12 @@ Public Class Registro_Contratos
         Dim codigo As New VARIABLES
         codigo.cod_inst_1 = CInt(query.ObtenerCodigo("CONVENIOS_CONTRATOS", "cod_cenv_tra"))
         Try
-            insertString = "insert into BOTONES([cod_cenv_tra],[etiqueta],[btn]) values(@id,@etiqueta,@btn)"
-            Dim param As SqlParameter() = New SqlParameter(2) {}
+            insertString = "insert into BOTONES([cod_cenv_tra],[etiqueta],[btn],[estado]) values(@id,@etiqueta,@btn,@estado)"
+            Dim param As SqlParameter() = New SqlParameter(3) {}
             param(0) = New SqlParameter("@id", codigo.cod_inst_1)
             param(1) = New SqlParameter("@etiqueta", datos.Datos)
             param(2) = New SqlParameter("@btn", datos.Btn)
+            param(3) = New SqlParameter("@estado", datos.Estado)
             Return query.insertar(insertString, param)
         Catch ex As Exception
             Return ex.Message
