@@ -90,14 +90,14 @@ $(document).ready(function () {
 
     function guardarbtn(callback) {
         datos = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
-        if ($("[id*=est_contra]").val() == "P1") {
+        //if ($("[id*=est_contra]").val() == "P1") {
             btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>'
-        } else
-            if ($("[id*=est_contra]").val() == "P2") {
-                btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
-            } else {
-                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">P3</a>'
-            }
+        //} else
+        //    if ($("[id*=est_contra]").val() == "P2") {
+        //        btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
+        //    } else {
+        //        btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">P3</a>'
+        //    }
         var datosContratos = {};
         datosContratos.Datos = datos;
         datosContratos.Btn = btn;
@@ -180,21 +180,21 @@ $(document).ready(function () {
         fecha_inicio = document.getElementById("fech_inicio").value;
         fecha_final = document.getElementById("fech_final").value;
 
-        if ($("[id*=est_contra]").val() == "P1") {
-            btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>'
-        } else
-            if ($("[id*=est_contra]").val() == "P2") {
-                btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
-            } else {
-                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">P3</a>'
-            }
+        //if ($("[id*=est_contra]").val() == "P1") {
+        //    btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>'
+        //} else
+        //    if ($("[id*=est_contra]").val() == "P2") {
+        //        btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
+        //    } else {
+        //        btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">P3</a>'
+        //    }
         var datosContratos = {};
         datosContratos.Id = $("[id*=id]").val();
         datosContratos.Nombre = $("[id*=nom_contra]").val();
         datosContratos.Fech_inicio = fecha_inicio;
         datosContratos.Fech_fin = fecha_final;
-        datosContratos.Esta_Doc = $("[id*=est_contra]").val();      
-        datosContratos.Btn = btn;   
+        //datosContratos.Esta_Doc = $("[id*=est_contra]").val();      
+        //datosContratos.Btn = btn;   
         $(function () {
             $.ajax({
                 type: "POST",

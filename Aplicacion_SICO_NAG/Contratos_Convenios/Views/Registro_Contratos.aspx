@@ -36,7 +36,7 @@
                                          </div>
                                  </div>
                             <div class="valign-wrapper ">
-                                 <div class=" input-field col s12 m6 l9" style="margin:initial">
+                              <%--   <div class=" input-field col s12 m6 l9" style="margin:initial">
                                               <i class="material-icons prefix">arrow_drop_down_circle</i>
                                            <select id="est_contra" class="eval" >                                
                                              <option value="" class="disabled selected" >Seleccione</option>
@@ -46,7 +46,7 @@
                                           </select>
                                          <label> Prioridad                     
                                          </label>
-                                    </div> 
+                                    </div> --%>
                                 <textarea id="bina" class="materialize-textarea" data-length="500000000" style="display:none"></textarea>
                                 <input id="id" type="text" style="display:none" />
                             </div>
