@@ -139,15 +139,15 @@ $(document).ready(function () {
     function actualizar_prioridad(callback) {
         if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>') {
             btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
-            etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='false' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+            etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
 
         } else
             if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>') {
                 btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">P3</a>'
-                etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='false' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+                etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger'  id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
 
             } else {
-                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3 disable" id="btn_p3">P3</a>'
+                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" disabled="true" id="btn_p3">P3</a>'
                 etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' hidden='hidden' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' hidden='hidden' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
 
             }
@@ -180,28 +180,6 @@ $(document).ready(function () {
     };
 
 
-
-    //$('.ver').click(function () {
-    //    //e.preventDefault()
-       
-    //    //$('#modal2').modal({
-    //    //    dismissible: true,
-    //    //    ready: function () {
-    //    //        //tabla.destroy();
-    //    //        //visualizar(function () { tabla.destroy(); consultar(); });
-                
-    //    //    },
-    //    //    complete: function () {
-    //    //        tabla.destroy();
-    //    //        consultar(); 
-               
-    //    //    }
-
-    //    //})
-        
-    //});
-    
-
     $(document).on('click', '.ver', function (event) {      
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
@@ -212,10 +190,11 @@ $(document).ready(function () {
     
     $(document).on('click', '.btn_p1', function (event) {
         event.preventDefault();         
-        var final;
+       
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);       
-        d = document.getElementById("btn_p1");       
+        d = document.getElementById("btn_p1"); 
+        console.log(d.outerHTML)
         $("[id*=datos]").val(d.outerHTML)
         
         $.confirm({
@@ -223,7 +202,8 @@ $(document).ready(function () {
             content: '¿Esta Seguro que desea confirmar que suban el archivo(memo)?',
             buttons: {
                 Aceptar: function () {
-                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!",2000,'green') });
+                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!", 2000, 'green') });
+                    limpiar();
                     consultar();
                 },
                 Cancelar: function () {
@@ -236,14 +216,55 @@ $(document).ready(function () {
     });
     $(document).on('click', '.btn_p2', function (event) {
         event.preventDefault();
+        var data = tabla.row($(this).parents("tr")).data();
+        $("[id*=id]").val(data.Id);
         d = document.getElementById("btn_p2");
-        console.log(d.outerHTML);
+        $("[id*=datos]").val(d.outerHTML)
+        console.log(d.outerHTML)
+
+        $.confirm({
+            title: 'Confirmar!',
+            content: '¿Esta Seguro que desea confirmar que suban el archivo(documento final)?',
+            buttons: {
+                Aceptar: function () {
+                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!", 2000, 'green') });
+                    limpiar();
+                    consultar();
+                },
+                Cancelar: function () {
+
+                }
+
+            }
+        });
+       
     });
 
     $(document).on('click', '.btn_p3', function (event) {
         event.preventDefault();
+        var data = tabla.row($(this).parents("tr")).data();
+        $("[id*=id]").val(data.Id);
         d = document.getElementById("btn_p3");
-        console.log(d.outerHTML);
+        $("[id*=datos]").val(d.outerHTML)
+        console.log(d.outerHTML)
+
+        $.confirm({
+            title: 'Confirmar!',
+            content: '¡Se han confirmado la subida de archivo! De clic en aceptar',
+            buttons: {
+                Aceptar: function () {
+                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!", 2000, 'green') });
+                    limpiar();
+                    consultar();
+                    
+                },
+                Cancelar: function () {
+
+                }
+
+            }
+        });
+       
     });
 
    
@@ -253,7 +274,7 @@ $(document).ready(function () {
     };
     var limpiar = function () {
         $("[id*=id]").val("");
-       
+        $("[id*=datos]").val("");
 
     }
 

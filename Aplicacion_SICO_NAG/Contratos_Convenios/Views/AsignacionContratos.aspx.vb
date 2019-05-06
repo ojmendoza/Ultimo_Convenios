@@ -72,18 +72,23 @@ Partial Class Views_AsignacionContratos
         Try
             updatestring = "begin tran " &
                   "declare @valor varchar(max); " &
+                  "declare @document varchar(30); " &
                  " set @valor=(select btn from BOTONES where cod_cenv_tra=@id); " &
-                  "if (@valor=@valorC)" &
+                 " set @document=(select estado_documento from CONVENIOS_CONTRATOS where cod_cenv_tra=@id);" &
+                  "if (@valor=@valorC) and (@document='P1')" &
                  " begin" &
                  " update BOTONES set etiqueta=@etiqueta,btn=@btn where cod_cenv_tra=@id;" &
+                 " update CONVENIOS_CONTRATOS set estado_documento='P2' where cod_cenv_tra=@id; " &
                  " end" &
-                 " else if(@valor=@valorC)" &
+                 " else if(@valor=@valorC) and (@document='P2')" &
                  " begin" &
                  " update BOTONES set etiqueta=@etiqueta,btn=@btn where cod_cenv_tra=@id;" &
+                 " update CONVENIOS_CONTRATOS set estado_documento='P3' where cod_cenv_tra=@id; " &
                 "  end" &
-                 " else   " &
+                 " else if (@valor=@valorC) and (@document='P3')   " &
                  " begin" &
                 "	update BOTONES set etiqueta=@etiqueta,btn=@btn where cod_cenv_tra=@id;" &
+                " update CONVENIOS_CONTRATOS set estado_documento='Doctos subidos' where cod_cenv_tra=@id; " &
                 "  end " &
                 "  commit tran"
             Dim param As SqlParameter() = New SqlParameter(3) {}

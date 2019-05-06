@@ -39,8 +39,7 @@ $(document).ready(function () {
         var datosContratos = {};
         datosContratos.Nombre = $("[id*=nom_contra]").val();
         datosContratos.Fech_inicio = fecha_inicio;
-        datosContratos.Fech_fin = fecha_final;
-        datosContratos.Esta_Doc = $("[id*=est_contra]").val();       
+        datosContratos.Fech_fin = fecha_final;             
         $(function () {
             $.ajax({
                 type: "POST",
