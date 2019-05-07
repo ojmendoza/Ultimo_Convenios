@@ -8,12 +8,7 @@ $(document).ready(function () {
     $('select').material_select();
     $(".modal").modal();
     $('input#input_text, textarea#textarea1').characterCounter();
-    consultar();
-    $(function () {
-        var row = $(this).parent().parent()[0];
-        var data = tabla.row($(this).parents("tr")).data();
-
-    });
+    consultar();  
 
     //  format: 'yyyy/mmm/dd' ,
     $('#fech_inicio, #fech_final').pickadate({

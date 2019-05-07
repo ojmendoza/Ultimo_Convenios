@@ -90,7 +90,7 @@ Partial Class Default3
         Try
             Using conexion As SqlConnection = New SqlConnection(cadena)
                 conexion.Open()
-                insertString = "Update CONVENIOS_CONTRATOS set nombre_documento=@nombre_documento,fech_inicio=@fech_inicio,,fech_final=@fech_final" &
+                insertString = "Update CONVENIOS_CONTRATOS set nombre_documento=@nombre_documento,fech_inicio=@fech_inicio,fech_final=@fech_final" &
                     " where cod_cenv_tra=@id "
                 Dim comando As SqlCommand = New SqlCommand(insertString, conexion)
                 comando.Parameters.AddWithValue("@id", datos.Id)
