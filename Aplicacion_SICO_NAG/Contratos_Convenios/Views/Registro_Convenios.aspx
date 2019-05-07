@@ -5,8 +5,7 @@
     <script src="../Scripts/Regis_Convenio.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-
-     <div class="convenios">
+  <div class="convenios">
         <h4 class="center" style="font-family:Cooper">Registro de Convenios</h4>
         <br />
         <div class="row">
@@ -36,17 +35,7 @@
                                          </div>
                                  </div>
                             <div class="valign-wrapper ">
-                                 <div class=" input-field col s12 m6 l9" style="margin:initial">
-                                              <i class="material-icons prefix">arrow_drop_down_circle</i>
-                                           <select id="est_contra" class="eval" >                                
-                                             <option value="" class="disabled selected" >Seleccione</option>
-                                             <option value="P1">P1</option>
-                                             <option value="P2">P2</option>
-                                             <option value="P3">P3</option>                                            
-                                          </select>
-                                         <label> Estado del Contrato                      
-                                         </label>
-                                    </div> 
+                            
                                 <textarea id="bina" class="materialize-textarea" data-length="500000000" style="display:none"></textarea>
                                 <input id="id" type="text" style="display:none" />
                             </div>
@@ -89,7 +78,8 @@
                   <table id="datatable" class=" mdl-data-table display nowrap "   style="width:100%"  border: black 5px solid; >
                       <thead>
                          <tr>
-                            <th>Acciones</th>
+                            <th>Actualizar</th>
+                             <th>Archivos</th>
                              <th>Id</th>                                                          
 			                 <th>Titulo del Convenio</th>
                              <th>Tipo de Documento</th>

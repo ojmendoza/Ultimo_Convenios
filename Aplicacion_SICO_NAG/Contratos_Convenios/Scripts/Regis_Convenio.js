@@ -43,7 +43,7 @@ $(document).ready(function () {
         datosConvenios.Nombre = $("[id*=nom_contra]").val();
         datosConvenios.Fech_inicio = fecha_inicio;
         datosConvenios.Fech_fin = fecha_final;
-        datosConvenios.Esta_Doc = $("[id*=est_contra]").val();
+        //datosConvenios.Esta_Doc = $("[id*=est_contra]").val();
 
         $(function () {
             $.ajax({
@@ -65,6 +65,40 @@ $(document).ready(function () {
         });
         setTimeout(function () { callback(); }, 200);
 
+    };
+
+    function guardarbtn(callback) {
+        datos = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+        //if ($("[id*=est_contra]").val() == "P1") {
+        btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>'
+        //} else
+        //    if ($("[id*=est_contra]").val() == "P2") {
+        //        btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
+        //    } else {
+        //        btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">P3</a>'
+        //    }
+        var datosContratos = {};
+        datosContratos.Datos = datos;
+        datosContratos.Btn = btn;
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Views/Registro_Convenios.aspx/Guardar_btn",
+                data: JSON.stringify({ 'datos': datosContratos }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    // Materialize.toast('Datos insertados correctamente', 4000, 'rounded')
+
+                },
+                error: function (response, xhr) {
+                    Materialize.toast('Error, Los datos no pudieron ser insertados', 4000, 'rounded');
+                    console.log(response);
+                }
+
+            });
+        });
+        setTimeout(function () { callback(); }, 700);
     };
 
     //funcion guardar archivo
@@ -182,8 +216,10 @@ $(document).ready(function () {
     function guardar() {
         guardarConvenio(function () {
             guardarArchivo(function () {
-                Materialize.toast('Datos insertados correctamente', 4000, 'rounded')
-                limpiar()
+                guardarbtn(function () {
+                    Materialize.toast('Datos insertados correctamente', 4000, 'rounded')
+                    //  limpiar()
+                });
             });
         });
     };
@@ -265,9 +301,16 @@ $(document).ready(function () {
 
                     columns: [
                         {
-                            defaultContent: '<button  title="Actualizar" class=" btn waves-effect waves-light btn_Actualizar blue lighten-2" type="submit" style="position: static"><i class="material-icons">update</i></button>&nbsp;' +
-                                '<button  title="Subir Archivo Memo" class=" btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger" type="submit" style="position: static" href="#modal"><i class="material-icons">file_upload</i></button>&nbsp;' +
-                                '<button  title="Subir Archivo final" class=" btn waves-effect waves-light Subir_final red lighten-2 modal-trigger" type="submit" style="position: static" href="#modal1"><i class="material-icons">file_upload</i></button>&nbsp;'
+                            defaultContent: '<button  title="Actualizar" class=" btn waves-effect waves-light btn_Actualizar blue lighten-2" type="submit" style="position: static"><i class="material-icons">update</i></button>&nbsp;'
+
+                            //'<button  title="Subir Archivo Memo" class=" btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger" type="submit" style="position: static" href="#modal"><i class="material-icons">file_upload</i></button>&nbsp;' +
+                            //'<button  title="Subir Archivo final" class=" btn waves-effect waves-light Subir_final red lighten-2 modal-trigger" type="submit" style="position: static" href="#modal1"><i class="material-icons">file_upload</i></button>&nbsp;'
+
+                        },
+
+                        {
+                            "className": "dt-center",
+                            data: "Datos"
                         },
 
                         {
