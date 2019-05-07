@@ -152,7 +152,8 @@ $(document).ready(function () {
             } else {
                 btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" disabled="true" id="btn_p3">P3</a>'
                 etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' hidden='hidden' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' hidden='hidden' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
-               
+                estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
+
             }
 
         var datosContratos = {};

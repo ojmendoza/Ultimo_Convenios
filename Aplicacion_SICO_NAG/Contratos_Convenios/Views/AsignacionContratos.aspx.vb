@@ -88,7 +88,7 @@ Partial Class Views_AsignacionContratos
                 "  end" &
                  " else if (@valor=@valorC) and (@document='P3')   " &
                  " begin" &
-                "	update BOTONES set etiqueta=@etiqueta,btn=@btn where cod_cenv_tra=@id;" &
+                "	update BOTONES set etiqueta=@etiqueta,btn=@btn,estado=@estado where cod_cenv_tra=@id;" &
                 " update CONVENIOS_CONTRATOS set estado_documento='Doctos subidos' where cod_cenv_tra=@id; " &
                 "  end " &
                 "  commit tran"
