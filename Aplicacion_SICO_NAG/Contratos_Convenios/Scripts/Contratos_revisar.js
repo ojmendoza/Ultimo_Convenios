@@ -69,13 +69,10 @@ $(document).ready(function () {
                             "className": "dt-left",
                             data: "Btn"
                         },
+                       
                         {
                             "className": "dt-left",
                             data: "Estado"
-                        },
-                        {
-                            "className": "dt-left",
-                            data: "Esta_Doc"
                         },
 
                     ],
