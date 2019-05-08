@@ -12,13 +12,11 @@ Partial Class Views_AsignacionConvenios
 
     Public Shared cadena As String = ConfigurationManager.ConnectionStrings("BD_SICONAGConnectionString").ConnectionString
 
-
-
 #Region "select"
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function seleccionar() As PropiedadesContratoConvenio()
-        Dim sql = "   SELECT CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[btn],[fech_inicio] FROM CONVENIOS_CONTRATOS inner join BOTONES on (CONVENIOS_CONTRATOS.cod_cenv_tra = BOTONES.cod_cenv_tra)  where [tipo_documento]='Convenio'"
+        Dim sql = " SELECT CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[btn],[estado],[fech_inicio] FROM CONVENIOS_CONTRATOS inner join BOTONES on (CONVENIOS_CONTRATOS.cod_cenv_tra = BOTONES.cod_cenv_tra)  where [tipo_documento]='Convenio'"
 
         Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
         Using con As New SqlConnection(cadena)
@@ -30,6 +28,7 @@ Partial Class Views_AsignacionConvenios
                     fila.Id = rdr.Item("cod_cenv_tra").ToString()
                     fila.Nombre = rdr.Item("nombre_documento").ToString()
                     fila.Btn = rdr.Item("btn").ToString()
+                    fila.Estado = rdr.Item("estado").ToString()
                     fila.Fech_inicio = rdr.Item("fech_inicio").ToString()
 
 
@@ -63,7 +62,6 @@ Partial Class Views_AsignacionConvenios
         Return filas.ToArray()
     End Function
 #End Region
-
 
 #Region "Visualizar memo"
     <Services.WebMethod()>
@@ -125,32 +123,32 @@ Partial Class Views_AsignacionConvenios
                  " set @document=(select estado_documento from CONVENIOS_CONTRATOS where cod_cenv_tra=@id);" &
                   "if (@valor=@valorC) and (@document='P1')" &
                  " begin" &
-                 " update BOTONES set etiqueta=@etiqueta,btn=@btn where cod_cenv_tra=@id;" &
+                 " update BOTONES set etiqueta=@etiqueta,btn=@btn,estado=@estado where cod_cenv_tra=@id;" &
                  " update CONVENIOS_CONTRATOS set estado_documento='P2' where cod_cenv_tra=@id; " &
                  " end" &
                  " else if(@valor=@valorC) and (@document='P2')" &
                  " begin" &
-                 " update BOTONES set etiqueta=@etiqueta,btn=@btn where cod_cenv_tra=@id;" &
+                 " update BOTONES set etiqueta=@etiqueta,btn=@btn,estado=@estado where cod_cenv_tra=@id;" &
                  " update CONVENIOS_CONTRATOS set estado_documento='P3' where cod_cenv_tra=@id; " &
-                  " end" &
-                 " else  " &
+                "  end" &
+                 " else " &
                  " begin" &
-                "	update BOTONES set etiqueta=@etiqueta,btn=@btn where cod_cenv_tra=@id;" &
+                "	update BOTONES set etiqueta=@etiqueta,btn=@btn,estado=@estado where cod_cenv_tra=@id;" &
                 " update CONVENIOS_CONTRATOS set estado_documento='Doctos subidos' where cod_cenv_tra=@id; " &
                 "  end " &
                 "  commit tran"
-            Dim param As SqlParameter() = New SqlParameter(3) {}
+            Dim param As SqlParameter() = New SqlParameter(4) {}
             param(0) = New SqlParameter("@id", datos.Id)
             param(1) = New SqlParameter("@valorC", datos.Esta_Doc)
             param(2) = New SqlParameter("@etiqueta", datos.Datos)
             param(3) = New SqlParameter("@btn", datos.Btn)
+            param(4) = New SqlParameter("@estado", datos.Estado)
             Return query.insertar(updatestring, param)
         Catch ex As Exception
             Return ex.Message
         End Try
     End Function
 #End Region
-
 
 End Class
 

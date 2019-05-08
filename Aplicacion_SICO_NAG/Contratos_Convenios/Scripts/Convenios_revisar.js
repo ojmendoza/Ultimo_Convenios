@@ -1,11 +1,13 @@
 ﻿var tabla;
-
+var estado;
+var etiqueta;
+var btn;
 $(document).ready(function () {
 
     $('select').material_select();
     $('#modal2').modal();
 
-    consultar();
+    consultar(function () { });
 
     // Toast Notification
     setTimeout(function () {
@@ -13,7 +15,7 @@ $(document).ready(function () {
     });
 
     //FUNCION DE LLENAR DATATABLE
-    function consultar() {
+    function consultar(callback) {
         $.ajax({
             type: "POST",
             url: "/Views/AsignacionConvenios.aspx/seleccionar",
@@ -69,7 +71,7 @@ $(document).ready(function () {
                         },
                         {
                             "className": "dt-left",
-                            data: "Esta_Doc"
+                            data: "Estado"
                         },
 
                     ],
@@ -83,7 +85,7 @@ $(document).ready(function () {
                 Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
             }
         });
-
+        setTimeout(function () {callback() },500)
     };
 
     function visualizar(callback) {
@@ -237,15 +239,17 @@ $(document).ready(function () {
         if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>') {
             btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
             etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
-
+            estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
         } else
             if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>') {
                 btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">P3</a>'
                 etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger'  id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+                estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
 
             } else {
                 btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" disabled="true" id="btn_p3">P3</a>'
                 etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' hidden='hidden' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' hidden='hidden' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+                estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
 
             }
 
@@ -254,6 +258,7 @@ $(document).ready(function () {
         datosContratos.Esta_Doc = $("[id*=datos]").val()
         datosContratos.Datos = etiqueta;
         datosContratos.Btn = btn;
+        datosContratos.Estado = estado;
         $(function () {
             $.ajax({
                 type: "POST",
@@ -272,15 +277,15 @@ $(document).ready(function () {
 
             });
         });
-        setTimeout(function () { callback(); }, 200);
-
+        
+        setTimeout(function () { callback();},200)
     };
 
     $(document).on('click', '.ver_borrador', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
-        visualizar(function () { tabla.destroy(); consultar(); });
+        visualizar(function () { tabla.destroy(); consultar(function () { }); });
 
     });
 
@@ -288,7 +293,7 @@ $(document).ready(function () {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
-        visualizar_memo(function () { tabla.destroy(); consultar(); });
+        visualizar_memo(function () { tabla.destroy(); consultar(function () { }); });
 
     });
 
@@ -296,7 +301,7 @@ $(document).ready(function () {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
-        visualizar_final(function () { tabla.destroy(); consultar(); });
+        visualizar_final(function () { tabla.destroy(); consultar(function () { }); });
 
     });
 
@@ -314,10 +319,13 @@ $(document).ready(function () {
             content: '¿Esta Seguro que desea confirmar que suban el archivo(memo)?',
             buttons: {
                 Aceptar: function () {
-                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!", 2000, 'green') });
-                    tabla.destroy();
-                    limpiar();
-                    consultar();
+                    actualizar_prioridad(function () {
+                        Materialize.toast("se ha autorizado!", 2000, 'green')
+                        tabla.destroy();
+                        limpiar();
+                        consultar(function () { });
+                    });
+                    
                 },
                 Cancelar: function () {
 
@@ -325,8 +333,8 @@ $(document).ready(function () {
 
             }
         });
-        tabla.destroy();
-        consultar();
+        //tabla.destroy();
+        //consultar();
     });
     $(document).on('click', '.btn_p2', function (event) {
         event.preventDefault();
@@ -341,10 +349,13 @@ $(document).ready(function () {
             content: '¿Esta Seguro que desea confirmar que suban el archivo(documento final)?',
             buttons: {
                 Aceptar: function () {
-                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!", 2000, 'green') });
-                    tabla.destroy();
-                    limpiar();
-                    consultar();
+                    actualizar_prioridad(function () {
+                        Materialize.toast("se ha autorizado!", 2000, 'green');
+                        tabla.destroy();
+                        limpiar();
+                        consultar(function () { });
+                    });
+                    
                 },
                 Cancelar: function () {
 
@@ -368,12 +379,14 @@ $(document).ready(function () {
             title: 'Confirmar!',
             content: '¡Se han confirmado la subida de archivo! De clic en aceptar',
             buttons: {
-                Aceptar: function () {
-                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!", 2000, 'green') });
-                   // tabla.destroy();
-                    limpiar();
-                    consultar();
+                Aceptar: function () {      
+                    actualizar_prioridad(function () {
+                        tabla.destroy();
+                        limpiar();                      
+                        consultar(function () { });
 
+                    })
+                    
                 },
                 Cancelar: function () {
 
@@ -384,20 +397,12 @@ $(document).ready(function () {
 
     });
 
-
-
-   
-
-
-  
-  
-
     function actualizar() {
         location.reload(true);
     };
     var limpiar = function () {
         $("[id*=id]").val("");
-
+        $("[id*=datos]").val("");
 
     }
 

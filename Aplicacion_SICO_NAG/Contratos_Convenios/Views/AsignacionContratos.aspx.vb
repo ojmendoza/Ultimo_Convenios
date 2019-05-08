@@ -64,6 +64,52 @@ Partial Class Views_AsignacionContratos
     End Function
 #End Region
 
+#Region "Visualizar memo"
+    <Services.WebMethod()>
+    <ScriptMethod()>
+    Public Shared Function Ver_memo(ByVal codigo As Integer) As PropiedadesContratoConvenio()
+        Dim sql = "SELECT [registro_memo] FROM [dbo].[CONVENIOS_CONTRATOS] where [cod_cenv_tra]=" & CInt(codigo) & ";"
+
+        Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
+        Using con As New SqlConnection(cadena)
+            Dim cmd As SqlCommand = New SqlCommand(sql, con)
+            con.Open()
+            Using rdr As SqlDataReader = cmd.ExecuteReader()
+                While rdr.Read()
+                    Dim fila As New PropiedadesContratoConvenio()
+                    'CStr("<div class='embed-container'><iframe width='560' height='315' src='" & rdr.Item("registro_borrador").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
+                    fila.Regis_memo = CStr("<div class='embed-container'><iframe width='600' height='415' src='" & rdr.Item("registro_memo").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
+                    filas.Add(fila)
+                End While
+            End Using
+        End Using
+        Return filas.ToArray()
+    End Function
+#End Region
+
+#Region "Visualizar documento final"
+    <Services.WebMethod()>
+    <ScriptMethod()>
+    Public Shared Function Ver_final(ByVal codigo As Integer) As PropiedadesContratoConvenio()
+        Dim sql = "SELECT [registro_inal] FROM [dbo].[CONVENIOS_CONTRATOS] where [cod_cenv_tra]=" & CInt(codigo) & ";"
+
+        Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
+        Using con As New SqlConnection(cadena)
+            Dim cmd As SqlCommand = New SqlCommand(sql, con)
+            con.Open()
+            Using rdr As SqlDataReader = cmd.ExecuteReader()
+                While rdr.Read()
+                    Dim fila As New PropiedadesContratoConvenio()
+                    'CStr("<div class='embed-container'><iframe width='560' height='315' src='" & rdr.Item("registro_borrador").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
+                    fila.Regis_final = CStr("<div class='embed-container'><iframe width='600' height='415' src='" & rdr.Item("registro_inal").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
+                    filas.Add(fila)
+                End While
+            End Using
+        End Using
+        Return filas.ToArray()
+    End Function
+#End Region
+
 #Region "PRIORIDADES"
     <WebMethod()>
     Public Shared Function Actualizar_prioridad(datos As PropiedadesContratoConvenio) As String

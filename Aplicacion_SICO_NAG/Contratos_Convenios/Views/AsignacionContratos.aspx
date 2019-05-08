@@ -26,7 +26,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Titulo del Contrato</th>
-                                <th>Primer Archivo(Borrador)</th>
+                                <th>Archivos</th>
                                 <th>Fecha </th>
                                 <th>Prioridad </th>
                                 <th>Estado </th>

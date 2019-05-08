@@ -3,7 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
      <script src="../Scripts/Convenios_revisar.js"></script>
-     <link href="../Css/Consulta.css" rel="stylesheet" />
+    <link href="../Css/estilos.css" rel="stylesheet" />
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
   <div class="col s12 m7 l7 " id="Div1">
@@ -13,8 +14,8 @@
                     <i class="mdi-action-bug-report circle red darken-2"></i>
                     <span class="collection-header">Convenios</span>
                     <p>Asignados a ti </p>
-                   <input type="text" style="display:block" id="id" />
-                    <input type="text" style="display:block" id="datos" />
+                   <input type="text" style="display:none" id="id" />
+                    <input type="text" style="display:none" id="datos" />
 
                 </li>
             </ul>
@@ -26,7 +27,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Titulo del Convenio</th>
-                                <th> Archivos(Borrador,Memo,Final)</th>
+                                <th> Archivos</th>
                                 <th>Fecha </th>
                                 <th>Prioridad </th>
                                  <th>Estado</th>

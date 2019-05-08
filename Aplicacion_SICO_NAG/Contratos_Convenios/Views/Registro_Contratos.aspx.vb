@@ -99,8 +99,6 @@ Public Class Registro_Contratos
                 comando.Parameters.AddWithValue("@nombre_documento", datos.Nombre)
                 comando.Parameters.AddWithValue("@fech_inicio", datos.Fech_inicio)
                 comando.Parameters.AddWithValue("@fech_final", datos.Fech_fin)
-                'comando.Parameters.AddWithValue("@estado_documento", "P1")
-                'comando.Parameters.AddWithValue("@Btn", datos.Btn)
 
                 res = comando.ExecuteNonQuery()
             End Using

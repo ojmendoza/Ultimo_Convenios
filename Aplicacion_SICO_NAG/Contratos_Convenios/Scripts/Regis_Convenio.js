@@ -8,7 +8,7 @@ $(document).ready(function () {
     $('select').material_select();
     $(".modal").modal();
     $('input#input_text, textarea#textarea1').characterCounter();
-    consultar();  
+    consultar(function () { });  
 
     //  format: 'yyyy/mmm/dd' ,
     $('#fech_inicio, #fech_final').pickadate({
@@ -220,7 +220,7 @@ $(document).ready(function () {
     };
 
     //FUNCION DE LLENAR DATATABLE
-    function consultar() {
+    function consultar(callback) {
         $.ajax({
             type: "POST",
             url: "/Views/Registro_Convenios.aspx/seleccionar",
@@ -362,6 +362,8 @@ $(document).ready(function () {
             }
         });
 
+        setTimeout(function () { callback()},500)
+
     };
 
     //Funcion para llenar los datos en los textbox a Modificar  
@@ -399,18 +401,18 @@ $(document).ready(function () {
             guardar();
 
             //tabla.destroy();
-            consultar();
+            consultar(function () { }); 
         } else {
             ActualizarConvenios(function () {
                 Materialize.toast("Datos Actualizados", 2000, "rounded green");
                 tabla.destroy();
-                consultar();
+                consultar(function () { }); 
             });
             limpiar();
 
 
         }
-        consultar();
+       
     });
 
     //mandar datos de la tabla a controles
@@ -517,7 +519,7 @@ $(document).ready(function () {
         $('.modal').modal({
             dismissible: true,
             ready: function () {
-                consultar();
+                consultar(function () { }); 
             },
             complete: function () {
                 limpiar();
@@ -542,7 +544,7 @@ $(document).ready(function () {
         $('.modal').modal({
             dismissible: true,
             ready: function () {
-                consultar();
+                consultar(function () { }); 
             },
             complete: function () {
                 limpiar();

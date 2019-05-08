@@ -8,7 +8,7 @@ $(document).ready(function () {
     $('select').material_select();
     $('#modal2').modal();
 
-    consultar();
+    consultar(function () { });
 
     // Toast Notification
     setTimeout(function () {
@@ -16,7 +16,7 @@ $(document).ready(function () {
     });
 
     //FUNCION DE LLENAR DATATABLE
-    function consultar() {
+    function consultar(callback) {
         $.ajax({
             type: "POST",
             url: "/Views/AsignacionContratos.aspx/seleccionar",
@@ -57,8 +57,9 @@ $(document).ready(function () {
                         },
 
                         {
-                            
-                            defaultContent: ' <a title="Ver y Descargar" class="btn task-cat blue darken-2 modal-trigger ver" id="love" href="#modal2" ><i class="material-icons">file_download</i></a>'
+                            defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal2" ><i class="material-icons">file_download</i></a>' +
+                                ' <a title="Ver y Descargar Memo" class= "btn task-cat blue darken-2 modal-trigger ver_memo" href="#modal2" ><i class="material-icons">file_download</i></a>' +
+                                ' <a title="Ver y Descargar Final" class= "btn task-cat blue darken-2 modal-trigger ver_final" href="#modal2" > <i class="material-icons">file_download</i></a> '
                         },
 
                         {
@@ -86,9 +87,10 @@ $(document).ready(function () {
                 Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
             }
         });
-
+        setTimeout(function () { callback() }, 500)
     };
 
+    //funciones fisualizar archivos
     function visualizar(callback) {
         var codigo = $("[id*=id]").val();
         $(function () {
@@ -120,8 +122,6 @@ $(document).ready(function () {
                         data: r.d,
                         columns: [
                             {
-
-                                "className": "dt-left",
                                 data: "Regis_borrador"
                             },
                         ],
@@ -137,7 +137,104 @@ $(document).ready(function () {
         setTimeout(function () { callback(); },200)
 
     };
+    function visualizar_memo(callback) {
+        var codigo = $("[id*=id]").val();
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Views/AsignacionContratos.aspx/Ver_memo",
+                data: JSON.stringify({ 'codigo': codigo }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
 
+                    tabla = $("#dataModal").DataTable({
+                        "scrollX": true,
+                        "searching": false,
+                        "language": {
+                            "lengthMenu": "",
+                            "zeroRecords": "No se encontraron resultados en su busqueda",
+                            "info": "Registros de _START_ al _END_ de un total de _TOTAL_ ",
+                            "InforEmpty": "No existen Registros",
+                            "infoFiltered": "(Filtrado de un total de _MAX_ registros)",
+                            "paginate": {
+                                "first": "Primero",
+                                "last": "Ultimo",
+                                "next": "Siguiente",
+                                "previous": "Anterior"
+                            }
+                        },
+                        retrieve: true,
+                        data: r.d,
+                        columns: [
+                            {
+
+                                "className": "dt-left",
+                                data: "Regis_memo"
+                            },
+                        ],
+                    });
+                },
+                error: function (response, xhr) {
+                    Materialize.toast('Error, Los datos no pudieron ser visualizados', 4000, 'rounded');
+                    console.log(response.d);
+                }
+
+            });
+        });
+        setTimeout(function () { callback(); }, 200)
+
+    };
+    function visualizar_final(callback) {
+        var codigo = $("[id*=id]").val();
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Views/AsignacionContratos.aspx/Ver_final",
+                data: JSON.stringify({ 'codigo': codigo }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+
+                    tabla = $("#dataModal").DataTable({
+                        "scrollX": true,
+                        "searching": false,
+                        "language": {
+                            "lengthMenu": "",
+                            "zeroRecords": "No se encontraron resultados en su busqueda",
+                            "info": "Registros de _START_ al _END_ de un total de _TOTAL_ ",
+                            "InforEmpty": "No existen Registros",
+                            "infoFiltered": "(Filtrado de un total de _MAX_ registros)",
+                            "paginate": {
+                                "first": "Primero",
+                                "last": "Ultimo",
+                                "next": "Siguiente",
+                                "previous": "Anterior"
+                            }
+                        },
+                        retrieve: true,
+                        data: r.d,
+                        columns: [
+                            {
+
+                                "className": "dt-left",
+                                data: "Regis_final"
+                            },
+                        ],
+                    });
+                },
+                error: function (response, xhr) {
+                    Materialize.toast('Error, Los datos no pudieron ser visualizados', 4000, 'rounded');
+                    console.log(response.d);
+                }
+
+            });
+        });
+        setTimeout(function () { callback(); }, 200)
+
+    };
+
+    //funcion para actualizar btn de subida de datos
     function actualizar_prioridad(callback) {
         if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>') {
             btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
@@ -180,19 +277,43 @@ $(document).ready(function () {
 
             });
         });
-        setTimeout(function () { callback(); }, 200);
+        setTimeout(function () { callback(); }, 200)
 
     };
 
-
-    $(document).on('click', '.ver', function (event) {      
+    //visializar y descargar archivos en base
+    $(document).on('click', '.ver_borrador', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);        
-        visualizar(function () { tabla.destroy(); consultar(); });
-               
+        $("[id*=id]").val(data.Id);
+        visualizar(function () {
+            tabla.destroy();
+            consultar(function () { });
+        });
+
     });
-    
+    $(document).on('click', '.ver_memo', function (event) {
+        event.preventDefault();
+        var data = tabla.row($(this).parents("tr")).data();
+        $("[id*=id]").val(data.Id);
+        visualizar_memo(function () {
+            tabla.destroy();
+            consultar(function () { });
+        });
+
+    });
+    $(document).on('click', '.ver_final', function (event) {
+        event.preventDefault();
+        var data = tabla.row($(this).parents("tr")).data();
+        $("[id*=id]").val(data.Id);
+        visualizar_final(function () {
+            tabla.destroy();
+            consultar(function () { });
+        });
+
+    });
+
+    //autorizacion de subida de archivos
     $(document).on('click', '.btn_p1', function (event) {
         event.preventDefault();         
        
@@ -207,9 +328,12 @@ $(document).ready(function () {
             content: '¿Esta Seguro que desea confirmar que suban el archivo(memo)?',
             buttons: {
                 Aceptar: function () {
-                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!", 2000, 'green') });
-                    limpiar();
-                    consultar();
+                    actualizar_prioridad(function () {
+                        Materialize.toast("se ha autorizado!", 2000, 'green')
+                        tabla.destroy();
+                        limpiar();
+                        consultar(function () { });
+                    });
                 },
                 Cancelar: function () {
 
@@ -232,9 +356,12 @@ $(document).ready(function () {
             content: '¿Esta Seguro que desea confirmar que suban el archivo(documento final)?',
             buttons: {
                 Aceptar: function () {
-                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!", 2000, 'green') });
-                    limpiar();
-                    consultar();
+                    actualizar_prioridad(function () {
+                        Materialize.toast("se ha autorizado!", 2000, 'green');
+                        tabla.destroy();
+                        limpiar();
+                        consultar(function () { });
+                    });
                 },
                 Cancelar: function () {
 
@@ -244,7 +371,6 @@ $(document).ready(function () {
         });
        
     });
-
     $(document).on('click', '.btn_p3', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
@@ -258,10 +384,12 @@ $(document).ready(function () {
             content: '¡Se han confirmado la subida de archivo! De clic en aceptar',
             buttons: {
                 Aceptar: function () {
-                    actualizar_prioridad(function () { Materialize.toast("se ha autorizado!", 2000, 'green') });
-                    limpiar();
-                    consultar();
-                    
+                    actualizar_prioridad(function () {
+                        tabla.destroy();
+                        limpiar();
+                        consultar(function () { });
+
+                    })
                 },
                 Cancelar: function () {
 
@@ -271,8 +399,6 @@ $(document).ready(function () {
         });
        
     });
-
-   
 
     function actualizar() {
         location.reload(true);
