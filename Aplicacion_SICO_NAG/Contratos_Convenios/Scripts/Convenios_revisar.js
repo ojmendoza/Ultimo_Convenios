@@ -88,6 +88,7 @@ $(document).ready(function () {
         setTimeout(function () {callback() },500)
     };
 
+
     function visualizar(callback) {
         var codigo = $("[id*=id]").val();
         $(function () {
@@ -136,7 +137,6 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 200)
 
     };
-
     function visualizar_memo(callback) {
         var codigo = $("[id*=id]").val();
         $(function () {
@@ -185,7 +185,6 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 200)
 
     };
-
     function visualizar_final(callback) {
         var codigo = $("[id*=id]").val();
         $(function () {
@@ -235,6 +234,7 @@ $(document).ready(function () {
 
     };
 
+
     function actualizar_prioridad(callback) {
         if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>') {
             btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
@@ -281,6 +281,7 @@ $(document).ready(function () {
         setTimeout(function () { callback();},200)
     };
 
+
     $(document).on('click', '.ver_borrador', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
@@ -288,7 +289,6 @@ $(document).ready(function () {
         visualizar(function () { tabla.destroy(); consultar(function () { }); });
 
     });
-
     $(document).on('click', '.ver_memo', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
@@ -296,7 +296,6 @@ $(document).ready(function () {
         visualizar_memo(function () { tabla.destroy(); consultar(function () { }); });
 
     });
-
     $(document).on('click', '.ver_final', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
@@ -304,6 +303,7 @@ $(document).ready(function () {
         visualizar_final(function () { tabla.destroy(); consultar(function () { }); });
 
     });
+
 
     $(document).on('click', '.btn_p1', function (event) {
         event.preventDefault();
@@ -366,7 +366,6 @@ $(document).ready(function () {
        
 
     });
-
     $(document).on('click', '.btn_p3', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();

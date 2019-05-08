@@ -10,10 +10,7 @@ $(document).ready(function () {
 
     consultar(function () { });
 
-    // Toast Notification
-    setTimeout(function () {
-        Materialize.toast('<span>Contrato a vencer</span><a class="btn-flat blue-text" href="#">Revisar<a>');
-    });
+    
 
     //FUNCION DE LLENAR DATATABLE
     function consultar(callback) {
@@ -77,6 +74,26 @@ $(document).ready(function () {
                         },
 
                     ],
+                });
+
+                $(function () {
+                   
+                    //var data = response.d;
+                    var nuevoArreglo = [];
+                    //var dataObject = new Object();
+                    var rows = $("#datatable1").dataTable().fnGetNodes();
+                    for (var i = 0; i<rows.length; i++) {
+                        nuevoArreglo.push($(rows[i]).find("td:eq(0)").html());
+                        //dataObject = {};
+                        //dataObject['Id'] = data[i].Id;
+                        //nuevoArreglo.push(dataObject); 
+                    }
+                    console.log(nuevoArreglo)
+                    //// Toast Notification
+                    //setTimeout(function () {
+                    //    Materialize.toast('<span>Contrato a vencer</span><a class="btn-flat blue-text" href="#">Revisar<a>');
+                    //});
+
                 });
 
             },
