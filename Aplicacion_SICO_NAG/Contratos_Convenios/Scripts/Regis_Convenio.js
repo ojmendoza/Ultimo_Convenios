@@ -64,17 +64,13 @@ $(document).ready(function () {
 
     function guardarbtn(callback) {
         datos = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
-        //if ($("[id*=est_contra]").val() == "P1") {
         btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>'
-        //} else
-        //    if ($("[id*=est_contra]").val() == "P2") {
-        //        btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
-        //    } else {
-        //        btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">P3</a>'
-        //    }
+        estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
+
         var datosContratos = {};
         datosContratos.Datos = datos;
         datosContratos.Btn = btn;
+        datosContratos.Estado = estado;
         $(function () {
             $.ajax({
                 type: "POST",

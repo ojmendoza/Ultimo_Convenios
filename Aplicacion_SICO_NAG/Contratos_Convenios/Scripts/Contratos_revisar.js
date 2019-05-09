@@ -2,6 +2,8 @@
 var btn;
 var etiqueta;
 var estado;
+var local;
+var local2;
 
 $(document).ready(function () {
 
@@ -76,25 +78,13 @@ $(document).ready(function () {
                     ],
                 });
 
-                $(function () {
-                   
-                    //var data = response.d;
-                    var nuevoArreglo = [];
-                    //var dataObject = new Object();
-                    var rows = $("#datatable1").dataTable().fnGetNodes();
-                    for (var i = 0; i<rows.length; i++) {
-                        nuevoArreglo.push($(rows[i]).find("td:eq(0)").html());
-                        //dataObject = {};
-                        //dataObject['Id'] = data[i].Id;
-                        //nuevoArreglo.push(dataObject); 
-                    }
-                    console.log(nuevoArreglo)
-                    //// Toast Notification
-                    //setTimeout(function () {
-                    //    Materialize.toast('<span>Contrato a vencer</span><a class="btn-flat blue-text" href="#">Revisar<a>');
-                    //});
 
+                // Toast Notification
+                setTimeout(function () {
+                    Materialize.toast('<span>Contrato a vencer</span><a class="btn white-text revisar" >Revisar<a>', 1000000, 'blue');
                 });
+
+              
 
             },
             failure: function (response) {
@@ -106,6 +96,47 @@ $(document).ready(function () {
         });
         setTimeout(function () { callback() }, 500)
     };
+
+
+    $(document).on('click','.revisar',function () {
+        $(function () {
+
+            //var data = response.d;
+            var index = [];
+            var fechas = [];
+            var nombres = [];
+            //var dataObject = new Object();
+            var rows = $("#datatable1").dataTable().fnGetNodes();
+            for (var i = 0; i < rows.length; i++) {
+                index.push($(rows[i]).find("td:eq(0)").html());
+                fechas.push($(rows[i]).find("td:eq(3)").html());
+                nombres.push($(rows[i]).find("td:eq(1)").html());
+
+            }
+            var conver = {};
+            var meses = {};
+            var mes = 6;
+            local = moment().format('DD/MM/YYYY');
+            local2 = moment().add(6, 'months').format('DD/MM/YYYY')
+            //console.log(local + "  " + local2)
+
+            for (var i = 0; i < index.length; i++) {
+                conver[i] = formato(fechas[i])
+                var dt = new Date(moment(conver[i], "DD/MM/YYYY"));
+                meses[i] = moment(dt).add(mes, 'months').format('DD/MM/YYYY')
+
+                if (meses[i] <= local2) {
+                    Materialize.toast("el contrato: " + nombres[i] + " vence en: " + meses[i],50000,'red');
+                }
+
+
+            }
+
+
+
+
+        });
+    });
 
     //funciones fisualizar archivos
     function visualizar(callback) {
@@ -425,5 +456,14 @@ $(document).ready(function () {
         $("[id*=datos]").val("");
 
     }
+    function formato(texto) {
+        
+        return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
+    }
 
+    function change(date) {
+        var r = String(date).match(/^\s*([0-9]+)\s*-\s*([0-9]+)\s*-\s*([0-9]+)(.*)$/);
+        console.log(r)
+        //return r[2] + "/" + r[3] + "/" + r[1] + r[4];
+    }
 });
