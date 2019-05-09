@@ -81,7 +81,7 @@ $(document).ready(function () {
 
                 // Toast Notification
                 setTimeout(function () {
-                    Materialize.toast('<span>Contrato a vencer</span><a class="btn white-text revisar" >Revisar<a>', 1000000, 'blue');
+                    Materialize.toast('<span>Contrato a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
                 });
 
               
@@ -126,7 +126,7 @@ $(document).ready(function () {
                 meses[i] = moment(dt).add(mes, 'months').format('DD/MM/YYYY')
 
                 if (meses[i] <= local2) {
-                    Materialize.toast("el contrato: " + nombres[i] + " vence en: " + meses[i],50000,'red');
+                    Materialize.toast("El contrato: " + nombres[i] + " vence en: " + meses[i],50000,'red');
                 }
 
 

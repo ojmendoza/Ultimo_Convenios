@@ -3,8 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
      <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
  <%--  <script type="text/javascript" src="../Scripts/moment.js"></script>--%>
-    
-    <script src="../Scripts/moment.js"></script>
+    <script src="../Scripts/Regis_Contrato.js"></script>
+<%--    <script src="../Scripts/moment.js"></script>--%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="contratos">
