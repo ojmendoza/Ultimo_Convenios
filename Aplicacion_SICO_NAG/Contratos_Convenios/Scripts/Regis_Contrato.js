@@ -91,7 +91,7 @@ $(document).ready(function () {
 
     function guardarbtn(callback) {
         datos = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
-        btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>'
+        btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">Borrador</a>'
         estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
         var datosContratos = {};
         datosContratos.Datos = datos;
@@ -328,72 +328,9 @@ $(document).ready(function () {
                                 data: "Fech_fin"
                             },
 
-                        ], 
-                     
-                        
+                        ],                        
                        
-                    }); 
-
-                    //$(function () {
-                    //    var index = [];
-                    //    var estado = [];
-                    //    var rows = $("#datatable").dataTable().fnGetNodes();
-                    //    for (var i = 0; i < rows.length; i++) {                            
-                    //            index.push($(rows[i]).find("td:eq(1)").html());
-                    //            estado.push($(rows[i]).find("td:eq(4)").html());
-
-                    //            if ((estado[i] == "P1") ) {
-                    //                $("#Subir_memo").hide();
-                    //                $("#Subir_final").hide()
-                    //            } else
-                    //                if ((estado[i] == "P2") ) {
-                    //                    $("#Subir_memo").show();
-                    //                    $("#Subir_final").hide();
-
-                    //                } else {
-                    //                    Materialize.toast('love and sex', 2000);
-                    //                }
-
-                    //            console.log(estado[i]);
-                    //            //console.log("aqui entra el valor: " + (i + 1))
-                    //            console.log(index[i]);                                                     
-                    //    }
-                    //    console.log(estado);
-                    //    console.log(index);
-                        
-                    //});
-                    //tabla.rows().every(function () {
-                        
-                    //    var index;
-                    //    var estado;
-                    //    estado = this.data().Esta_Doc;
-                    //    index = this.data().Id;
-                    //    if ((estado == "P1") && (index == index)) {
-                    //        //tabla.destroy();
-                    //        $(".Subir_memo").attr('disabled', true);
-                    //        $(".Subir_final").attr('disabled', true);
-                    //    }
-                    //    if ((estado == "P2") && (index == index))  {
-                    //        //tabla.destroy();
-                    //        $(".Subir_memo").attr('Enable', true);
-                    //        $(".Subir_final").attr('disable', true);
-                    //    }
-                    //    if ((estado == "P3") && (index == index)) {
-                    //        //tabla.destroy();
-                    //        $(".Subir_memo").attr('disable', true);
-                    //        $(".Subir_final").attr('Enable', true);
-                    //    }
-                    //    console.log(' los resultados son: ' + estado + ' y el codigo es:' + index);
-                        
-                    //}); 
-
-                    //var datos = response.d;
-                    ////console.log(datos);
-                    //if ((datos.Esta_Doc = "P1") && (datos.Id = "1")) {
-                    //    $(".Subir_memo").attr('disabled', true);
-                    //    $(".Subir_final").attr('disabled', true);
-                    //}
-                   
+                    });                    
                 },
                 failure: function (response) {
                     Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');

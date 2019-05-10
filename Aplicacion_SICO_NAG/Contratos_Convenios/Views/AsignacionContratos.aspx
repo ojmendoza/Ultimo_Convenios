@@ -42,10 +42,10 @@
 
     </div>
 
-    <div id="modal2" class="modal">
+    <div id="modal2" class="modal" >
         <div class="modal-content">
             <span class="card-title center">Documentos PDF</span>
-               <table id="dataModal" class="mdl-data-table display nowrap "   style="width:100%"  border: black 5px solid; >
+               <table id="dataModal" class="mdl-data-table display nowrap "   style="width:100%" border: black 5px solid; >
                      <thead class="center">
                            <tr >   
                                <th>PDF</th>

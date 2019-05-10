@@ -133,7 +133,7 @@ Partial Class Views_AsignacionContratos
                  " update CONVENIOS_CONTRATOS set estado_documento='P3' where cod_cenv_tra=@id; " &
                 "  end" &
                  " else " &
-                 " begin" &
+                 " begin " &
                 "	update BOTONES set etiqueta=@etiqueta,btn=@btn,estado=@estado where cod_cenv_tra=@id;" &
                 " update CONVENIOS_CONTRATOS set estado_documento='Doctos subidos' where cod_cenv_tra=@id; " &
                 "  end " &
