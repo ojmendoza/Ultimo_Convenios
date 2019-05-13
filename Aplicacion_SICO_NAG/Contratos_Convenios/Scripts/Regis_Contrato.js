@@ -549,6 +549,7 @@ $(document).ready(function () {
         $("[id*=est_contra]").val("");
         $("[id*=file]").val("");
         $("[id*=file_memo]").val("");
+        $("[id*=descripcion]").val("");
         $("[id*=file_final]").val("");        
         $('select').material_select();
         Materialize.updateTextFields();

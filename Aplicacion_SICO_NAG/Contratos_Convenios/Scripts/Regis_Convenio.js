@@ -8,7 +8,8 @@ $(document).ready(function () {
     $('select').material_select();
     $(".modal").modal();
     $('input#input_text, textarea#textarea1').characterCounter();
-    consultar(function () { });  
+
+    consultar(function () { });
 
     //  format: 'yyyy/mmm/dd' ,
     $('#fech_inicio, #fech_final').pickadate({
@@ -33,11 +34,12 @@ $(document).ready(function () {
     // agregar datos de los contratos
     function guardarConvenio(callback) {
         fecha_inicio = document.getElementById("fech_inicio").value;
-        fecha_final = document.getElementById("fech_final").value;
+
         var datosConvenios = {};
         datosConvenios.Nombre = $("[id*=nom_contra]").val();
         datosConvenios.Fech_inicio = fecha_inicio;
-        datosConvenios.Fech_fin = fecha_final;
+        datosConvenios.Descripcion = $("[id*=descrip]").val();
+
         //datosConvenios.Esta_Doc = $("[id*=est_contra]").val();
 
         $(function () {
@@ -64,7 +66,9 @@ $(document).ready(function () {
 
     function guardarbtn(callback) {
         datos = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
-        btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>'
+
+        btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">Borrador</a>'
+
         estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
 
         var datosContratos = {};
@@ -147,9 +151,11 @@ $(document).ready(function () {
 
     //funcion guardar memo
     function guardarFinal(callback) {
+        fecha_final = document.getElementById("fech_final").value;
         var datosContratos = {};
         datosContratos.Id = $("[id*=id]").val();
         datosContratos.Regis_final = $("[id*=bina]").val();
+        datosContratos.Fech_fin = fecha_final;
         $(function () {
             $.ajax({
                 type: "POST",
@@ -171,16 +177,16 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 500);
     };
 
-    //actualizar informacion del contrato    
+    //actualizar informacion del conVENIOS   
     function ActualizarConvenios(callback) {
         fecha_inicio = document.getElementById("fech_inicio").value;
-        fecha_final = document.getElementById("fech_final").value;
+        //fecha_final = document.getElementById("fech_final").value;
         var datosContratos = {};
         datosContratos.Id = $("[id*=id]").val();
         datosContratos.Nombre = $("[id*=nom_contra]").val();
         datosContratos.Fech_inicio = fecha_inicio;
-        datosContratos.Fech_fin = fecha_final;
         datosContratos.Esta_Doc = $("[id*=est_contra]").val();
+        datosContratos.Descripcion = $("[id*=descrip]").val();
         $(function () {
             $.ajax({
                 type: "POST",
@@ -322,10 +328,7 @@ $(document).ready(function () {
                         //    data: "Regis_memo"
                         //},
 
-                        //{
-                        //    "className": "dt-left",
-                        //    data: "Regis_final"
-                        //},
+
 
                         {
                             "className": "dt-left",
@@ -346,6 +349,11 @@ $(document).ready(function () {
                             data: "Fech_fin"
                         },
 
+                        {
+                            "className": "dt-left",
+                            data: "Descripcion"
+                        },
+
                     ],
                 });
 
@@ -358,7 +366,7 @@ $(document).ready(function () {
             }
         });
 
-        setTimeout(function () { callback()},500)
+        setTimeout(function () { callback() }, 500)
 
     };
 
@@ -378,7 +386,7 @@ $(document).ready(function () {
                 $("[id*=id]").val(data.d[0].Id);
                 $("[id*=nom_contra]").val(data.d[0].Nombre);
                 $("[id*=fech_inicio]").val(data.d[0].Fech_inicio);
-                $("[id*=fech_final]").val(data.d[0].Fech_fin);
+                $("[id*=descrip]").val(data.d[0].Descripcion);
                 $("[id*=est_contra]").val(data.d[0].Esta_Doc);
                 $('select').material_select();
             },
@@ -393,22 +401,33 @@ $(document).ready(function () {
     $('#btn_insertar').click(function (e) {
         e.preventDefault();
 
+        if ($("[id*=nom_contra]").val() == "") {
+            Materialize.toast('ERROR, Ingrese el nombre del Convenio', 6000, 'rounded');
+            return false;
+        }
+
+
+        if ($("[id*=descrip]").val() == "") {
+            Materialize.toast('ERROR, Escriba una breve descripcion', 6000, 'rounded');
+            return false;
+        }
+
         if ($("[id*=id]").val() == "") {
             guardar();
 
             //tabla.destroy();
-            consultar(function () { }); 
+            consultar(function () { });
         } else {
             ActualizarConvenios(function () {
                 Materialize.toast("Datos Actualizados", 2000, "rounded green");
                 tabla.destroy();
-                consultar(function () { }); 
+                consultar(function () { });
             });
             limpiar();
 
 
         }
-       
+
     });
 
     //mandar datos de la tabla a controles
@@ -515,7 +534,7 @@ $(document).ready(function () {
         $('.modal').modal({
             dismissible: true,
             ready: function () {
-                consultar(function () { }); 
+                consultar(function () { });
             },
             complete: function () {
                 limpiar();
@@ -540,7 +559,7 @@ $(document).ready(function () {
         $('.modal').modal({
             dismissible: true,
             ready: function () {
-                consultar(function () { }); 
+                consultar(function () { });
             },
             complete: function () {
                 limpiar();
@@ -561,7 +580,7 @@ $(document).ready(function () {
         $("[id*=est_contra]").val("");
         $("[id*=borrador]").val("");
         $("[id*=memo]").val("");
-        $("[id*=final]").val("");
+        $("[id*=descrip]").val("");
         $('select').material_select();
         Materialize.updateTextFields();
     };

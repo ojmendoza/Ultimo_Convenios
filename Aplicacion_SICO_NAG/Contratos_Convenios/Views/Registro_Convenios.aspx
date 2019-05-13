@@ -18,8 +18,15 @@
                            <div class="valign-wrapper ">
                                  <div class="input-field col s6 m6 l9" style="margin:initial" >
                                     <i class="material-icons prefix">account_balance</i>
-                                    <input id="nom_contra"   type="text"  class="validate tooltipped letras mayus" data-tooltip="Nombre del Contrato" />
+                                    <input id="nom_contra"     class="validate tooltipped letras mayus" data-tooltip="Nombre del Contrato" />
                                     <label for="nom_contra">Nombre del Convenio</label>
+                                  </div>
+                            </div>
+                         <div class="valign-wrapper ">
+                                 <div class="input-field col s6 m6 l9" style="margin:initial" >
+                                    <i class="material-icons prefix">folder_open</i>
+                                    <textarea id="descrip"    class="validate tooltipped letras mayus" data-tooltip="descripción" ></textarea>
+                                    <label for="descripcion">Objetivo o Descripción del Convenio</label>
                                   </div>
                             </div>
                          <div class="valign-wrapper"> 
@@ -28,11 +35,7 @@
                                             <label for="fech_inicio">Fecha De Asignación</label>
                                             <input type="text" class="datepicker tooltipped" id="fech_inicio" data-tooltip="Fecha en que se Firma el Contrato"/>                                 
                                          </div>
-                                     <div class=" input-field col s12 m6 l6">
-                                            <i class="material-icons prefix">date_range</i>
-                                            <label for="fech_final">Fecha De Respuesta</label>
-                                            <input type="text" class="datepicker tooltipped" id="fech_final" data-tooltip="Fecha en que finaliza el contrato"/>                                 
-                                         </div>
+                                  
                                  </div>
                             <div class="valign-wrapper ">
                             
@@ -84,8 +87,9 @@
 			                 <th>Titulo del Convenio</th>
                              <th>Tipo de Documento</th>
                              <th>Estado del Documento</th>                             
-                             <th>Fecha que Inicia el Contrato</th>
-                             <th>Fecha que Finaliza el Contrato</th>   
+                             <th>Fecha que Inicia el Convenio</th>
+                             <th>Fecha que Finaliza el Convenio</th>   
+                             <th>Descripción del Convenio</th> 
                         </tr>
                    </thead>
                 
@@ -100,6 +104,8 @@
 
            <!-- Modal para cargar los operadores -->
    <div id="modal" class="modal">
+      
+
     <div class="modal-content">
                  <div class="valign-wrapper ">
                      
@@ -128,12 +134,25 @@
     </div>
   </div>
 
-         <div id="modal1" class="modal">
-            <div class="modal-content">
+         <div id="modal1" class="modal" style=" width:400px; height:320px; align-content:center; position:fixed; padding:20px; "   >
+             
+                    
+            <br class="modal-content">
                     <div class="valign-wrapper ">                     
-                        <h4 class="center">Subir Archivo Final(Contrato)</h4>                      
+                        <h4 class="center">Subir Archivo Final(Convenio)</h4>                      
                     </div>
+              <div class="valign-wrapper"> 
+                   <div class=" input-field col s12 m6 l6">
+                              <i class="material-icons prefix">date_range</i>
+                             <label for="fech_final">Fecha que vence</label>
+                              <input type="text" class="datepicker tooltipped" id="fech_final" data-tooltip="Fecha en que finaliza el convenio"/>                                 
+                              </div>
+                    </div>
+                 
+
+
                      <div class="valign-wrapper ">
+                         <div class="col s6 m6 l6" >
                             <div class="file-field input-field col s12" >
                                   <div class="btn" >
                                     <span>Documento</span>
@@ -143,6 +162,7 @@
                                     <input class="file-path validate" type="text" id="final" />
                                   </div>           
                             </div>
+                             </div>
 
                      </div>
                      <div class="card-action center">
@@ -152,8 +172,8 @@
                                 </button>
                               </div>
                       </div>
+             
                </div>
             </div>
-    </div>
 </asp:Content>
 

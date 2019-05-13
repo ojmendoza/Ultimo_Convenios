@@ -24,14 +24,14 @@ Partial Class Default3
         Try
             Using conexion As SqlConnection = New SqlConnection(cadena)
                 conexion.Open()
-                insertString = "INSERT INTO CONVENIOS_CONTRATOS(nombre_documento,tipo_documento,fech_inicio,estado_documento,fech_final) VALUES(@nombre_documento,@tipo_documento,@fech_inicio,@estado_documento,@fech_final)"
+                insertString = "INSERT INTO CONVENIOS_CONTRATOS(nombre_documento,tipo_documento,fech_inicio,estado_documento,descrip) VALUES(@nombre_documento,@tipo_documento,@fech_inicio,@estado_documento,@descrip)"
                 Dim comando As SqlCommand = New SqlCommand(insertString, conexion)
 
                 comando.Parameters.AddWithValue("@nombre_documento", datos.Nombre)
                 comando.Parameters.AddWithValue("@tipo_documento", "Convenio")
                 comando.Parameters.AddWithValue("@fech_inicio", datos.Fech_inicio)
-                comando.Parameters.AddWithValue("@fech_final", datos.Fech_fin)
                 comando.Parameters.AddWithValue("@estado_documento", "P1")
+                comando.Parameters.AddWithValue("@descrip", datos.Descripcion)
 
                 res = comando.ExecuteNonQuery()
             End Using
@@ -91,13 +91,13 @@ Partial Class Default3
         Try
             Using conexion As SqlConnection = New SqlConnection(cadena)
                 conexion.Open()
-                insertString = "Update CONVENIOS_CONTRATOS set nombre_documento=@nombre_documento,fech_inicio=@fech_inicio,fech_final=@fech_final" &
-                    " where cod_cenv_tra=@id "
+                insertString = "Update CONVENIOS_CONTRATOS set nombre_documento=@nombre_documento," &
+                     "fech_inicio=@fech_inicio,descrip=@descrip where cod_cenv_tra=@id"
                 Dim comando As SqlCommand = New SqlCommand(insertString, conexion)
                 comando.Parameters.AddWithValue("@id", datos.Id)
                 comando.Parameters.AddWithValue("@nombre_documento", datos.Nombre)
                 comando.Parameters.AddWithValue("@fech_inicio", datos.Fech_inicio)
-                comando.Parameters.AddWithValue("@fech_final", datos.Fech_fin)
+                comando.Parameters.AddWithValue("@descrip", datos.Descripcion)
 
 
                 res = comando.ExecuteNonQuery()
@@ -139,13 +139,14 @@ Partial Class Default3
         Try
             insertString = "begin tran " &
                             " declare @registro as varchar;" &
-                            " select 	@registro = registro_inal from CONVENIOS_CONTRATOS	where cod_cenv_tra=@id;" &
+                            " set @registro = (select registro_inal from CONVENIOS_CONTRATOS where cod_cenv_tra=@id);" &
                            " if (@registro Is null) Or (@registro =' ')" &
-                            " update  CONVENIOS_CONTRATOS set registro_inal=@registro_final where cod_cenv_tra=@id;" &
+                            " update  CONVENIOS_CONTRATOS set registro_inal=@registro_final,fech_final=@fech_final where cod_cenv_tra=@id;" &
                            " commit tran"
-            Dim param As SqlParameter() = New SqlParameter(1) {}
+            Dim param As SqlParameter() = New SqlParameter(2) {}
             param(0) = New SqlParameter("@id", datos.Id)
             param(1) = New SqlParameter("@registro_final", CStr(datos.Regis_final))
+            param(2) = New SqlParameter("@fech_final", CStr(datos.Fech_fin))
             Return query.insertar(insertString, param)
         Catch ex As Exception
             Return ex.Message
@@ -153,31 +154,13 @@ Partial Class Default3
     End Function
 #End Region
 
-    '#Region "cambio color btns"
-    '    <Services.WebMethod()>
-    '    <ScriptMethod()>
-    '    Public Shared Function btn_color() As String
-
-    '        Dim sql = "SELECT [cod_cenv_tra] FROM [dbo].[CONVENIOS_CONTRATOS] where [registro_borrador] is null or [registro_borrador] =''"
-
-    '        Dim filas As String = ""
-    '        Using con As New SqlConnection(cadena)
-    '            Dim cmd As SqlCommand = New SqlCommand(sql, con)
-    '            con.Open()
-    '            Using rdr As SqlDataReader = cmd.ExecuteReader()
-
-    '            End Using
-    '        End Using
-    '        Return filas
-    '    End Function
-    '#End Region
 
 
 #Region "select"
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function seleccionar() As PropiedadesContratoConvenio()
-        Dim sql = "  SELECT [etiqueta],CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_memo],[registro_inal],[estado_documento],[fech_inicio],[fech_final]" &
+        Dim sql = "  SELECT [etiqueta],CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_memo],[registro_inal],[estado_documento],[fech_inicio],[descrip]" &
             "FROM CONVENIOS_CONTRATOS inner join BOTONES on (CONVENIOS_CONTRATOS.cod_cenv_tra = BOTONES.cod_cenv_tra)  where [tipo_documento]='Convenio'"
 
         '"SELECT [cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_memo],[registro_inal],[estado_documento],[fech_inicio],[fech_final]  FROM [dbo].[CONVENIOS_CONTRATOS] where [tipo_documento]='Convenio'"
@@ -195,7 +178,7 @@ Partial Class Default3
                     fila.Tip_Doc = rdr.Item("tipo_documento").ToString()
                     fila.Esta_Doc = rdr.Item("estado_documento").ToString()
                     fila.Fech_inicio = rdr.Item("fech_inicio").ToString()
-                    fila.Fech_fin = rdr.Item("fech_final").ToString()
+                    fila.Descripcion = rdr.Item("descrip").ToString()
 
                     filas.Add(fila)
                 End While
@@ -209,7 +192,7 @@ Partial Class Default3
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function ModificarDatos(ByVal Id As Integer) As PropiedadesContratoConvenio()
-        Dim sql = "SELECT [cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_memo],[registro_inal],[estado_documento],[fech_inicio],[fech_final] FROM [dbo].[CONVENIOS_CONTRATOS]" &
+        Dim sql = "SELECT [cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_memo],[registro_inal],[estado_documento],[fech_inicio],[descrip] FROM [dbo].[CONVENIOS_CONTRATOS]" &
             " where cod_cenv_tra = '" & Id & "'"
 
         Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
@@ -226,9 +209,9 @@ Partial Class Default3
                     fila.Regis_memo = rdr.Item("registro_memo").ToString()
                     fila.Regis_final = rdr.Item("registro_inal").ToString()
                     fila.Esta_Doc = rdr.Item("estado_documento").ToString()
-                    fila.Fech_fin = rdr.Item("fech_final").ToString()
+                    'fila.Fech_fin = rdr.Item("fech_final").ToString()
                     fila.Fech_inicio = rdr.Item("fech_inicio").ToString()
-                    ' fila.Datos = rdr.Item("datos").ToString()
+                    fila.Descripcion = rdr.Item("descrip").ToString()
                     filas.Add(fila)
                 End While
             End Using
