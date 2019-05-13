@@ -24,30 +24,24 @@
                                     <label for="nom_contra">Nombre del Contrato</label>
                                   </div>
                             </div>
+                          <div class="valign-wrapper">
+                              <div class="input-field col s6 m6 l9" style="margin:initial">
+                                <i class="material-icons prefix">directions</i>
+                                <textarea id="descripcion" class="materialize-textarea tooltipped" data-length="1000" data-tooltip="Descripción u Ojetivo del Contrato "></textarea>
+                                 <label for="descripcion">Descripción u Ojetivo</label>
+                             </div>
+                          </div>
+
                          <div class="valign-wrapper"> 
-                                          <div class=" input-field col s12 m6 l6" style="margin:initial">
+                                          <div class=" input-field col s6 m6 l9" style="margin:initial">
                                             <i class="material-icons prefix">date_range</i>
-                                            <label for="fech_inicio">Fecha De Asignación</label>
-                                            <input type="text" class="datepicker tooltipped" id="fech_inicio" data-tooltip="Fecha en que se Firma el Contrato"/>                                 
+                                            <label for="fech_inicio">Fecha de Incripción</label>
+                                            <input type="text" class="datepicker tooltipped" id="fech_inicio" data-tooltip="Fecha en que se sube al sistema"/>                                 
                                          </div>
-                                     <div class=" input-field col s12 m6 l6">
-                                            <i class="material-icons prefix">date_range</i>
-                                            <label for="fech_final">Fecha De Respuesta</label>
-                                            <input type="text" class="datepicker tooltipped" id="fech_final" data-tooltip="Fecha en que finaliza el contrato"/>                                 
-                                         </div>
+                                    
                                  </div>
                             <div class="valign-wrapper ">
-                              <%--   <div class=" input-field col s12 m6 l9" style="margin:initial">
-                                              <i class="material-icons prefix">arrow_drop_down_circle</i>
-                                           <select id="est_contra" class="eval" >                                
-                                             <option value="" class="disabled selected" >Seleccione</option>
-                                             <option value="P1">P1</option>
-                                             <option value="P2">P2</option>
-                                             <option value="P3">P3</option>  
-                                          </select>
-                                         <label> Prioridad                     
-                                         </label>
-                                    </div> --%>
+                           
                                 <textarea id="bina" class="materialize-textarea" data-length="500000000" style="display:none"></textarea>
                                 <input id="id" type="text" style="display:none" />
                             </div>
@@ -94,6 +88,7 @@
                              <th>Archivos</th>
                              <th>Id</th>                                                          
 			                 <th>Titulo del Contrato</th>
+                             <th>Objetivo/Descripción</th>
                              <th>Tipo de Documento</th>
                              <th>Estado del Documento</th>                             
                              <th>Fecha que Inicia el Contrato</th>
@@ -140,10 +135,17 @@
     </div>
   </div>
 
-         <div id="modal1" class="modal">
+         <div id="modal1" class="modal" style="position:fixed; padding:20px;">
             <div class="modal-content">
                     <div class="valign-wrapper ">                     
                         <h4 class="center">Subir Archivo Final(Contrato)</h4>                      
+                    </div>
+                <div class="valign-wrapper ">
+                 <div class=" input-field col s12">
+                                            <i class="material-icons prefix">date_range</i>
+                                            <label for="fech_final">Fecha Finalización</label>
+                                            <input type="text" class="datepicker tooltipped" id="fech_final" data-tooltip="Fecha en que finaliza el contrato"/>                                 
+                                         </div>
                     </div>
                      <div class="valign-wrapper ">
                             <div class="file-field input-field col s12" >

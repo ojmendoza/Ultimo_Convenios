@@ -36,11 +36,11 @@ $(document).ready(function () {
     // agregar datos de los contratos
     function guardarContratos(callback) {
         fecha_inicio = document.getElementById("fech_inicio").value;
-        fecha_final = document.getElementById("fech_final").value;
+        //fecha_final = document.getElementById("descripcion").value;
         var datosContratos = {};
         datosContratos.Nombre = $("[id*=nom_contra]").val();
         datosContratos.Fech_inicio = fecha_inicio;
-        datosContratos.Fech_fin = fecha_final;             
+        datosContratos.Descripcion = $("[id*=descripcion]").val();             
         $(function () {
             $.ajax({
                 type: "POST",
@@ -147,9 +147,11 @@ $(document).ready(function () {
 
     //funcion guardar memo
     function guardarFinal(callback) {
+        fecha_final = document.getElementById("fech_final").value;
         var datosContratos = {};
         datosContratos.Id = $("[id*=id]").val();
         datosContratos.Regis_final = $("[id*=bina]").val();
+        datosContratos.Fech_fin = fecha_final;
         $(function () {
             $.ajax({
                 type: "POST",
@@ -173,13 +175,12 @@ $(document).ready(function () {
 
     //actualizar informacion del contrato    
     function ActualizarContratos(callback) {
-        fecha_inicio = document.getElementById("fech_inicio").value;
-        fecha_final = document.getElementById("fech_final").value;
+        fecha_inicio = document.getElementById("fech_inicio").value;      
         var datosContratos = {};
         datosContratos.Id = $("[id*=id]").val();
         datosContratos.Nombre = $("[id*=nom_contra]").val();
         datosContratos.Fech_inicio = fecha_inicio;
-        datosContratos.Fech_fin = fecha_final;
+        datosContratos.Descripcion = $("[id*=descripcion]").val();;
         
         $(function () {
             $.ajax({
@@ -307,7 +308,11 @@ $(document).ready(function () {
                             {
                                 "className": "dt-center",
                                 data: "Nombre"
-                            },                      
+                            },   
+                            {
+                                "className": "dt-left", 
+                                data: "Descripcion"
+                            },
 
                             {
                                 "className": "dt-left",
@@ -358,12 +363,14 @@ $(document).ready(function () {
                 $("[id*=id]").val(data.d[0].Id);
                 $("[id*=nom_contra]").val(data.d[0].Nombre);
                 $("[id*=fech_inicio]").val(data.d[0].Fech_inicio);
-                $("[id*=fech_final]").val(data.d[0].Fech_fin);
-                $("[id*=est_contra]").val(data.d[0].Esta_Doc);
+                //$("[id*=fech_final]").val(data.d[0].Fech_fin);
+                //$("[id*=est_contra]").val(data.d[0].Esta_Doc);
+                $("[id*=descripcion]").val(data.d[0].Descripcion);
                 $('select').material_select();
             },
             error: function (data) {
                 Materialize.toast('Error al cargar los datos. ' + data.d + '', 4000, 'rounded');
+                console.log(data.d)
             }
 
         })

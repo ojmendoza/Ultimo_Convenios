@@ -6,6 +6,7 @@
     Public Property Fech_fin() As String
     Public Property Tip_Doc() As String
     Public Property Esta_Doc() As String
+    Public Property Descripcion() As String
     Public Property Regis_memo() As String
     Public Property Regis_borrador() As String
     Public Property Regis_final() As String
