@@ -8,14 +8,14 @@ $(document).ready(function () {
     $('select').material_select();
     $('#modal2').modal();
 
+    $(function () {
+        // Toast Notification
+        setTimeout(function () {
+            Materialize.toast('<span>Convenios a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
+        });
+    })
 
-
-    consultar(function () { });
-
-    //// Toast Notification
-    //setTimeout(function () {
-    //    Materialize.toast('<span>Contrato a vencer</span><a class="btn-flat blue-text" href="#">Revisar<a>');
-    //});
+    consultar(function () { });  
 
     //FUNCION DE LLENAR DATATABLE
     function consultar(callback) {
@@ -80,10 +80,6 @@ $(document).ready(function () {
                     ],
                 });
 
-                // Toast Notification
-                setTimeout(function () {
-                    Materialize.toast('<span>Convenios a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
-                });
             },
 
             failure: function (response) {

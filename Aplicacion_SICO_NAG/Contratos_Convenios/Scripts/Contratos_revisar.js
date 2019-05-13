@@ -10,7 +10,15 @@ $(document).ready(function () {
     $('select').material_select();
     $('#modal2').modal();
 
-    consultar(function () { });    
+    consultar(function () { });  
+
+    $(function () {
+        // Toast Notification
+        setTimeout(function () {
+            Materialize.toast('<span>Contrato a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
+        });
+
+    })
 
     //FUNCION DE LLENAR DATATABLE
     function consultar(callback) {
@@ -74,15 +82,7 @@ $(document).ready(function () {
                         },
 
                     ],
-                });
-
-
-                // Toast Notification
-                setTimeout(function () {
-                    Materialize.toast('<span>Contrato a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
-                });
-
-              
+                });             
 
             },
             failure: function (response) {
@@ -416,7 +416,6 @@ $(document).ready(function () {
         });
        
     });
-
     $(document).on('click', '.btn_p3', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
@@ -446,9 +445,7 @@ $(document).ready(function () {
        
     });
 
-    function actualizar() {
-        location.reload(true);
-    };
+   
     var limpiar = function () {
         $("[id*=id]").val("");
         $("[id*=datos]").val("");

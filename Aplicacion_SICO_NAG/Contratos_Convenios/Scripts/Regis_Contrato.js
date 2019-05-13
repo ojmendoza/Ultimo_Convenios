@@ -244,51 +244,13 @@ $(document).ready(function () {
                             }
                         },                    
                         retrieve: true,
-                        dom: "<'row'<'col-sm-6'B><'col-sm-6'f>>" + "<'row'<'col-sm-12't>>" + "<'row'<'col-sm-12'l>>" + "<'row'<'col-sm-12'' '>>" + "<'row'<'col-sm-6'i><'col-sm-6'p>>",
                         columnDefs: [
                             {
                                 targets: 1,
                                 className: 'noVis'
                             }
                         ],
-                        buttons: [
-                            {
-                                extend: 'colvis',
-                                text: 'Campos Visibles',
-                                postfixButtons: ['colvisRestore']
-                            },
-                            {
-                                extend: 'copyHtml5',
-                                title: 'Contratos',
-                                exportOptions: {
-                                    columns: [':visible']
-                                }
-
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: 'Contratos',
-                                exportOptions: {
-                                    columns: [':visible']
-                                }
-                            },
-                            {
-                                extend: 'pdfHtml5',
-                                download: 'open',
-                                title: 'Contratos',
-                                exportOptions: {
-                                    columns: [':visible']
-                                }
-                            },
-                            {
-                                extend: 'print',
-                                text: 'Imprimir',
-                                title: 'Contratos',
-                                exportOptions: {
-                                    columns: [':visible']
-                                }
-                            }
-                        ],
+                     
                         data: response.d,
                        
                         columns:  [

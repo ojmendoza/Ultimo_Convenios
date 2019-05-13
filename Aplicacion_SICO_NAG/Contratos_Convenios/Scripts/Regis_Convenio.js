@@ -246,63 +246,20 @@ $(document).ready(function () {
                             "previous": "Anterior"
                         }
                     },
-                    //paging: false,
-                    //destroy: false,
+                  
                     retrieve: true,
-                    dom: "<'row'<'col-sm-6'B><'col-sm-6'f>>" + "<'row'<'col-sm-12't>>" + "<'row'<'col-sm-12'l>>" + "<'row'<'col-sm-12'' '>>" + "<'row'<'col-sm-6'i><'col-sm-6'p>>",
                     columnDefs: [
                         {
                             targets: 1,
                             className: 'noVis'
                         }
                     ],
-                    buttons: [
-                        {
-                            extend: 'colvis',
-                            text: 'Campos Visibles',
-                            postfixButtons: ['colvisRestore']
-                        },
-                        {
-                            extend: 'copyHtml5',
-                            title: 'Reporte Centros Educativos',
-                            exportOptions: {
-                                columns: [':visible']
-                            }
-
-                        },
-                        {
-                            extend: 'excelHtml5',
-                            title: 'Reporte Centros Educativos',
-                            exportOptions: {
-                                columns: [':visible']
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            download: 'open',
-                            title: 'Reporte Centros Educativos',
-                            exportOptions: {
-                                columns: [':visible']
-                            }
-                        },
-                        {
-                            extend: 'print',
-                            text: 'Imprimir',
-                            title: 'Reporte Centros Educativos',
-                            exportOptions: {
-                                columns: [':visible']
-                            }
-                        }
-                    ],
+                
                     data: response.d,
 
                     columns: [
                         {
                             defaultContent: '<button  title="Actualizar" class=" btn waves-effect waves-light btn_Actualizar blue lighten-2" type="submit" style="position: static"><i class="material-icons">update</i></button>&nbsp;'
-
-                            //'<button  title="Subir Archivo Memo" class=" btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger" type="submit" style="position: static" href="#modal"><i class="material-icons">file_upload</i></button>&nbsp;' +
-                            //'<button  title="Subir Archivo final" class=" btn waves-effect waves-light Subir_final red lighten-2 modal-trigger" type="submit" style="position: static" href="#modal1"><i class="material-icons">file_upload</i></button>&nbsp;'
-
                         },
 
                         {
@@ -318,18 +275,7 @@ $(document).ready(function () {
                             "className": "dt-center",
                             data: "Nombre"
                         },
-                        //{
-                        //    "className": "dt-left",
-                        //    data: "Regis_borrador"
-                        //},
-
-                        //{
-                        //    "className": "dt-left",
-                        //    data: "Regis_memo"
-                        //},
-
-
-
+                       
                         {
                             "className": "dt-left",
                             data: "Tip_Doc"
