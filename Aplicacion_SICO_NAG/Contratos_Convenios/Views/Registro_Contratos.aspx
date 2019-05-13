@@ -88,11 +88,12 @@
                              <th>Archivos</th>
                              <th>Id</th>                                                          
 			                 <th>Titulo del Contrato</th>
-                             <th>Objetivo/Descripción</th>
+                            
                              <th>Tipo de Documento</th>
                              <th>Estado del Documento</th>                             
                              <th>Fecha que Inicia el Contrato</th>
                              <th>Fecha que Finaliza el Contrato</th>   
+                              <th>Objetivo/Descripción</th>
                         </tr>
                    </thead>
                 

@@ -308,11 +308,7 @@ $(document).ready(function () {
                             {
                                 "className": "dt-center",
                                 data: "Nombre"
-                            },   
-                            {
-                                "className": "dt-left", 
-                                data: "Descripcion"
-                            },
+                            },                               
 
                             {
                                 "className": "dt-left",
@@ -332,7 +328,10 @@ $(document).ready(function () {
                                 "className": "dt-left",
                                 data: "Fech_fin"
                             },
-
+                            {
+                                "className": "dt-left",
+                                data: "Descripcion"
+                            },
                         ],                        
                        
                     });                    
@@ -379,6 +378,17 @@ $(document).ready(function () {
     //aca es para guardar o actualizar datosSubir_1
     $('#btn_insertar').click(function (e) {
         e.preventDefault();
+
+        if ($("[id*=nom_contra]").val() == "") {
+            Materialize.toast('ERROR, Ingrese el nombre del Convenio', 6000, 'rounded');
+            return false;
+        }
+
+
+        if ($("[id*=descripcion]").val() == "") {
+            Materialize.toast('ERROR, Escriba una breve descripcion', 6000, 'rounded');
+            return false;
+        }
 
         if ($("[id*=id]").val() == "") {
             guardar(function () { });

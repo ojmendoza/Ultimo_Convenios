@@ -10,9 +10,7 @@ $(document).ready(function () {
     $('select').material_select();
     $('#modal2').modal();
 
-    consultar(function () { });
-
-    
+    consultar(function () { });    
 
     //FUNCION DE LLENAR DATATABLE
     function consultar(callback) {
@@ -97,7 +95,6 @@ $(document).ready(function () {
         setTimeout(function () { callback() }, 500)
     };
 
-
     $(document).on('click','.revisar',function () {
         $(function () {
 
@@ -126,7 +123,7 @@ $(document).ready(function () {
                 meses[i] = moment(dt).add(mes, 'months').format('DD/MM/YYYY')
 
                 if (meses[i] <= local2) {
-                    Materialize.toast("El contrato: " + nombres[i] + " vence en: " + meses[i],50000,'red');
+                    Materialize.toast("El contrato: " + nombres[i] + " vence en: " + meses[i],50000,'red rounded');
                 }
 
 

@@ -4,15 +4,18 @@ var etiqueta;
 var btn;
 $(document).ready(function () {
 
+
     $('select').material_select();
     $('#modal2').modal();
 
+
+
     consultar(function () { });
 
-    // Toast Notification
-    setTimeout(function () {
-        Materialize.toast('<span>Contrato a vencer</span><a class="btn-flat blue-text" href="#">Revisar<a>');
-    });
+    //// Toast Notification
+    //setTimeout(function () {
+    //    Materialize.toast('<span>Contrato a vencer</span><a class="btn-flat blue-text" href="#">Revisar<a>');
+    //});
 
     //FUNCION DE LLENAR DATATABLE
     function consultar(callback) {
@@ -58,7 +61,7 @@ $(document).ready(function () {
                         {
                             defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal2" ><i class="material-icons">file_download</i></a>' +
                                 ' <a title="Ver y Descargar Memo" class= "btn task-cat blue darken-2 modal-trigger ver_memo" href="#modal2" ><i class="material-icons">file_download</i></a>' +
-                                   ' <a title="Ver y Descargar Final" class= "btn task-cat blue darken-2 modal-trigger ver_final" href="#modal2" > <i class="material-icons">file_download</i></a> '
+                                ' <a title="Ver y Descargar Final" class= "btn task-cat blue darken-2 modal-trigger ver_final" href="#modal2" > <i class="material-icons">file_download</i></a> '
                         },
 
                         {
@@ -77,7 +80,12 @@ $(document).ready(function () {
                     ],
                 });
 
+                // Toast Notification
+                setTimeout(function () {
+                    Materialize.toast('<span>Convenios a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
+                });
             },
+
             failure: function (response) {
                 Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
             },
@@ -85,8 +93,46 @@ $(document).ready(function () {
                 Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
             }
         });
-        setTimeout(function () {callback() },500)
+        setTimeout(function () { callback() }, 500)
     };
+
+
+    //funcion para saber los contratos por vencer
+    $(document).on('click', '.revisar', function () {
+        $(function () {
+            //var data = response.d;
+            var index = [];
+            var fechas = [];
+            var nombres = [];
+            //var dataObject = new Object();
+            var rows = $("#datatable1").dataTable().fnGetNodes();
+            for (var i = 0; i < rows.length; i++) {
+                index.push($(rows[i]).find("td:eq(0)").html());
+                fechas.push($(rows[i]).find("td:eq(3)").html());
+                nombres.push($(rows[i]).find("td:eq(1)").html());
+
+            }
+            var conver = {};
+            var meses = {};
+            var mes = 6;
+            local = moment().format('DD/MM/YYYY');
+            local2 = moment().add(6, 'months').format('DD/MM/YYYY')
+            //console.log(local + "  " + local2)
+
+            for (var i = 0; i < index.length; i++) {
+                conver[i] = formato(fechas[i])
+                var dt = new Date(moment(conver[i], "DD/MM/YYYY"));
+                meses[i] = moment(dt).add(mes, 'months').format('DD/MM/YYYY')
+
+                if (meses[i] <= local2) {
+                    Materialize.toast("El convenio: " + nombres[i] + " vence en: " + meses[i], 50000, 'red rounded');
+                }
+
+
+            }
+         });
+    });
+
 
 
     function visualizar(callback) {
@@ -236,18 +282,18 @@ $(document).ready(function () {
 
 
     function actualizar_prioridad(callback) {
-        if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">P1</a>') {
-            btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>'
+        if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">Borrador</a>') {
+            btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">Memo</a>'
             etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
             estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
         } else
-            if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">P2</a>') {
-                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">P3</a>'
+            if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">Memo</a>') {
+                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">Convenio</a>'
                 etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger'  id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
                 estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
 
             } else {
-                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" disabled="true" id="btn_p3">P3</a>'
+                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" disabled="true" id="btn_p3">Convenio</a>'
                 etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' hidden='hidden' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' hidden='hidden' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
                 estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
 
@@ -277,8 +323,8 @@ $(document).ready(function () {
 
             });
         });
-        
-        setTimeout(function () { callback();},200)
+
+        setTimeout(function () { callback(); }, 200)
     };
 
 
@@ -325,7 +371,7 @@ $(document).ready(function () {
                         limpiar();
                         consultar(function () { });
                     });
-                    
+
                 },
                 Cancelar: function () {
 
@@ -355,7 +401,7 @@ $(document).ready(function () {
                         limpiar();
                         consultar(function () { });
                     });
-                    
+
                 },
                 Cancelar: function () {
 
@@ -363,7 +409,7 @@ $(document).ready(function () {
 
             }
         });
-       
+
 
     });
     $(document).on('click', '.btn_p3', function (event) {
@@ -378,14 +424,14 @@ $(document).ready(function () {
             title: 'Confirmar!',
             content: '¡Se han confirmado la subida de archivo! De clic en aceptar',
             buttons: {
-                Aceptar: function () {      
+                Aceptar: function () {
                     actualizar_prioridad(function () {
                         tabla.destroy();
-                        limpiar();                      
+                        limpiar();
                         consultar(function () { });
 
                     })
-                    
+
                 },
                 Cancelar: function () {
 
@@ -403,6 +449,11 @@ $(document).ready(function () {
         $("[id*=id]").val("");
         $("[id*=datos]").val("");
 
+    }
+
+    function formato(texto) {
+
+        return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
     }
 
 });

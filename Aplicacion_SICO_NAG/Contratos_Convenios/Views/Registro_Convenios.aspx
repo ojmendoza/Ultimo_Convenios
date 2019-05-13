@@ -15,20 +15,20 @@
                      <div class ="card-content black-text">
                          <span class="card-title">Ingresar Datos de los Convenios </span>
                          <br />
-                           <div class="valign-wrapper ">
+                             <div class="valign-wrapper ">
                                  <div class="input-field col s6 m6 l9" style="margin:initial" >
                                     <i class="material-icons prefix">account_balance</i>
-                                    <input id="nom_contra"     class="validate tooltipped letras mayus" data-tooltip="Nombre del Contrato" />
-                                    <label for="nom_contra">Nombre del Convenio</label>
+                                    <input id="nom_contra"   type="text"  class="validate tooltipped letras mayus" data-tooltip="Nombre del Contrato" />
+                                    <label for="nom_contra">Nombre del Contrato</label>
                                   </div>
                             </div>
-                         <div class="valign-wrapper ">
-                                 <div class="input-field col s6 m6 l9" style="margin:initial" >
-                                    <i class="material-icons prefix">folder_open</i>
-                                    <textarea id="descrip"    class="validate tooltipped letras mayus" data-tooltip="descripción" ></textarea>
-                                    <label for="descripcion">Objetivo o Descripción del Convenio</label>
-                                  </div>
-                            </div>
+                         <div class="valign-wrapper">
+                              <div class="input-field col s6 m6 l9" style="margin:initial">
+                                <i class="material-icons prefix">directions</i>
+                                <textarea id="descrip" class="materialize-textarea tooltipped" data-length="1000" data-tooltip="Descripción u Ojetivo del Contrato "></textarea>
+                                 <label for="descrip">Descripción u Ojetivo</label>
+                             </div>
+                          </div>
                          <div class="valign-wrapper"> 
                                           <div class=" input-field col s12 m6 l6" style="margin:initial">
                                             <i class="material-icons prefix">date_range</i>
