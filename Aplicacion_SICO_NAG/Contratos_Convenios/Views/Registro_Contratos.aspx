@@ -87,12 +87,12 @@
                             <th>Actualizar</th>
                              <th>Archivos</th>
                              <th>Id</th>                                                          
-			                 <th>Titulo del Contrato</th>
-                            
+			                 <th>Titulo del Contrato</th>                            
                              <th>Tipo de Documento</th>
                              <th>Estado del Documento</th>                             
                              <th>Fecha que Inicia el Contrato</th>
-                             <th>Fecha que Finaliza el Contrato</th>   
+                             <th>Fecha se Firma el Contrato</th>
+                             <th>Fecha que Vence el Contrato</th>   
                               <th>Objetivo/Descripción</th>
                         </tr>
                    </thead>
@@ -106,36 +106,7 @@
         </div>
 
 
-           <!-- Modal para cargar los operadores -->
-   <div id="modal" class="modal">
-    <div class="modal-content">
-                 <div class="valign-wrapper ">
-                     
-                        <h4 class="center">Subir Archivo(MEMO)</h4>
-                      
-                  </div>
-                 <div class="valign-wrapper ">
-                        <div class="file-field input-field col s12" >
-                              <div class="btn" >
-                                <span>Documento</span>
-                                <input type="file" id="file_memo" />
-                              </div>
-                              <div class="file-path-wrapper" >
-                                <input class="file-path validate" type="text"  />
-                              </div>           
-                        </div>
-
-                 </div>
-                 <div class="card-action center">
-                         <div class="col s6 m6 l6" >
-                            <button class="btn waves-effect waves-light " type="submit" name="action" id="Subir_1">Guardar
-                             <i class="material-icons right">file_upload</i>
-                            </button>
-                          </div>
-                  </div>
-    </div>
-  </div>
-
+           <!-- Modal para cargar los modales -->
          <div id="modal1" class="modal" style="position:fixed; padding:20px;">
             <div class="modal-content">
                     <div class="valign-wrapper ">                     
@@ -144,7 +115,15 @@
                 <div class="valign-wrapper ">
                  <div class=" input-field col s12">
                                             <i class="material-icons prefix">date_range</i>
-                                            <label for="fech_final">Fecha Finalización</label>
+                                            <label for="fech_firma">Fecha de firma </label>
+                                            <input type="text" class="datepicker tooltipped" id="fech_firma" data-tooltip="Fecha en que firma el contrato"/>                                 
+                                         </div>
+                    </div>
+
+                <div class="valign-wrapper ">
+                 <div class=" input-field col s12">
+                                            <i class="material-icons prefix">date_range</i>
+                                            <label for="fech_final">Fecha Vencimiento</label>
                                             <input type="text" class="datepicker tooltipped" id="fech_final" data-tooltip="Fecha en que finaliza el contrato"/>                                 
                                          </div>
                     </div>

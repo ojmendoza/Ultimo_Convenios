@@ -27,8 +27,10 @@
                                 <th>Id</th>
                                 <th>Titulo del Contrato</th>
                                 <th>Archivos</th>
-                                <th>Fecha </th>
+                                <th>Fecha firma Contrato </th>
                                 <th>Prioridad </th>
+                                <th>Fecha Vencimiento</th>
+                                <th>Comentarios </th>
                                 <th>Estado </th>
                             </tr>
                         </thead>

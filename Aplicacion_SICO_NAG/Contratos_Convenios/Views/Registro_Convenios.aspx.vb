@@ -109,27 +109,27 @@ Partial Class Default3
     End Function
 #End Region
 
-#Region "guardar memo"
-    <Services.WebMethod(EnableSession:=True)>
-    Public Shared Function Guardar_memo(datos As PropiedadesContratoConvenio) As String
-        Dim query As New Conexion
-        Dim insertString As String
-        Try
-            insertString = "begin tran " &
-                            " declare @registro as varchar;" &
-                            " select 	@registro = registro_memo from CONVENIOS_CONTRATOS	where cod_cenv_tra=@id;" &
-                           " if (@registro Is null) Or (@registro =' ')" &
-                            " update  CONVENIOS_CONTRATOS set registro_memo=@registro_memo where cod_cenv_tra=@id;" &
-                           " commit tran"
-            Dim param As SqlParameter() = New SqlParameter(1) {}
-            param(0) = New SqlParameter("@id", datos.Id)
-            param(1) = New SqlParameter("@registro_memo", CStr(datos.Regis_memo))
-            Return query.insertar(insertString, param)
-        Catch ex As Exception
-            Return ex.Message
-        End Try
-    End Function
-#End Region
+    '#Region "guardar memo"
+    '    <Services.WebMethod(EnableSession:=True)>
+    '    Public Shared Function Guardar_memo(datos As PropiedadesContratoConvenio) As String
+    '        Dim query As New Conexion
+    '        Dim insertString As String
+    '        Try
+    '            insertString = "begin tran " &
+    '                            " declare @registro as varchar;" &
+    '                            " select 	@registro = registro_memo from CONVENIOS_CONTRATOS	where cod_cenv_tra=@id;" &
+    '                           " if (@registro Is null) Or (@registro =' ')" &
+    '                            " update  CONVENIOS_CONTRATOS set registro_memo=@registro_memo where cod_cenv_tra=@id;" &
+    '                           " commit tran"
+    '            Dim param As SqlParameter() = New SqlParameter(1) {}
+    '            param(0) = New SqlParameter("@id", datos.Id)
+    '            param(1) = New SqlParameter("@registro_memo", CStr(datos.Regis_memo))
+    '            Return query.insertar(insertString, param)
+    '        Catch ex As Exception
+    '            Return ex.Message
+    '        End Try
+    '    End Function
+    '#End Region
 
 #Region "guardar Final"
     <Services.WebMethod(EnableSession:=True)>
@@ -206,7 +206,7 @@ Partial Class Default3
                     fila.Nombre = rdr.Item("nombre_documento").ToString()
                     fila.Tip_Doc = rdr.Item("tipo_documento").ToString()
                     fila.Regis_borrador = rdr.Item("registro_borrador").ToString()
-                    fila.Regis_memo = rdr.Item("registro_memo").ToString()
+                    'fila.Regis_memo = rdr.Item("registro_memo").ToString()
                     fila.Regis_final = rdr.Item("registro_inal").ToString()
                     fila.Esta_Doc = rdr.Item("estado_documento").ToString()
                     'fila.Fech_fin = rdr.Item("fech_final").ToString()
