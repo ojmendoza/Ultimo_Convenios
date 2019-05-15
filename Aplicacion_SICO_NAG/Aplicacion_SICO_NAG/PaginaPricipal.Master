@@ -56,15 +56,14 @@
                                 <li>
                                     <br />
                                     <img src="/Imagenes/CONATEL.png" width="350" height="270" /></li>
-                                <li>
-                                    <br />
+                                <li>                                  
                                     <a href="/Default.aspx" style="font-size: 20px"><i class=" material-icons">home</i>Inicio</a></li>
                                 <li><a href="/vistas/Registro_Solicitudes.aspx" style="font-size: 20px"><i class=" material-icons">list</i>Registro de Solicitudes</a></li>
                                 <li><a href="/vistas/Estudio_Factibilidad.aspx" style="font-size: 20px"><i class=" material-icons">school</i>Estudio de Factibilidad</a></li>
                                 <li><a href="/vistas/CentrosEducativos.aspx" style="font-size: 20px"><i class=" material-icons">school</i>Centros Educativos</a></li>
                                 <li><a href="/vistas/Sitios.aspx" style="font-size: 20px"><i class=" material-icons ">domain</i>Sitios</a></li>
                                 <li><a href="/vistas/Control_Cliente_Calculo_Mora.aspx" style="font-size: 20px"><i class="material-icons ">list_alt</i>Calculo de Mora Anual</a></li>
-                                <li><a href="/vistas/MapaSitios.aspx" style="font-size: 20px"><i class=" material-icons ">domain location_on</i>Mapa Sitios</></li>
+                                <li><a href="/vistas/MapaSitios.aspx" style="font-size: 20px"><i class=" material-icons ">domain location_on</i>Mapa Sitios</a></li>
 
                             </ul>
                             <a href="#" class="brand-logo center">
