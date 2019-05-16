@@ -6,9 +6,10 @@ var local;
 var local2;
 
 $(document).ready(function () {
-
+    $('.tooltipped').tooltip();
     $('select').material_select();
-    $('#modal2').modal();
+    //$('#modal2').modal();
+    //$('#modal1').modal();
 
     consultar(function () { });  
 
@@ -62,7 +63,7 @@ $(document).ready(function () {
                         },
 
                         {
-                            defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal2" ><i class="material-icons">file_download</i></a>' +                                
+                            defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal1" ><i class="material-icons">file_download</i></a>' +                                
                                 ' <a title="Ver y Descargar Final" class= "btn task-cat blue darken-2 modal-trigger ver_final" href="#modal2" > <i class="material-icons">file_download</i></a> '
                         },
 
@@ -153,7 +154,7 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (r) {
 
-                tabla =   $("#dataModal").DataTable({
+                tabla =   $("#dataModal1").DataTable({
                         "scrollX": true,                        
                         "searching": false,
                         "language": {
@@ -277,18 +278,72 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 200)
 
     };
+    $('.modal').modal();
+    //abrir el modal para visualizar las solicitudes
+    $('.ver_borrador').click(function (e) {
+        e.preventDefault(); 
+        var data = tabla.row($(this).parents("tr")).data();
+        $("[id*=id]").val(data.Id);
+        $('.modal').modal({
+            //dismissible: true,
+            ready: function () {
+                tabla.destroy();
+                visualizar(function () {
+                    tabla.destroy();
+                    consultar(function () { });
+                });
+            },
+            complete: function () {
+                limpiar();
+                tabla.destroy();
+                consultar(function () { });
+            }
+
+        })
+        consultar(function () { });
+    });
+    //abrir el modal para visualizar las solicitudes
+    $('.ver_final').click(function (e) {
+        e.preventDefault();
+        var data = tabla.row($(this).parents("tr")).data();
+        $("[id*=id]").val(data.Id);
+        $('#modal2').modal({
+            //dismissible: true,
+            ready: function () {
+                tabla.destroy();
+                visualizar_final(function () {
+                    tabla.destroy();
+                    consultar(function () { });
+                 });
+            },
+            complete: function () {
+                limpiar();
+                tabla.destroy();
+                consultar(function () { });
+            }
+
+        })
+    });
 
     //visializar y descargar archivos en base
     $(document).on('click', '.ver_borrador', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
-        visualizar(function () {
+        if ($("#modal1").modal(open()) == true) {
+            visualizar(function () {
+                tabla.destroy();
+                consultar(function () { });
+            });
+        } else {
+            limpiar();
             tabla.destroy();
             consultar(function () { });
-        });
+        }
+       
 
     });   
+
     $(document).on('click', '.ver_final', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
