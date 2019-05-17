@@ -13,5 +13,6 @@
     Public Property Estado() As String
     Public Property Datos() As String
     Public Property Btn() As String
+    Public Property Observacion() As String
 
 End Class

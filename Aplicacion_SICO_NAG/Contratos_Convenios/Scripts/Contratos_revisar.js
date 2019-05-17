@@ -8,8 +8,8 @@ var local2;
 $(document).ready(function () {
     $('.tooltipped').tooltip();
     $('select').material_select();
-    //$('#modal2').modal();
-    //$('#modal1').modal();
+    $('.modal').modal();
+    
 
     consultar(function () { });  
 
@@ -63,7 +63,7 @@ $(document).ready(function () {
                         },
 
                         {
-                            defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal1" ><i class="material-icons">file_download</i></a>' +                                
+                            defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal1"  ><i class="material-icons">file_download</i></a>' +                                
                                 ' <a title="Ver y Descargar Final" class= "btn task-cat blue darken-2 modal-trigger ver_final" href="#modal2" > <i class="material-icons">file_download</i></a> '
                         },
 
@@ -84,7 +84,7 @@ $(document).ready(function () {
                                 
                         },
                         {
-                            "className": "dt-left",
+                            "className": "dt-center",
                             data: "Estado"
                         },
 
@@ -115,7 +115,6 @@ $(document).ready(function () {
                 index.push($(rows[i]).find("td:eq(0)").html());
                 fechas.push($(rows[i]).find("td:eq(5)").html());
                 nombres.push($(rows[i]).find("td:eq(1)").html());
-
             }
             var conver = {};
             var meses = {};
@@ -124,21 +123,20 @@ $(document).ready(function () {
             local2 = moment().subtract(6, 'months').format('DD/MM/YYYY')
             //console.log(local + "  " + local2)
 
+
             for (var i = 0; i < index.length; i++) {
                 conver[i] = formato(fechas[i])
                 var dt = new Date(moment(conver[i], "DD/MM/YYYY"));
-                meses[i] = moment(dt).add(mes, 'months').format('DD/MM/YYYY')
-
-                if (meses[i] >= local2) {
-                    Materialize.toast("El contrato: " + nombres[i] + " vence en: " + meses[i],50000,'red rounded');
+               
+                    meses[i] = moment(dt).add(mes, 'months').format('DD/MM/YYYY')
+               
+                if ((meses[i] >= local2) && (meses[i] != "Invalid date")) {
+                    Materialize.toast("El contrato: " + nombres[i] + " vence en: " + meses[i], 50000, 'red rounded');
                 }
-
-
+               
             }
-
-
-
-
+           
+              
         });
     });
 
@@ -249,7 +247,7 @@ $(document).ready(function () {
                 etiqueta = "<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' hidden='hidden' id='Subir_final' type='submit' style='position Static' href='#modal1' ><i class='material-icons'>file_upload</i></button>"
                 estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Completo</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
 
-            } 
+         } 
 
         var datosContratos = {};
         datosContratos.Id = $("[id*=id]").val();
@@ -278,82 +276,83 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 200)
 
     };
-    $('.modal').modal();
-    //abrir el modal para visualizar las solicitudes
-    $('.ver_borrador').click(function (e) {
-        e.preventDefault(); 
-        var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);
-        $('.modal').modal({
-            //dismissible: true,
-            ready: function () {
-                tabla.destroy();
-                visualizar(function () {
-                    tabla.destroy();
-                    consultar(function () { });
-                });
-            },
-            complete: function () {
-                limpiar();
-                tabla.destroy();
-                consultar(function () { });
-            }
 
-        })
-        consultar(function () { });
-    });
-    //abrir el modal para visualizar las solicitudes
-    $('.ver_final').click(function (e) {
-        e.preventDefault();
-        var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);
-        $('#modal2').modal({
-            //dismissible: true,
-            ready: function () {
-                tabla.destroy();
-                visualizar_final(function () {
-                    tabla.destroy();
-                    consultar(function () { });
-                 });
-            },
-            complete: function () {
-                limpiar();
-                tabla.destroy();
-                consultar(function () { });
-            }
+    $('#modal1').modal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal   
+        opacity: .5, // Opacity of modal background
+        inDuration: 300, // Transition in duration
+        outDuration: 200, // Transition out duration
+        startingTop: '4%', // Starting top style attribute
+        endingTop: '10%', // Ending top style attribute
+        ready: function () { // Callback for Modal open. Modal and trigger parameters available.
+           
+            visualizar(function () { });
+          
+        },
+        complete: function () {// Callback for Modal close
+            limpiar();
+            tabla.destroy();
+            consultar(function () { });
+        } 
+    });  
 
-        })
-    });
-
-    //visializar y descargar archivos en base
-    $(document).on('click', '.ver_borrador', function (event) {
-        event.preventDefault();
-        var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);
-        if ($("#modal1").modal(open()) == true) {
-            visualizar(function () {
-                tabla.destroy();
-                consultar(function () { });
+    $('#modal2').modal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal   
+        opacity: .5, // Opacity of modal background
+        inDuration: 300, // Transition in duration
+        outDuration: 200, // Transition out duration
+        startingTop: '4%', // Starting top style attribute
+        endingTop: '10%', // Ending top style attribute
+        ready: function () {
+            visualizar_final(function () {
+                //tabla.destroy();
+                //consultar(function () { });
             });
-        } else {
+        },
+        complete: function () {
             limpiar();
             tabla.destroy();
             consultar(function () { });
         }
-       
 
-    });   
+    });
 
+    $('#modal3').modal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal   
+        opacity: .5, // Opacity of modal background
+        inDuration: 300, // Transition in duration
+        outDuration: 200, // Transition out duration
+        startingTop: '4%', // Starting top style attribute
+        endingTop: '10%', // Ending top style attribute
+        ready: function () {
+           
+        },
+        complete: function () {
+            limpiar();
+            tabla.destroy();
+            consultar(function () { });
+        }
+
+    });
+     
+    //visializar y descargar archivos en base
+    $(document).on('click', '.ver_borrador', function (event) {
+        event.preventDefault();
+        var data = tabla.row($(this).parents("tr")).data();
+        $("[id*=id]").val(data.Id); 
+        Descargar(function () { });
+    });    
     $(document).on('click', '.ver_final', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);
-        visualizar_final(function () {
-            tabla.destroy();
-            consultar(function () { });
-        });
+        $("[id*=id]").val(data.Id);    
 
     });
+    $(document).on('click', '.Comentarios', function (event) {
+        event.preventDefault();
+        var data = tabla.row($(this).parents("tr")).data();
+        $("[id*=id]").val(data.Id); 
+    })
 
     //autorizacion de subida de archivos
     $(document).on('click', '.btn_p1', function (event) {
@@ -413,17 +412,126 @@ $(document).ready(function () {
         });
        
     });
+    $(document).on("click", ".descargar", function (e) {
+        e.preventDefault();
+        descargarArchivo($('[id*=archivo]').val(), "documento_editable", function () { });
 
-   
+    });   
+    $("#ingesar_obs").click(function (e) {
+        e.preventDefault();
+        Guardar_comentarios();
+        $("[id*=Observacion]").val("");
+    });  
+
     var limpiar = function () {
         $("[id*=id]").val("");
         $("[id*=datos]").val("");
+        $("[id*=archivo]").val("");
+        $("[id*=Observacion]").val("");
+    };
 
-    }
     function formato(texto) {
         
         return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
     }
 
- 
+    function descargarArchivo(contenidoEnBlob, nombreArchivo,callback) {
+        //creamos un FileReader para leer el Blob
+        var reader = new FileReader();
+        //Definimos la función que manejará el archivo
+        //una vez haya terminado de leerlo
+        reader.onload = function (event) {
+            //Usaremos un link para iniciar la descarga 
+            var save = document.createElement('a');
+            save.href = event.target.result;
+            save.target = '_blank';
+            //Truco: así le damos el nombre al archivo 
+            save.download = nombreArchivo || 'archivo.dat';
+            var clicEvent = new MouseEvent('click', {
+                'view': window,
+                'bubbles': true,
+                'cancelable': true
+            });
+            //Simulamos un clic del usuario
+            //no es necesario agregar el link al DOM.
+            save.dispatchEvent(clicEvent);
+            //Y liberamos recursos...
+            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+        };
+        var contenido = dataURItoBlob(contenidoEnBlob)
+        //Leemos el blob y esperamos a que dispare el evento "load"
+        reader.readAsDataURL(contenido); 
+        setTimeout(function () { callback();},2000)
+    };
+
+    //descargar archivo
+    function Descargar(callback) {
+        var codigo = $("[id*=id]").val();
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Views/AsignacionContratos.aspx/descargar",
+                data: JSON.stringify({ 'codigo': codigo }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {                    
+                    d: r.d;
+                    $("[id*=archivo]").val(r.d[0].Regis_borrador);
+                    //console.log(r.d[0].Regis_borrador);
+                },
+                error: function (response, xhr) {
+                    Materialize.toast('Error, Los datos no pudieron ser descargados', 4000, 'rounded');
+                    console.log(response.d);
+                }
+
+            });
+        });     
+        setTimeout(function () { callback(); }, 100)
+    };     
+
+    //descargar archivo
+    function Guardar_comentarios() {
+        var datoscoment = {};
+        datoscoment.Id = $("[id*=id]").val();
+        datoscoment.Observacion = $("[id*=Observacion]").val();
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Views/AsignacionContratos.aspx/Modificar_borrador",
+                data: JSON.stringify({ 'datos': datoscoment }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    Materialize.toast('ENVIADOS CORRECTAMENTE', 4000, 'rounded green');
+                },
+                error: function (response, xhr) {
+                    Materialize.toast('Error, NO SE PUDO ENVIAR EL COMENTARIO', 4000, 'rounded red');
+                    console.log(response.d);
+                }
+
+            });
+        });
+       
+    };    
+
+    function dataURItoBlob(dataURI) {
+        // convert base64 to raw binary data held in a string
+        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+        var byteString = atob(dataURI.split(',')[1]);
+
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+        // write the bytes of the string to an ArrayBuffer
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        // write the ArrayBuffer to a blob, and you're done
+        var bb = new Blob([ab], { type: mimeString });
+        return bb;
+    };
+
 });

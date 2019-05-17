@@ -114,19 +114,19 @@
                     </div>
                 <div class="valign-wrapper ">
                  <div class=" input-field col s12">
-                                            <i class="material-icons prefix">date_range</i>
-                                            <label for="fech_firma">Fecha de firma </label>
-                                            <input type="text" class="datepicker tooltipped" id="fech_firma" data-tooltip="Fecha en que firma el contrato"/>                                 
-                                         </div>
-                    </div>
+                    <i class="material-icons prefix">date_range</i>
+                    <label for="fech_firma">Fecha de firma </label>
+                   <input type="text" class="datepicker tooltipped" id="fech_firma" data-tooltip="Fecha en que firma el contrato"/>                                 
+                 </div>
+               </div>
 
                 <div class="valign-wrapper ">
                  <div class=" input-field col s12">
-                                            <i class="material-icons prefix">date_range</i>
-                                            <label for="fech_final">Fecha Vencimiento</label>
-                                            <input type="text" class="datepicker tooltipped" id="fech_final" data-tooltip="Fecha en que finaliza el contrato"/>                                 
-                                         </div>
-                    </div>
+                   <i class="material-icons prefix">date_range</i>
+                   <label for="fech_final">Fecha Vencimiento</label>
+                   <input type="text" class="datepicker tooltipped" id="fech_final" data-tooltip="Fecha en que finaliza el contrato"/>                                 
+                 </div>
+               </div>
                      <div class="valign-wrapper ">
                             <div class="file-field input-field col s12" >
                                   <div class="btn" >

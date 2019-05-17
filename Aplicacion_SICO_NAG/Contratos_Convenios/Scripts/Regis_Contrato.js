@@ -291,7 +291,6 @@ $(document).ready(function () {
     //Funcion para llenar los datos en los textbox a Modificar  
     function Modificar_datos() {
         var datos = $("[id*=id]").val();
-
         $.ajax({
             type: "POST",
             url: "/Views/Registro_Contratos.aspx/ModificarDatos",
@@ -360,14 +359,7 @@ $(document).ready(function () {
 
     });
 
-    ////aca es para subir el memo 
-    //$('#Subir_1').click(function (e) {
-    //    e.preventDefault();
-    //    guardarMemo(function () { });
-    //    limpiar();
-    //});
-
-    //aca es para subir el final
+      //aca es para subir el final
     $('#Subir_2').click(function (e) {
         e.preventDefault();
         guardarFinal(function () { });
@@ -418,7 +410,7 @@ $(document).ready(function () {
         }
     };   
 
-    //solo pdf
+    //solo WORD
     function solo_word(datos) {
         var countFiles = $(datos)[0].files.length;
         var imgPath = $(datos)[0].value;
@@ -444,53 +436,23 @@ $(document).ready(function () {
     $(document).on("change", '#file', function (e) {
         e.preventDefault();
         tabla.destroy();
-        $('.btn_Actualizar').hide();
-        //$('.Subir_memo').hide();
+        $('.btn_Actualizar').hide();       
         $('.Subir_final').hide();
     });
 
     $('#file').on('change', function () {
         solo_word(this);             
     });
-    //$('#file_memo').on('change', function () {
-    //    solo_pdf(this);
-
-    //});
+   
     $('#file_final').on('change', function () {
         solo_pdf(this);
     });
-
-    //////subir el archivo del memo
-    //$(document).on("click", '.Subir_memo', function (e) {
-    //    e.preventDefault();
-    //    var data = tabla.row($(this).parents("tr")).data();
-    //    $("[id*=id]").val(data.Id);      
        
-    //    $('.btn_Actualizar').hide();
-    //    $('.Subir_final').hide();
-    //});
-    //$('.Subir_memo').click(function (e) {
-    //   e.preventDefault(); 
-    //   $('.modal').modal({
-    //        dismissible: true,
-    //        ready: function () {                
-    //            consultar(); 
-    //        },
-    //       complete: function () {  
-    //           limpiar();
-    //           tabla.destroy();
-             
-    //        }
-    //    });
-      
-    //});
-
     //subir el archivo final    
      $(document).on("click", '.Subir_final', function (e) {
         e.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);
-        
+        $("[id*=id]").val(data.Id);        
         $('.btn_Actualizar').hide();
         //$('.Subir_memo').hide();   
     });

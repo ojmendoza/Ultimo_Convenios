@@ -56,7 +56,9 @@ Partial Class Views_AsignacionContratos
                 While rdr.Read()
                     Dim fila As New PropiedadesContratoConvenio()
                     'CStr("<div class='embed-container'><iframe width='560' height='315' src='" & rdr.Item("registro_borrador").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")frameborder='0' allowfullscreen
-                    fila.Regis_borrador = CStr("<div class='embed-container'><iframe width='600' height='415' src='" & rdr.Item("registro_borrador").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
+                    'fila.Regis_borrador = CStr("<div class='embed-container'><iframe width='600' height='415' src='" & rdr.Item("registro_borrador").ToString() & "' download='Borrador_editable.docx' frameborder='0' allowfullscreen></iframe></div> ")
+                    fila.Regis_borrador = CStr("<a class='descargar btn' Title = 'descargar' >descargar</a>")
+                    'fila.Regis_borrador = rdr.Item("registro_borrador").ToString()
                     filas.Add(fila)
                 End While
             End Using
@@ -65,7 +67,29 @@ Partial Class Views_AsignacionContratos
     End Function
 #End Region
 
-#Region "Visualizar memo"
+#Region "descargar"
+    <Services.WebMethod()>
+    <ScriptMethod()>
+    Public Shared Function descargar(ByVal codigo As Integer) As PropiedadesContratoConvenio()
+        Dim sql = "SELECT [registro_borrador] FROM [dbo].[CONVENIOS_CONTRATOS] where [cod_cenv_tra]=" & CInt(codigo) & ";"
+
+        Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
+        Using con As New SqlConnection(cadena)
+            Dim cmd As SqlCommand = New SqlCommand(sql, con)
+            con.Open()
+            Using rdr As SqlDataReader = cmd.ExecuteReader()
+                While rdr.Read()
+                    Dim fila As New PropiedadesContratoConvenio()
+                    fila.Regis_borrador = rdr.Item("registro_borrador").ToString()
+                    filas.Add(fila)
+                End While
+            End Using
+        End Using
+        Return filas.ToArray()
+    End Function
+#End Region
+
+#Region "Visualizar final"
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function Ver_final(ByVal codigo As Integer) As PropiedadesContratoConvenio()
@@ -87,7 +111,6 @@ Partial Class Views_AsignacionContratos
         Return filas.ToArray()
     End Function
 #End Region
-
 
 #Region "PRIORIDADES"
     <WebMethod()>
@@ -120,6 +143,26 @@ Partial Class Views_AsignacionContratos
             param(3) = New SqlParameter("@btn", datos.Btn)
             param(4) = New SqlParameter("@estado", datos.Estado)
             Return query.insertar(updatestring, param)
+        Catch ex As Exception
+            Return ex.Message
+        End Try
+    End Function
+#End Region
+
+#Region "subir comentarios"
+    <Services.WebMethod(EnableSession:=True)>
+    Public Shared Function Modificar_borrador(datos As PropiedadesContratoConvenio) As String
+        Dim query As New Conexion
+        Dim insertString As String
+        Try
+            insertString = " update CONVENIOS_CONTRATOS set observacion=@oberva where cod_cenv_tra=@id;"
+
+
+            Dim param As SqlParameter() = New SqlParameter(1) {}
+            param(0) = New SqlParameter("@id", datos.Id)
+            param(1) = New SqlParameter("@oberva", datos.Observacion)
+
+            Return query.insertar(insertString, param)
         Catch ex As Exception
             Return ex.Message
         End Try
