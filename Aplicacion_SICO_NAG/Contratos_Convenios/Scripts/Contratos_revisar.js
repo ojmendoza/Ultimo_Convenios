@@ -152,7 +152,7 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (r) {
 
-                tabla =   $("#dataModal1").DataTable({
+                    tabla =   $("#dataModal1").DataTable({
                         "scrollX": true,                        
                         "searching": false,
                         "language": {
@@ -176,7 +176,18 @@ $(document).ready(function () {
                             },
                         ],
                     });
+
+                    d: r.d;
+                    var datos = r.d[0].Regis_borrador;
+                    if ((datos == 'null') | (datos == ' ')) {
+                        r.d[0].Regis_borrador = "<a class='descargar btn' Title='descargar' disable='true' >descargar</a>"
+
+                    }
                 },
+
+               
+                
+
                 error: function (response, xhr) {
                     Materialize.toast('Error, Los datos no pudieron ser visualizados', 4000, 'rounded');
                     console.log(response.d);
@@ -476,7 +487,11 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (r) {                    
                     d: r.d;
-                    $("[id*=archivo]").val(r.d[0].Regis_borrador);
+                    var regis = r.d[0].Regis_borrador;
+                    if ((regis != "null") | (regis != " ")) {
+                        $("[id*=archivo]").val(r.d[0].Regis_borrador);
+                    }
+                   
                     //console.log(r.d[0].Regis_borrador);
                 },
                 error: function (response, xhr) {

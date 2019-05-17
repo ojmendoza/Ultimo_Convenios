@@ -2,9 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
      <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
- <%--  <script type="text/javascript" src="../Scripts/moment.js"></script>--%>
+
     <script src="../Scripts/Regis_Contrato.js"></script>
-<%--    <script src="../Scripts/moment.js"></script>--%>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="contratos">
@@ -77,6 +77,7 @@
                      </div>
                 </div>
             </div>
+
             <div class="col s12 m7 l7 " id="Div1">
           <div class="card responsive-table">
               <div class="card-content black-text">
@@ -101,6 +102,7 @@
             </div>
           </div>
         </div>
+
            </div>
     
         </div>
@@ -109,6 +111,7 @@
            <!-- Modal para cargar los modales -->
          <div id="modal1" class="modal" style="position:fixed; padding:20px;">
             <div class="modal-content">
+                <div class="row">
                     <div class="valign-wrapper ">                     
                         <h4 class="center">Subir Archivo Final(Contrato)</h4>                      
                     </div>
@@ -146,6 +149,8 @@
                                 </button>
                               </div>
                       </div>
+
+                   </div>
                </div>
             </div>
     </div>

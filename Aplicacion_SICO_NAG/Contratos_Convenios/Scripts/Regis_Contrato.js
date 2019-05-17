@@ -456,20 +456,18 @@ $(document).ready(function () {
         $('.btn_Actualizar').hide();
         //$('.Subir_memo').hide();   
     });
-    $('.Subir_final').click(function (e) {
-        e.preventDefault();
-        $('.modal').modal({
-            dismissible: true,
-            ready: function () {
-                consultar(); 
-            },
-            complete: function () {  
-                limpiar();
-                tabla.destroy();          
-            }
-        });
-        
+
+    $('#modal1').modal({
+        dismissible: true,
+        ready: function () {
+            consultar();
+        },
+        complete: function () {
+            limpiar();
+            tabla.destroy();
+        }
     });
+
 
     //Funcion para limpiar los Campos
     var limpiar = function () {
