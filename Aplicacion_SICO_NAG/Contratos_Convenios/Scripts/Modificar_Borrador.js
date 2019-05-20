@@ -6,16 +6,10 @@ var datos;
 $(document).ready(function () {
     $('select').material_select();
    // $('input#input_text,textarea#textarea1').characterCounter();
-
-   
-
+    
     consultar(function () { });
 
-
-
-
-
-    function consultar(callback) {
+     function consultar(callback) {
         $.ajax({
             type: "POST",
             url: "/Views/Modificar_Borrador.aspx/seleccionar",
@@ -149,7 +143,7 @@ $(document).ready(function () {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    Materialize.toast('Archivo ', 4000, 'rounded green')
+                    Materialize.toast('Borrador actualizado correctamente ', 4000, 'rounded green')
 
                 },
                 error: function (response, xhr) {
@@ -161,8 +155,6 @@ $(document).ready(function () {
         });
         setTimeout(function () { callback(); }, 500);
     };
-
-
     //convertir a base64
     function convertToBase64(archivo) {
         //Read File 
@@ -183,7 +175,6 @@ $(document).ready(function () {
             fileReader.readAsDataURL(fileToLoad);
         }
     };
-
 
     //solo WORD
     function solo_word(datos) {
@@ -208,7 +199,6 @@ $(document).ready(function () {
         }
     }; 
 
-
     $('#file').on('change', function () {
         solo_word(this);
 
@@ -217,12 +207,20 @@ $(document).ready(function () {
     //aca es para guardar o actualizar datosSubir_1
     $('#btn_insertar').click(function (e) {
         e.preventDefault();
-            guardar_modificaciones(function (){ });
-            //tabla.destroy();
+        guardar_modificaciones(function () {
+            tabla.destroy();
+            limpiar();
             consultar(function () { });
-  
+        });             
 
     });
 
+    var limpiar = function () {
+        $("[id*=nom_contra]").val(""); 
+        $("[id*=Observaciones]").val(""); 
+        $("[id*=file]").val("");
+        $("[id*=bina]").val("");
+        $("[id*=id]").val("");
+    };
 
   });

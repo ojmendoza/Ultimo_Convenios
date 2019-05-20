@@ -342,8 +342,8 @@ $(document).ready(function () {
 
         if ($("[id*=id]").val() == "") {
             guardar();
-
-            //tabla.destroy();
+            limpiar();
+            tabla.destroy();
             consultar(function () { });
         } else {
             ActualizarConvenios(function () {
@@ -367,10 +367,7 @@ $(document).ready(function () {
         $("[id*=id]").val(data.Id);
         Modificar_datos();
         $('select').material_select();
-
     });
-
-
 
     //aca es para subir el final
     $('#Subir_2').click(function (e) {
@@ -423,7 +420,6 @@ $(document).ready(function () {
         }
     };
 
-
     //solo WORD
     function solo_word(datos) {
         var countFiles = $(datos)[0].files.length;
@@ -449,13 +445,12 @@ $(document).ready(function () {
 
     $(document).on("change", '#file', function (e) {
         e.preventDefault();
-        tabla.destroy();
+      
         $('.btn_Actualizar').hide();
-
         $('.Subir_final').hide();
     }),
 
-        $('#file').on('change', function () {
+     $('#file').on('change', function () {
             solo_word(this);
 
         });
@@ -463,32 +458,6 @@ $(document).ready(function () {
 
     $('#file_final').on('change', function () {
         solo_pdf(this);
-
-    });
-
-    //subir el archivo del memo
-    $(document).on("click", '.Subir_memo', function (e) {
-        e.preventDefault();
-        var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);
-
-        $('.btn_Actualizar').hide();
-        $('.Subir_final').hide();
-    });
-    $('.Subir_memo').click(function (e) {
-        e.preventDefault();
-        $('.modal').modal({
-            dismissible: true,
-            ready: function () {
-                consultar(function () { });
-            },
-            complete: function () {
-                limpiar();
-                tabla.destroy();
-
-            }
-        });
-
     });
 
     //subir el archivo final    
@@ -496,23 +465,20 @@ $(document).ready(function () {
         e.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
-
         $('.btn_Actualizar').hide();
         $('.Subir_memo').hide();
     });
-    $('.Subir_final').click(function (e) {
-        e.preventDefault();
-        $('.modal').modal({
-            dismissible: true,
-            ready: function () {
-                consultar(function () { });
-            },
-            complete: function () {
-                limpiar();
-                tabla.destroy();
-            }
-        });
 
+    $('#modal1').modal({
+        dismissible: true,
+        ready: function () {
+          
+        },
+        complete: function () {
+            limpiar();
+            tabla.destroy();
+            consultar(function () { });
+        }
     });
 
     //Funcion para limpiar los Campos

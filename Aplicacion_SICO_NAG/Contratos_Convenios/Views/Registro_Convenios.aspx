@@ -74,6 +74,8 @@
                      </div>
                 </div>
             </div>
+              
+
             <div class="col s12 m7 l7 " id="Div1">
           <div class="card responsive-table">
               <div class="card-content black-text">
@@ -98,8 +100,6 @@
           </div>
         </div>
            </div>
-    
-        </div>
 
 
        
@@ -107,7 +107,8 @@
          <div id="modal1" class="modal" style=" width:600px; height:420px; align-content:center; position:fixed; padding:20px; "   >
              
                     
-            <br class="modal-content">
+            <div class="modal-content">
+                <div class="row">
                     <div class="valign-wrapper ">                     
                         <h4 class="center">Subir Archivo Final(Convenio)</h4>                      
                     </div>
@@ -152,6 +153,12 @@
                       </div>
              
                </div>
+      </div>
+    
             </div>
+                
+    
+        </div>
+      </div>
 </asp:Content>
 

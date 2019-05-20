@@ -22,8 +22,51 @@ $(document).ready(function () {
             consultar(function () { });
         }
     });
-    $('#modal2').modal();
-    $('#modal3').modal();
+    $('#modal2').modal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal   
+        opacity: .5, // Opacity of modal background
+        inDuration: 300, // Transition in duration
+        outDuration: 200, // Transition out duration
+        startingTop: '4%', // Starting top style attribute
+        endingTop: '10%', // Ending top style attribute
+        ready: function () {
+            visualizar_final(function () {
+                //tabla.destroy();
+                //consultar(function () { });
+            });
+        },
+        complete: function () {
+            limpiar();
+            tabla.destroy();
+            consultar(function () { });
+        }
+
+    });
+    $('#modal3').modal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal   
+        opacity: .5, // Opacity of modal background
+        inDuration: 300, // Transition in duration
+        outDuration: 200, // Transition out duration
+        startingTop: '4%', // Starting top style attribute
+        endingTop: '10%', // Ending top style attribute
+        ready: function () {
+
+        },
+        complete: function () {
+            limpiar();
+            tabla.destroy();
+            consultar(function () { });
+        }
+
+    });
+    $(function () {
+        // Toast Notification
+        setTimeout(function () {
+            Materialize.toast('<span>Convenios a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
+        });
+
+    })
+
 
     consultar(function () { });
 
@@ -102,10 +145,7 @@ $(document).ready(function () {
                     ],
                 });
 
-                // Toast Notification
-                setTimeout(function () {
-                    Materialize.toast('<span>Convenios a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
-                });
+               
             },
 
             failure: function (response) {
@@ -370,7 +410,7 @@ $(document).ready(function () {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
-        visualizar_final(function () { tabla.destroy(); consultar(function () { }); });
+        
 
     });
 
@@ -378,7 +418,7 @@ $(document).ready(function () {
         e.preventDefault();
         descargarArchivo($('[id*=archivo]').val(), "documento_editable.docx", function () { });
 
-    })
+    });
 
 
     $(document).on('click', '.btn_p1', function (event) {
@@ -387,8 +427,7 @@ $(document).ready(function () {
         $("[id*=id]").val(data.Id);
         d = document.getElementById("btn_p1");
         $("[id*=datos]").val(d.outerHTML)
-        console.log(d.outerHTML)
-
+        
         $.confirm({
             title: 'Confirmar!',
             content: '¿Esta Seguro que desea confirmar que suban el archivo(documento final)?',
@@ -416,8 +455,7 @@ $(document).ready(function () {
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
         d = document.getElementById("btn_p3");
-        $("[id*=datos]").val(d.outerHTML)
-        console.log(d.outerHTML)
+        $("[id*=datos]").val(d.outerHTML)       
 
         $.confirm({
             title: 'Confirmar!',
@@ -441,21 +479,17 @@ $(document).ready(function () {
 
     });
 
-    function actualizar() {
-        location.reload(true);
-    };
-
     var limpiar = function () {
         $("[id*=id]").val("");
         $("[id*=datos]").val("");
 
         $("[id*=observacion]").val("");
-    }
+    };
 
     function formato(texto) {
 
         return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
-    }
+    };
 
     function guardar_observacion(callback) {
         var codigo = $("[id*=id]").val();

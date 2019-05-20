@@ -168,7 +168,7 @@ Partial Class Default3
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function ModificarDatos(ByVal Id As Integer) As PropiedadesContratoConvenio()
-        Dim sql = "SELECT [cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_memo],[registro_inal],[estado_documento],[fech_inicio],[descrip] FROM [dbo].[CONVENIOS_CONTRATOS]" &
+        Dim sql = "SELECT [cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_inal],[estado_documento],[fech_inicio],[descrip] FROM [dbo].[CONVENIOS_CONTRATOS]" &
             " where cod_cenv_tra = '" & Id & "'"
 
         Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)

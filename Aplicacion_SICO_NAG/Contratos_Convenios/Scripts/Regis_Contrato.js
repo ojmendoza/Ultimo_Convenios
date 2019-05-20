@@ -433,8 +433,7 @@ $(document).ready(function () {
     };   
 
     $(document).on("change", '#file', function (e) {
-        e.preventDefault();
-        tabla.destroy();
+        e.preventDefault();       
         $('.btn_Actualizar').hide();       
         $('.Subir_final').hide();
     });
@@ -459,11 +458,12 @@ $(document).ready(function () {
     $('#modal1').modal({
         dismissible: true,
         ready: function () {
-            consultar();
+           
         },
         complete: function () {
             limpiar();
             tabla.destroy();
+            consultar();
         }
     });
 
