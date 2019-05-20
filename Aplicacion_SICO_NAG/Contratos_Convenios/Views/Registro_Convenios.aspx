@@ -25,7 +25,7 @@
                          <div class="valign-wrapper">
                               <div class="input-field col s6 m6 l9" style="margin:initial">
                                 <i class="material-icons prefix">directions</i>
-                                <textarea id="descrip" class="materialize-textarea tooltipped" data-length="1000" data-tooltip="Descripción u Ojetivo del Contrato "></textarea>
+                                <textarea id="descrip" class="materialize-textarea tooltipped" data-length="10000" data-tooltip="Descripción u Ojetivo del Contrato "></textarea>
                                  <label for="descrip">Descripción u Ojetivo</label>
                              </div>
                           </div>
@@ -102,44 +102,22 @@
         </div>
 
 
-           <!-- Modal para cargar los operadores -->
-   <div id="modal" class="modal">
-      
+       
 
-    <div class="modal-content">
-                 <div class="valign-wrapper ">
-                     
-                        <h4 class="center">Subir Archivo(MEMO)</h4>
-                      
-                  </div>
-                 <div class="valign-wrapper ">
-                        <div class="file-field input-field col s12" >
-                              <div class="btn" >
-                                <span>Documento</span>
-                                <input type="file" id="file_memo" />
-                              </div>
-                              <div class="file-path-wrapper" >
-                                <input class="file-path validate" type="text"  id="memo"/>
-                              </div>           
-                        </div>
-
-                 </div>
-                 <div class="card-action center">
-                         <div class="col s6 m6 l6" >
-                            <button class="btn waves-effect waves-light " type="submit" name="action" id="Subir_1">Guardar
-                             <i class="material-icons right">file_upload</i>
-                            </button>
-                          </div>
-                  </div>
-    </div>
-  </div>
-
-         <div id="modal1" class="modal" style=" width:400px; height:320px; align-content:center; position:fixed; padding:20px; "   >
+         <div id="modal1" class="modal" style=" width:600px; height:420px; align-content:center; position:fixed; padding:20px; "   >
              
                     
             <br class="modal-content">
                     <div class="valign-wrapper ">                     
                         <h4 class="center">Subir Archivo Final(Convenio)</h4>                      
+                    </div>
+
+              <div class="valign-wrapper"> 
+                   <div class=" input-field col s12 m6 l6">
+                              <i class="material-icons prefix">date_range</i>
+                             <label for="fech_firma">Fecha de Firma</label>
+                              <input type="text" class="datepicker tooltipped" id="fech_firma" data-tooltip="Fecha que se firmo el Convenio"/>                                 
+                              </div>
                     </div>
               <div class="valign-wrapper"> 
                    <div class=" input-field col s12 m6 l6">

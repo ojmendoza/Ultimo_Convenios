@@ -109,28 +109,6 @@ Partial Class Default3
     End Function
 #End Region
 
-    '#Region "guardar memo"
-    '    <Services.WebMethod(EnableSession:=True)>
-    '    Public Shared Function Guardar_memo(datos As PropiedadesContratoConvenio) As String
-    '        Dim query As New Conexion
-    '        Dim insertString As String
-    '        Try
-    '            insertString = "begin tran " &
-    '                            " declare @registro as varchar;" &
-    '                            " select 	@registro = registro_memo from CONVENIOS_CONTRATOS	where cod_cenv_tra=@id;" &
-    '                           " if (@registro Is null) Or (@registro =' ')" &
-    '                            " update  CONVENIOS_CONTRATOS set registro_memo=@registro_memo where cod_cenv_tra=@id;" &
-    '                           " commit tran"
-    '            Dim param As SqlParameter() = New SqlParameter(1) {}
-    '            param(0) = New SqlParameter("@id", datos.Id)
-    '            param(1) = New SqlParameter("@registro_memo", CStr(datos.Regis_memo))
-    '            Return query.insertar(insertString, param)
-    '        Catch ex As Exception
-    '            Return ex.Message
-    '        End Try
-    '    End Function
-    '#End Region
-
 #Region "guardar Final"
     <Services.WebMethod(EnableSession:=True)>
     Public Shared Function Guardar_ArchivoF(datos As PropiedadesContratoConvenio) As String
@@ -141,12 +119,13 @@ Partial Class Default3
                             " declare @registro as varchar;" &
                             " set @registro = (select registro_inal from CONVENIOS_CONTRATOS where cod_cenv_tra=@id);" &
                            " if (@registro Is null) Or (@registro =' ')" &
-                            " update  CONVENIOS_CONTRATOS set registro_inal=@registro_final,fech_final=@fech_final where cod_cenv_tra=@id;" &
+                            " update  CONVENIOS_CONTRATOS set registro_inal=@registro_final,fech_final=@fech_final,fecha_firma=@fecha_firma where cod_cenv_tra=@id;" &
                            " commit tran"
-            Dim param As SqlParameter() = New SqlParameter(2) {}
+            Dim param As SqlParameter() = New SqlParameter(3) {}
             param(0) = New SqlParameter("@id", datos.Id)
             param(1) = New SqlParameter("@registro_final", CStr(datos.Regis_final))
             param(2) = New SqlParameter("@fech_final", CStr(datos.Fech_fin))
+            param(3) = New SqlParameter("@fecha_firma", CStr(datos.Regis_firma))
             Return query.insertar(insertString, param)
         Catch ex As Exception
             Return ex.Message
@@ -154,16 +133,13 @@ Partial Class Default3
     End Function
 #End Region
 
-
-
 #Region "select"
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function seleccionar() As PropiedadesContratoConvenio()
-        Dim sql = "  SELECT [etiqueta],CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_memo],[registro_inal],[estado_documento],[fech_inicio],[descrip]" &
+        Dim sql = "  SELECT [etiqueta],CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_inal],[estado_documento],[fech_inicio],[descrip]" &
             "FROM CONVENIOS_CONTRATOS inner join BOTONES on (CONVENIOS_CONTRATOS.cod_cenv_tra = BOTONES.cod_cenv_tra)  where [tipo_documento]='Convenio'"
 
-        '"SELECT [cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_memo],[registro_inal],[estado_documento],[fech_inicio],[fech_final]  FROM [dbo].[CONVENIOS_CONTRATOS] where [tipo_documento]='Convenio'"
 
         Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
         Using con As New SqlConnection(cadena)
@@ -206,7 +182,7 @@ Partial Class Default3
                     fila.Nombre = rdr.Item("nombre_documento").ToString()
                     fila.Tip_Doc = rdr.Item("tipo_documento").ToString()
                     fila.Regis_borrador = rdr.Item("registro_borrador").ToString()
-                    'fila.Regis_memo = rdr.Item("registro_memo").ToString()
+                    '  fila.Regis_memo = rdr.Item("registro_memo").ToString()
                     fila.Regis_final = rdr.Item("registro_inal").ToString()
                     fila.Esta_Doc = rdr.Item("estado_documento").ToString()
                     'fila.Fech_fin = rdr.Item("fech_final").ToString()

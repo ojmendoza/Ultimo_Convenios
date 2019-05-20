@@ -118,7 +118,6 @@ $(document).ready(function () {
         });
         setTimeout(function () { callback(); }, 700);
     };
-
    
     //funcion guardar memo
     function guardarFinal(callback) {

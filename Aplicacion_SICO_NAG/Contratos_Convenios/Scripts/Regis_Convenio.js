@@ -7,12 +7,12 @@ var archivo;
 $(document).ready(function () {
     $('select').material_select();
     $(".modal").modal();
-    $('input#input_text, textarea#textarea1').characterCounter();
+    $('input#input_text,textarea#textarea1').characterCounter();
 
     consultar(function () { });
 
     //  format: 'yyyy/mmm/dd' ,
-    $('#fech_inicio, #fech_final').pickadate({
+    $('#fech_inicio, #fech_final,#fech_firma').pickadate({
         selectMonths: true,
         selectYears: true,
         //closeOnSelect: true,
@@ -65,11 +65,12 @@ $(document).ready(function () {
     };
 
     function guardarbtn(callback) {
-        datos = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+        datos = "<button title='Subir Archivo final' class=' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+        //< button  title = 'Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled = 'true' id = 'Subir_memo' type = 'submit'  style = 'position: Static' href = '#modal' > <i class='material-icons'>file_upload</i></button >& nbsp; 
 
         btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">Borrador</a>'
 
-        estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
+        estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Convenio</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
 
         var datosContratos = {};
         datosContratos.Datos = datos;
@@ -122,38 +123,14 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 500);
     };
 
-    //funcion guardar memo
-    function guardarMemo(callback) {
-
-        var datosContratos = {};
-        datosContratos.Id = $("[id*=id]").val();
-        datosContratos.Regis_memo = $("[id*=bina]").val();
-        $(function () {
-            $.ajax({
-                type: "POST",
-                url: "/Views/Registro_Convenios.aspx/Guardar_memo",
-                data: JSON.stringify({ 'datos': datosContratos }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    Materialize.toast('Archivo de Memo Subido Correctamente', 4000, 'rounded green')
-
-                },
-                error: function (response, xhr) {
-                    Materialize.toast('Error, Los datos no pudieron ser subidos', 4000, 'rounded red');
-                    console.log(response);
-                }
-
-            });
-        });
-        setTimeout(function () { callback(); }, 500);
-    };
 
     //funcion guardar memo
     function guardarFinal(callback) {
         fecha_final = document.getElementById("fech_final").value;
+        fecha_firma = document.getElementById("fech_firma").value;
         var datosContratos = {};
         datosContratos.Id = $("[id*=id]").val();
+        datosContratos.Regis_firma = fecha_firma;
         datosContratos.Regis_final = $("[id*=bina]").val();
         datosContratos.Fech_fin = fecha_final;
         $(function () {
@@ -246,20 +223,24 @@ $(document).ready(function () {
                             "previous": "Anterior"
                         }
                     },
-                  
+                    //paging: false,
+                    //destroy: false,
                     retrieve: true,
+                    //dom: "<'row'<'col-sm-6'B><'col-sm-6'f>>" + "<'row'<'col-sm-12't>>" + "<'row'<'col-sm-12'l>>" + "<'row'<'col-sm-12'' '>>" + "<'row'<'col-sm-6'i><'col-sm-6'p>>",
                     columnDefs: [
                         {
                             targets: 1,
                             className: 'noVis'
                         }
                     ],
-                
+
                     data: response.d,
 
                     columns: [
                         {
                             defaultContent: '<button  title="Actualizar" class=" btn waves-effect waves-light btn_Actualizar blue lighten-2" type="submit" style="position: static"><i class="material-icons">update</i></button>&nbsp;'
+
+
                         },
 
                         {
@@ -275,7 +256,8 @@ $(document).ready(function () {
                             "className": "dt-center",
                             data: "Nombre"
                         },
-                       
+
+
                         {
                             "className": "dt-left",
                             data: "Tip_Doc"
@@ -388,12 +370,7 @@ $(document).ready(function () {
 
     });
 
-    //aca es para subir el memo 
-    $('#Subir_1').click(function (e) {
-        e.preventDefault();
-        guardarMemo(function () { });
-        limpiar();
-    });
+
 
     //aca es para subir el final
     $('#Subir_2').click(function (e) {
@@ -445,22 +422,45 @@ $(document).ready(function () {
 
         }
     };
+
+
+    //solo WORD
+    function solo_word(datos) {
+        var countFiles = $(datos)[0].files.length;
+        var imgPath = $(datos)[0].value;
+        var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+        if ((extn == "docx") | (extn == "doc")) {
+            if (typeof (FileReader) != "undefined") {
+                //loop for each file selected for uploaded.
+                for (var i = 0; i < countFiles; i++) {
+                    convertToBase64(datos.files);
+                    //reader.readAsDataURL($(this)[0].files[i]);
+                }
+            } else {
+                Materialize.toast("Este buscador no soporta archivos de lectura.", 2000, 'rounded');
+            }
+        } else {
+            $("[id*=file]").val("");
+            Materialize.toast("Seleccione un archivo con formato docx o doc.", 2000, 'rounded');
+            return false;
+
+        }
+    };
+
     $(document).on("change", '#file', function (e) {
         e.preventDefault();
         tabla.destroy();
         $('.btn_Actualizar').hide();
-        $('.Subir_memo').hide();
+
         $('.Subir_final').hide();
     }),
 
         $('#file').on('change', function () {
-            solo_pdf(this);
+            solo_word(this);
 
         });
-    $('#file_memo').on('change', function () {
-        solo_pdf(this);
 
-    });
+
     $('#file_final').on('change', function () {
         solo_pdf(this);
 
@@ -523,6 +523,7 @@ $(document).ready(function () {
         $("[id*=nom_contra]").val("");
         $("[id*=fech_inicio]").val("");
         $("[id*=fech_final]").val("");
+        $("[id*=fecha_firma]").val("");
         $("[id*=est_contra]").val("");
         $("[id*=borrador]").val("");
         $("[id*=memo]").val("");
@@ -530,5 +531,4 @@ $(document).ready(function () {
         $('select').material_select();
         Materialize.updateTextFields();
     };
-
 });

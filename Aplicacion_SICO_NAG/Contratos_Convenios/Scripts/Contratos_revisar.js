@@ -3,7 +3,7 @@ var btn;
 var etiqueta;
 var estado;
 var local;
-var local2;
+
 
 $(document).ready(function () {
     $('.tooltipped').tooltip();
@@ -120,7 +120,7 @@ $(document).ready(function () {
             var meses = {};
             var mes = 6;
             local = moment().format('DD/MM/YYYY');
-            local2 = moment().subtract(6, 'months').format('DD/MM/YYYY')
+            //local2 = moment().subtract(6, 'months').format('DD/MM/YYYY')
             //console.log(local + "  " + local2)
 
 
@@ -128,10 +128,10 @@ $(document).ready(function () {
                 conver[i] = formato(fechas[i])
                 var dt = new Date(moment(conver[i], "DD/MM/YYYY"));
                
-                    meses[i] = moment(dt).add(mes, 'months').format('DD/MM/YYYY')
+                meses[i] = moment(dt).subtract(mes, 'months').format('DD/MM/YYYY')
                
-                if ((meses[i] >= local2) && (meses[i] != "Invalid date")) {
-                    Materialize.toast("El contrato: " + nombres[i] + " vence en: " + meses[i], 50000, 'red rounded');
+                if ((local <= meses[i]) && (meses[i] != "Invalid date")) {
+                    Materialize.toast("El contrato: " + nombres[i] + " vence en: " + moment(dt).format('DD/MM/YYYY'), 50000, 'red rounded');
                 }
                
             }
@@ -306,7 +306,6 @@ $(document).ready(function () {
             consultar(function () { });
         } 
     });  
-
     $('#modal2').modal({
         dismissible: true, // Modal can be dismissed by clicking outside of the modal   
         opacity: .5, // Opacity of modal background
@@ -327,7 +326,6 @@ $(document).ready(function () {
         }
 
     });
-
     $('#modal3').modal({
         dismissible: true, // Modal can be dismissed by clicking outside of the modal   
         opacity: .5, // Opacity of modal background
@@ -371,13 +369,12 @@ $(document).ready(function () {
        
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);       
-        d = document.getElementById("btn_p1"); 
-        console.log(d.outerHTML)
+        d = document.getElementById("btn_p1");        
         $("[id*=datos]").val(d.outerHTML)
         
         $.confirm({
             title: 'Confirmar!',
-            content: '¿Esta Seguro que desea confirmar que suban el archivo(memo)?',
+            content: '¿Esta Seguro que desea confirmar que suban el Archivo(Contrato)?',
             buttons: {
                 Aceptar: function () {
                     actualizar_prioridad(function () {
@@ -400,8 +397,7 @@ $(document).ready(function () {
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
         d = document.getElementById("btn_p3");
-        $("[id*=datos]").val(d.outerHTML)
-        console.log(d.outerHTML)
+        $("[id*=datos]").val(d.outerHTML)       
 
         $.confirm({
             title: 'Confirmar!',
@@ -413,7 +409,7 @@ $(document).ready(function () {
                         limpiar();
                         consultar(function () { });
 
-                    })
+                    });
                 },
                 Cancelar: function () {
 

@@ -3,19 +3,29 @@ var estado;
 var etiqueta;
 var btn;
 $(document).ready(function () {
-
-
     $('select').material_select();
+    $('#modal1').modal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal   
+        opacity: .5, // Opacity of modal background
+        inDuration: 300, // Transition in duration
+        outDuration: 200, // Transition out duration
+        startingTop: '4%', // Starting top style attribute
+        endingTop: '10%', // Ending top style attribute
+        ready: function () { // Callback for Modal open. Modal and trigger parameters available.
+
+            visualizar(function () { });
+
+        },
+        complete: function () {// Callback for Modal close
+            //limpiar();
+            tabla.destroy();
+            consultar(function () { });
+        }
+    });
     $('#modal2').modal();
+    $('#modal3').modal();
 
-    $(function () {
-        // Toast Notification
-        setTimeout(function () {
-            Materialize.toast('<span>Convenios a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
-        });
-    })
-
-    consultar(function () { });  
+    consultar(function () { });
 
     //FUNCION DE LLENAR DATATABLE
     function consultar(callback) {
@@ -59,19 +69,31 @@ $(document).ready(function () {
                         },
 
                         {
-                            defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal2" ><i class="material-icons">file_download</i></a>' +
-                                ' <a title="Ver y Descargar Memo" class= "btn task-cat blue darken-2 modal-trigger ver_memo" href="#modal2" ><i class="material-icons">file_download</i></a>' +
+                            defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal1" ><i class="material-icons">file_download</i></a>' +
                                 ' <a title="Ver y Descargar Final" class= "btn task-cat blue darken-2 modal-trigger ver_final" href="#modal2" > <i class="material-icons">file_download</i></a> '
                         },
+                        // ' <a title="Ver y Descargar Memo" class= "btn task-cat blue darken-2 modal-trigger ver_memo" href="#modal2" ><i class="material-icons">file_download</i></a>' +
+
+
 
                         {
                             "className": "dt-left",
-                            data: "Fech_inicio"
+                            data: "Regis_firma"
                         },
                         {
                             "className": "dt-left",
                             data: "Btn"
                         },
+
+                        {
+                            "className": "dt-left",
+                            data: "Fech_fin"
+                        },
+
+                        {
+                            defaultContent: ' <a title="Escribir Observaciones" class= "btn task-cat grey darken-2 modal-trigger observacion" href="#modal3" > <i class="material-icons">comment</i></a> '
+                        },
+
                         {
                             "className": "dt-left",
                             data: "Estado"
@@ -80,6 +102,10 @@ $(document).ready(function () {
                     ],
                 });
 
+                // Toast Notification
+                setTimeout(function () {
+                    Materialize.toast('<span>Convenios a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
+                });
             },
 
             failure: function (response) {
@@ -92,10 +118,26 @@ $(document).ready(function () {
         setTimeout(function () { callback() }, 500)
     };
 
+    //aca es para escribir las organizaciones
+    $(document).on('click', '.observacion', function (event) {
+        event.preventDefault();
+        var data = tabla.row($(this).parents("tr")).data();
+        $("[id*=id]").val(data.Id);
+
+    });
+
+
+    //aca es para subir las bservaciones
+    $('#ingresar_observaciones').click(function (e) {
+        e.preventDefault();
+        guardar_observacion(function () { });
+        limpiar();
+    });
 
     //funcion para saber los contratos por vencer
     $(document).on('click', '.revisar', function () {
         $(function () {
+
             //var data = response.d;
             var index = [];
             var fechas = [];
@@ -104,32 +146,32 @@ $(document).ready(function () {
             var rows = $("#datatable1").dataTable().fnGetNodes();
             for (var i = 0; i < rows.length; i++) {
                 index.push($(rows[i]).find("td:eq(0)").html());
-                fechas.push($(rows[i]).find("td:eq(3)").html());
+                fechas.push($(rows[i]).find("td:eq(5)").html());
                 nombres.push($(rows[i]).find("td:eq(1)").html());
-
             }
             var conver = {};
             var meses = {};
             var mes = 6;
             local = moment().format('DD/MM/YYYY');
-            local2 = moment().add(6, 'months').format('DD/MM/YYYY')
+            // local2 = moment().subtract(6, 'months').format('DD/MM/YYYY')
             //console.log(local + "  " + local2)
+
 
             for (var i = 0; i < index.length; i++) {
                 conver[i] = formato(fechas[i])
                 var dt = new Date(moment(conver[i], "DD/MM/YYYY"));
-                meses[i] = moment(dt).add(mes, 'months').format('DD/MM/YYYY')
 
-                if (meses[i] <= local2) {
-                    Materialize.toast("El convenio: " + nombres[i] + " vence en: " + meses[i], 50000, 'red rounded');
+                meses[i] = moment(dt).subtract(mes, 'months').format('DD/MM/YYYY')
+
+                if ((local <= meses[i]) && (meses[i] != "Invalid date")) {
+                    Materialize.toast("El convenio: " + nombres[i] + " vence en: " + moment(dt).format('DD/MM/YYYY'), 50000, 'red rounded');
                 }
 
-
             }
-         });
+
+
+        });
     });
-
-
 
     function visualizar(callback) {
         var codigo = $("[id*=id]").val();
@@ -142,7 +184,7 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (r) {
 
-                    tabla = $("#dataModal").DataTable({
+                    tabla = $("#dataModal1").DataTable({
                         "scrollX": true,
                         "searching": false,
                         "language": {
@@ -179,54 +221,52 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 200)
 
     };
-    function visualizar_memo(callback) {
+
+    //descargar archivo
+    function Descargar(callback) {
         var codigo = $("[id*=id]").val();
         $(function () {
             $.ajax({
                 type: "POST",
-                url: "/Views/AsignacionConvenios.aspx/Ver_memo",
+                url: "/Views/AsignacionConvenios.aspx/descargar",
                 data: JSON.stringify({ 'codigo': codigo }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-
-                    tabla = $("#dataModal").DataTable({
-                        "scrollX": true,
-                        "searching": false,
-                        "language": {
-                            "lengthMenu": "",
-                            "zeroRecords": "No se encontraron resultados en su busqueda",
-                            "info": "Registros de _START_ al _END_ de un total de _TOTAL_ ",
-                            "InforEmpty": "No existen Registros",
-                            "infoFiltered": "(Filtrado de un total de _MAX_ registros)",
-                            "paginate": {
-                                "first": "Primero",
-                                "last": "Ultimo",
-                                "next": "Siguiente",
-                                "previous": "Anterior"
-                            }
-                        },
-                        retrieve: true,
-                        data: r.d,
-                        columns: [
-                            {
-
-                                "className": "dt-left",
-                                data: "Regis_memo"
-                            },
-                        ],
-                    });
+                    d: r.d;
+                    $("[id*=archivo]").val(r.d[0].Regis_borrador);
+                    console.log(r.d[0].Regis_borrador);
                 },
                 error: function (response, xhr) {
-                    Materialize.toast('Error, Los datos no pudieron ser visualizados', 4000, 'rounded');
-                    console.log(response.d);
+                    Materialize.toast('Error, Los datos no pudieron ser descargados', 4000, 'rounded');
+                    // console.log(response.d);
                 }
 
             });
         });
-        setTimeout(function () { callback(); }, 200)
-
+        setTimeout(function () { callback(); }, 100)
     };
+
+    function dataURItoBlob(dataURI) {
+        // convert base64 to raw binary data held in a string
+        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+        var byteString = atob(dataURI.split(',')[1]);
+
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+        // write the bytes of the string to an ArrayBuffer
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        // write the ArrayBuffer to a blob, and you're done
+        var bb = new Blob([ab], { type: mimeString });
+        return bb;
+    };
+
     function visualizar_final(callback) {
         var codigo = $("[id*=id]").val();
         $(function () {
@@ -276,24 +316,19 @@ $(document).ready(function () {
 
     };
 
-
     function actualizar_prioridad(callback) {
         if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">Borrador</a>') {
-            btn = '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">Memo</a>'
-            etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
-            estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step "><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
-        } else
-            if ($("[id*=datos]").val() == '<a title="Nivel de prioridad Medio" class="btn task-cat yellow darken-2 btn_p2" id="btn_p2">Memo</a>') {
-                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">Convenio</a>'
-                etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' disabled='true' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger'  id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
-                estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
+            btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">Convenio</a>'
+            etiqueta = "<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger'  id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+            estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Convenio</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
 
-            } else {
-                btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" disabled="true" id="btn_p3">Convenio</a>'
-                etiqueta = "<button  title='Subir Archivo Memo' class=' btn waves-effect waves-light Subir_memo red lighten-2 modal-trigger' hidden='hidden' id='Subir_memo' type='submit'  style='position: Static' href='#modal'><i class='material-icons'>file_upload</i></button>&nbsp;<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' hidden='hidden' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
-                estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Memo</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
+        }
+        else {
+            btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" disabled="true" id="btn_p3">Convenio</a>'
+            etiqueta = "<button  title='Subir Archivo final' class= ' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' hidden='hidden' id='Subir_final' type='submit' style='position Static' href='#modal1' > <i class='material-icons'>file_upload</i></button>"
+            estado = '<div class="mdl-card__supporting-text"><div class="mdl-stepper-horizontal-alternative"><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"></div><div class="mdl-stepper-title">Borrador</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>2</span></div><div class="mdl-stepper-title">Convrni</div><div class="mdl-stepper-bar-left"></div><div class="mdl-stepper-bar-right"></div></div><div class="mdl-stepper-step active-step step-done"><div class="mdl-stepper-circle"><span>3</span></div><div class="mdl-stepper-title">Contrato</div><div class="mdl-stepper-bar-left"></div></div></div></div>'
 
-            }
+        }
 
         var datosContratos = {};
         datosContratos.Id = $("[id*=id]").val();
@@ -323,21 +358,14 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 200)
     };
 
-
+    //visializar y descargar archivos en base
     $(document).on('click', '.ver_borrador', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
-        visualizar(function () { tabla.destroy(); consultar(function () { }); });
-
+        Descargar(function () { });
     });
-    $(document).on('click', '.ver_memo', function (event) {
-        event.preventDefault();
-        var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);
-        visualizar_memo(function () { tabla.destroy(); consultar(function () { }); });
 
-    });
     $(document).on('click', '.ver_final', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
@@ -346,43 +374,18 @@ $(document).ready(function () {
 
     });
 
+    $(document).on("click", ".descargar", function (e) {
+        e.preventDefault();
+        descargarArchivo($('[id*=archivo]').val(), "documento_editable.docx", function () { });
+
+    })
+
 
     $(document).on('click', '.btn_p1', function (event) {
         event.preventDefault();
-
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
         d = document.getElementById("btn_p1");
-        console.log(d.outerHTML)
-        $("[id*=datos]").val(d.outerHTML)
-
-        $.confirm({
-            title: 'Confirmar!',
-            content: '¿Esta Seguro que desea confirmar que suban el archivo(memo)?',
-            buttons: {
-                Aceptar: function () {
-                    actualizar_prioridad(function () {
-                        Materialize.toast("se ha autorizado!", 2000, 'green')
-                        tabla.destroy();
-                        limpiar();
-                        consultar(function () { });
-                    });
-
-                },
-                Cancelar: function () {
-
-                }
-
-            }
-        });
-        //tabla.destroy();
-        //consultar();
-    });
-    $(document).on('click', '.btn_p2', function (event) {
-        event.preventDefault();
-        var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);
-        d = document.getElementById("btn_p2");
         $("[id*=datos]").val(d.outerHTML)
         console.log(d.outerHTML)
 
@@ -441,15 +444,72 @@ $(document).ready(function () {
     function actualizar() {
         location.reload(true);
     };
+
     var limpiar = function () {
         $("[id*=id]").val("");
         $("[id*=datos]").val("");
 
+        $("[id*=observacion]").val("");
     }
 
     function formato(texto) {
 
         return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
     }
+
+    function guardar_observacion(callback) {
+        var codigo = $("[id*=id]").val();
+        var datosconvenios = {};
+        datosconvenios.Id = codigo;
+        datosconvenios.Observacion = $("[id*=observacion]").val();
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Views/AsignacionConvenios.aspx/Guardar_Observaciones",
+                data: JSON.stringify({ 'datos': datosconvenios }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    Materialize.toast('Observaciones ingresadas corectamente', 4000, 'rounded green')
+                    console.log(datosconvenios);
+                },
+                error: function (response, xhr) {
+                    Materialize.toast('Error, Las observaciones no se guardaron', 4000, 'rounded red');
+                    //console.log(response);
+                }
+
+            });
+        });
+        setTimeout(function () { callback(); }, 500);
+    };
+
+    function descargarArchivo(contenidoEnBlob, nombreArchivo, callback) {
+        //creamos un FileReader para leer el Blob
+        var reader = new FileReader();
+        //Definimos la función que manejará el archivo
+        //una vez haya terminado de leerlo
+        reader.onload = function (event) {
+            //Usaremos un link para iniciar la descarga 
+            var save = document.createElement('a');
+            save.href = event.target.result;
+            save.target = '_blank';
+            //Truco: así le damos el nombre al archivo 
+            save.download = nombreArchivo || 'archivo.dat';
+            var clicEvent = new MouseEvent('click', {
+                'view': window,
+                'bubbles': true,
+                'cancelable': true
+            });
+            //Simulamos un clic del usuario
+            //no es necesario agregar el link al DOM.
+            save.dispatchEvent(clicEvent);
+            //Y liberamos recursos...
+            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+        };
+        var contenido = dataURItoBlob(contenidoEnBlob)
+        //Leemos el blob y esperamos a que dispare el evento "load"
+        reader.readAsDataURL(contenido);
+        setTimeout(function () { callback(); }, 2000)
+    };
 
 });
