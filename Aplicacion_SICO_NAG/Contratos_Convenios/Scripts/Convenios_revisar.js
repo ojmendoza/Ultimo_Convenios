@@ -1,9 +1,24 @@
 ﻿var tabla;
-var estado;
-var etiqueta;
 var btn;
+var etiqueta;
+var estado;
+var local;
+
 $(document).ready(function () {
+    $('.tooltipped').tooltip();
     $('select').material_select();
+    $('.modal').modal();
+   
+    $(function () {
+        // Toast Notification
+        setTimeout(function () {
+            Materialize.toast('<span>Convenios a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
+        });
+
+    })
+
+    consultar(function () { });
+
     $('#modal1').modal({
         dismissible: true, // Modal can be dismissed by clicking outside of the modal   
         opacity: .5, // Opacity of modal background
@@ -59,16 +74,7 @@ $(document).ready(function () {
         }
 
     });
-    $(function () {
-        // Toast Notification
-        setTimeout(function () {
-            Materialize.toast('<span>Convenios a vencer</span><a class="btn-flat blue-text revisar">Revisar<a>');
-        });
 
-    })
-
-
-    consultar(function () { });
 
     //FUNCION DE LLENAR DATATABLE
     function consultar(callback) {
@@ -115,10 +121,7 @@ $(document).ready(function () {
                             defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal1" ><i class="material-icons">file_download</i></a>' +
                                 ' <a title="Ver y Descargar Final" class= "btn task-cat blue darken-2 modal-trigger ver_final" href="#modal2" > <i class="material-icons">file_download</i></a> '
                         },
-                        // ' <a title="Ver y Descargar Memo" class= "btn task-cat blue darken-2 modal-trigger ver_memo" href="#modal2" ><i class="material-icons">file_download</i></a>' +
-
-
-
+                        
                         {
                             "className": "dt-left",
                             data: "Regis_firma"
@@ -166,7 +169,6 @@ $(document).ready(function () {
 
     });
 
-
     //aca es para subir las bservaciones
     $('#ingresar_observaciones').click(function (e) {
         e.preventDefault();
@@ -174,43 +176,37 @@ $(document).ready(function () {
         limpiar();
     });
 
-    //funcion para saber los contratos por vencer
-    $(document).on('click', '.revisar', function () {
-        $(function () {
+    $(document).on('click', '.revisar', function (e) {
+        e.preventDefault();
 
             //var data = response.d;
-            var index = [];
-            var fechas = [];
-            var nombres = [];
+        var index = [];
+        var fechas = [];
+        var nombres = [];
             //var dataObject = new Object();
             var rows = $("#datatable1").dataTable().fnGetNodes();
             for (var i = 0; i < rows.length; i++) {
                 index.push($(rows[i]).find("td:eq(0)").html());
                 fechas.push($(rows[i]).find("td:eq(5)").html());
                 nombres.push($(rows[i]).find("td:eq(1)").html());
+              
             }
             var conver = {};
             var meses = {};
             var mes = 6;
             local = moment().format('DD/MM/YYYY');
-            // local2 = moment().subtract(6, 'months').format('DD/MM/YYYY')
-            //console.log(local + "  " + local2)
-
 
             for (var i = 0; i < index.length; i++) {
                 conver[i] = formato(fechas[i])
-                var dt = new Date(moment(conver[i], "DD/MM/YYYY"));
+                var fecha = new Date(moment(conver[i], "DD/MM/YYYY"));
 
-                meses[i] = moment(dt).subtract(mes, 'months').format('DD/MM/YYYY')
+                meses[i] = moment(fecha).subtract(mes, 'months').format('DD/MM/YYYY')
 
-                if ((local <= meses[i]) && (meses[i] != "Invalid date")) {
-                    Materialize.toast("El convenio: " + nombres[i] + " vence en: " + moment(dt).format('DD/MM/YYYY'), 50000, 'red rounded');
+                if ((local >= meses[i]) && (meses[i] <= moment(fecha).format('DD/MM/YYYY')) && (meses[i] != "Invalid date")) {
+                    Materialize.toast("El convenio: " + nombres[i] + " vence en: " + moment(fecha).format('DD/MM/YYYY'), 50000, 'red rounded');
                 }
 
             }
-
-
-        });
     });
 
     function visualizar(callback) {
@@ -482,7 +478,7 @@ $(document).ready(function () {
     var limpiar = function () {
         $("[id*=id]").val("");
         $("[id*=datos]").val("");
-
+        $("[id*=archivo]").val("");
         $("[id*=observacion]").val("");
     };
 

@@ -13,11 +13,11 @@ $(document).ready(function () {
     $('input#input_text, textarea#textarea1').characterCounter();
    
     consultar();      
-   
+    
     //  format: 'yyyy/mmm/dd' ,
     $('#fech_inicio, #fech_final,#fech_firma').pickadate({
         selectMonths: true,
-        selectYears: true,
+        selectYears: 15,
         //closeOnSelect: true,
         monthsFull: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         monthsShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
@@ -30,8 +30,9 @@ $(document).ready(function () {
         closeOnSelect: false,
         firstDay: 1,
         format: 'dd/mm/yyyy',
-        formatSubmit: 'dd/mm/yyyy'
-        // hiddenName: true
+        formatSubmit: 'dd/mm/yyyy',   
+        container: undefined,
+
     });
 
     // agregar datos de los contratos

@@ -16,7 +16,7 @@
                     <p>Asignados a ti </p>
                     <input type="text" style="display:none" id="id" />
                     <input type="text" style="display:none" id="datos" />
-                    <textarea id="archivo" class="materialize-textarea" data-length="5000000" style="display:none" ></textarea>
+                    <textarea id="archivo" class="materialize-textarea" data-length="50000000" style="display:none" ></textarea>
                 </li>
             </ul>
             <div class="card-content black-text">

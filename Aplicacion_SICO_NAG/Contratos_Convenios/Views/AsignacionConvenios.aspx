@@ -27,19 +27,19 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Titulo del Convenio</th>
-                                <th> Archivos</th>
+                                <th>Archivos</th>
                                 <th>Fecha Firma Convenio </th>
                                 <th>Prioridad </th>
-                                 <th>Fecha Vencimiento</th>
-                                 <th>Observaciones</th>
-                                 <th>Estado</th>
+                                <th>Fecha Vencimiento</th>
+                                <th>Observaciones</th>
+                                <th>Estado </th>
                             </tr>
                         </thead>
                     </table>
                 </div>
             </div>
         </div>
-    </div>
+   
 
      <div id="modal1" class="modal">
         <div class="modal-content">
@@ -96,5 +96,6 @@
                       </div>
               </div>
        </div>
+    </div>
 </asp:Content>
 

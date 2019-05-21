@@ -80,7 +80,7 @@ $(document).ready(function () {
                             data: "Fech_fin"
                         },
                         {
-                            defaultContent: ' <a title="Agregar Comentarios" class="btn task-cat blue darken-2 modal-trigger Comentarios" href="#modal3" ><i class="material-icons">comment</i></a>' 
+                            defaultContent: ' <a title="Agregar Comentarios" class="btn task-cat grey darken-2 modal-trigger Comentarios" href="#modal3" ><i class="material-icons">comment</i></a>' 
                                 
                         },
                         {
@@ -102,8 +102,8 @@ $(document).ready(function () {
         setTimeout(function () { callback() }, 500)
     };
 
-    $(document).on('click','.revisar',function () {
-        $(function () {
+    $(document).on('click','.revisar',function (e) {
+        e.preventDefault();
 
             //var data = response.d;
             var index = [];
@@ -120,24 +120,19 @@ $(document).ready(function () {
             var meses = {};
             var mes = 6;
             local = moment().format('DD/MM/YYYY');
-            //local2 = moment().subtract(6, 'months').format('DD/MM/YYYY')
-            //console.log(local + "  " + local2)
-
-
+           
             for (var i = 0; i < index.length; i++) {
                 conver[i] = formato(fechas[i])
                 var dt = new Date(moment(conver[i], "DD/MM/YYYY"));
                
                 meses[i] = moment(dt).subtract(mes, 'months').format('DD/MM/YYYY')
                
-                if ((local <= meses[i]) && (meses[i] != "Invalid date")) {
-                    Materialize.toast("El contrato: " + nombres[i] + " vence en: " + moment(dt).format('DD/MM/YYYY'), 50000, 'red rounded');
+                if ((local >= meses[i]) && (meses[i] <= moment(dt).format('DD/MM/YYYY')) && (meses[i] != "Invalid date")) {
+                    Materialize.toast("El convenio: " + nombres[i] + " vence en: " + moment(dt).format('DD/MM/YYYY'), 50000, 'red rounded');
                 }
-               
+
             }
-           
-              
-        });
+          
     });
 
     //funciones fisualizar archivos
