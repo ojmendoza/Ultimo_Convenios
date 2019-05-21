@@ -1,7 +1,8 @@
 ﻿var tabla;
 var data;
 var datos;
-
+var btn;
+var etiqueta;
 
 $(document).ready(function () {
     $('select').material_select();
@@ -131,10 +132,15 @@ $(document).ready(function () {
 
     //funcion guardar memo
     function guardar_modificaciones(callback) {
-            datos = document.getElementById("bina").value;
+        btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">Contrato</a>'
+        //etiqueta = "<button  title='Subir Archivo final' class=' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' id='Subir_final' type='submit' style='position Static' href='#modal1' ><i class='material-icons'>file_upload</i></button>"
+
+        datos = document.getElementById("bina").value;
         var datosContratos = {};
         datosContratos.Id = $("[id*=id]").val();
         datosContratos.Regis_borrador = datos;
+        //datosContratos.Datos = etiqueta;
+        datosContratos.Btn = btn;
         $(function () {
             $.ajax({
                 type: "POST",
@@ -155,6 +161,7 @@ $(document).ready(function () {
         });
         setTimeout(function () { callback(); }, 500);
     };
+
     //convertir a base64
     function convertToBase64(archivo) {
         //Read File 
@@ -218,7 +225,7 @@ $(document).ready(function () {
     var limpiar = function () {
         $("[id*=nom_contra]").val(""); 
         $("[id*=Observaciones]").val(""); 
-        $("[id*=file]").val("");
+        $("[id*=borrador]").val("");
         $("[id*=bina]").val("");
         $("[id*=id]").val("");
     };

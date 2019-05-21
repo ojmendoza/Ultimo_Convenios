@@ -163,7 +163,7 @@ $(document).ready(function () {
                                 "previous": "Anterior"
                             }
                     },
-                         retrieve: true,
+                        retrieve: true,
                         data: r.d,
                         columns: [
                             {
@@ -180,9 +180,6 @@ $(document).ready(function () {
                     }
                 },
 
-               
-                
-
                 error: function (response, xhr) {
                     Materialize.toast('Error, Los datos no pudieron ser visualizados', 4000, 'rounded');
                     console.log(response.d);
@@ -191,8 +188,8 @@ $(document).ready(function () {
             });
         });
         setTimeout(function () { callback(); },200)
-
     };   
+
     function visualizar_final(callback) {
         var codigo = $("[id*=id]").val();
         $(function () {
@@ -497,9 +494,14 @@ $(document).ready(function () {
 
     //descargar archivo
     function Guardar_comentarios() {
+        btn = '<a class="btn task-cat yellow darken-2  btn_p2" id="btn_p2">En proceso</a>'
+        //etiqueta = "<button  title='Subir Archivo final' class= 'btn waves-effect waves-light Subir_final yellow lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1'><i class='material-icons'>file_upload</i></button>"
+
         var datoscoment = {};
         datoscoment.Id = $("[id*=id]").val();
         datoscoment.Observacion = $("[id*=Observacion]").val();
+        datoscoment.Btn = btn;
+        //datoscoment.Datos = etiqueta;
         $(function () {
             $.ajax({
                 type: "POST",

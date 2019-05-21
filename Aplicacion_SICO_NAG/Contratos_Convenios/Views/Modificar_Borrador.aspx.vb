@@ -20,7 +20,7 @@ Partial Class Default2
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function seleccionar() As PropiedadesContratoConvenio()
-        Dim sql = "SELECT cod_cenv_tra, nombre_documento, tipo_documento, observacion From CONVENIOS_CONTRATOS  Where observacion Is Not Null;"
+        Dim sql = "SELECT cod_cenv_tra, nombre_documento, tipo_documento, observacion From CONVENIOS_CONTRATOS  Where observacion !='NULL';"
         Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
         Using con As New SqlConnection(cadena)
             Dim cmd As SqlCommand = New SqlCommand(sql, con)
@@ -79,10 +79,16 @@ Partial Class Default2
         Dim query As New Conexion
         Dim insertString As String
         Try
-            insertString = "update  CONVENIOS_CONTRATOS set registro_borrador=@registro_borrador  where cod_cenv_tra=@id;"
-            Dim param As SqlParameter() = New SqlParameter(1) {}
+            insertString = "begin tran " +
+                " Update  CONVENIOS_CONTRATOS set registro_borrador=@registro_borrador,observacion=@observacion  where cod_cenv_tra=@id; " +
+                " Update BOTONES set btn=@btn where cod_cenv_tra=@id;" +
+                " commit tran"
+            Dim param As SqlParameter() = New SqlParameter(3) {}
             param(0) = New SqlParameter("@id", datos.Id)
             param(1) = New SqlParameter("@registro_borrador", CStr(datos.Regis_borrador))
+            param(2) = New SqlParameter("@observacion", "NULL")
+            'param(3) = New SqlParameter("@etiqueta", datos.Datos)
+            param(3) = New SqlParameter("@btn", datos.Btn)
 
             Return query.insertar(insertString, param)
         Catch ex As Exception
@@ -90,4 +96,5 @@ Partial Class Default2
         End Try
     End Function
 #End Region
+
 End Class

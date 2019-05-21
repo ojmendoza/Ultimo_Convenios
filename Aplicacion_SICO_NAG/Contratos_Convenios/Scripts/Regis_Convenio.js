@@ -274,6 +274,10 @@ $(document).ready(function () {
                         },
                         {
                             "className": "dt-left",
+                            data: "Regis_firma"
+                        },
+                        {
+                            "className": "dt-left",
                             data: "Fech_fin"
                         },
 

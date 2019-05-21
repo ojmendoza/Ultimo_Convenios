@@ -88,7 +88,7 @@ $(document).ready(function () {
 
             });
         });
-        setTimeout(function () { callback(); }, 500);
+        setTimeout(function () { callback(); }, 700);
     };
 
     function guardarbtn(callback) {
@@ -117,7 +117,7 @@ $(document).ready(function () {
 
             });
         });
-        setTimeout(function () { callback(); }, 700);
+        setTimeout(function () { callback(); }, 900);
     };
    
     //funcion guardar memo
@@ -191,7 +191,7 @@ $(document).ready(function () {
                 });
             });
         });
-        setTimeout(function () { callback();}, 1000)
+        setTimeout(function () { callback();}, 2000)
     };
 
     //FUNCION DE LLENAR DATATABLE

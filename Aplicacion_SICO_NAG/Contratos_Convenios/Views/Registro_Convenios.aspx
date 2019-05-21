@@ -90,6 +90,7 @@
                              <th>Tipo de Documento</th>
                              <th>Estado del Documento</th>                             
                              <th>Fecha que Inicia el Convenio</th>
+                             <th>Fecha que se Firma el Convenio</th> 
                              <th>Fecha que Finaliza el Convenio</th>   
                              <th>Descripción del Convenio</th> 
                         </tr>
@@ -104,9 +105,8 @@
 
        
 
-         <div id="modal1" class="modal" style=" width:600px; height:420px; align-content:center; position:fixed; padding:20px; "   >
-             
-                    
+         <div id="modal1" class="modal" style="position:fixed; padding:20px; "   >
+                           
             <div class="modal-content">
                 <div class="row">
                     <div class="valign-wrapper ">                     
@@ -114,14 +114,14 @@
                     </div>
 
               <div class="valign-wrapper"> 
-                   <div class=" input-field col s12 m6 l6">
+                   <div class=" input-field col s12 ">
                               <i class="material-icons prefix">date_range</i>
                              <label for="fech_firma">Fecha de Firma</label>
                               <input type="text" class="datepicker tooltipped" id="fech_firma" data-tooltip="Fecha que se firmo el Convenio"/>                                 
                               </div>
                     </div>
               <div class="valign-wrapper"> 
-                   <div class=" input-field col s12 m6 l6">
+                   <div class=" input-field col s12">
                               <i class="material-icons prefix">date_range</i>
                              <label for="fech_final">Fecha que vence</label>
                               <input type="text" class="datepicker tooltipped" id="fech_final" data-tooltip="Fecha en que finaliza el convenio"/>                                 
@@ -131,7 +131,7 @@
 
 
                      <div class="valign-wrapper ">
-                         <div class="col s6 m6 l6" >
+                        
                             <div class="file-field input-field col s12" >
                                   <div class="btn" >
                                     <span>Documento</span>
@@ -141,7 +141,7 @@
                                     <input class="file-path validate" type="text" id="final" />
                                   </div>           
                             </div>
-                             </div>
+                          
 
                      </div>
                      <div class="card-action center">

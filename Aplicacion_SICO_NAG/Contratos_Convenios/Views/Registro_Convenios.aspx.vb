@@ -137,7 +137,7 @@ Partial Class Default3
     <Services.WebMethod()>
     <ScriptMethod()>
     Public Shared Function seleccionar() As PropiedadesContratoConvenio()
-        Dim sql = "  SELECT [etiqueta],CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_inal],[estado_documento],[fech_inicio],[descrip]" &
+        Dim sql = "  SELECT [etiqueta],CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_inal],[estado_documento],[fech_inicio],[fecha_firma],[fech_final],[descrip]" &
             "FROM CONVENIOS_CONTRATOS inner join BOTONES on (CONVENIOS_CONTRATOS.cod_cenv_tra = BOTONES.cod_cenv_tra)  where [tipo_documento]='Convenio'"
 
 
@@ -154,6 +154,8 @@ Partial Class Default3
                     fila.Tip_Doc = rdr.Item("tipo_documento").ToString()
                     fila.Esta_Doc = rdr.Item("estado_documento").ToString()
                     fila.Fech_inicio = rdr.Item("fech_inicio").ToString()
+                    fila.Regis_firma = rdr.Item("fecha_firma").ToString()
+                    fila.Fech_fin = rdr.Item("fech_final").ToString()
                     fila.Descripcion = rdr.Item("descrip").ToString()
 
                     filas.Add(fila)
