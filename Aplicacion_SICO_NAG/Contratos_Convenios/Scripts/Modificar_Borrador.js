@@ -86,7 +86,7 @@ $(document).ready(function () {
             }
         });
 
-        setTimeout(function () { callback() }, 500)
+        setTimeout(function () { callback() }, 700)
 
     };
 
@@ -132,14 +132,13 @@ $(document).ready(function () {
 
     //funcion guardar memo
     function guardar_modificaciones(callback) {
-        btn = '<a title="Nivel de prioridad Bajo" class="btn task-cat light-green darken-2  btn_p3" id="btn_p3">Contrato</a>'
-        //etiqueta = "<button  title='Subir Archivo final' class=' btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' id='Subir_final' type='submit' style='position Static' href='#modal1' ><i class='material-icons'>file_upload</i></button>"
-
+        btn = '<a title="Nivel de prioridad Alto" class="btn task-cat red darken-2  btn_p1" id="btn_p1">Borrador</a>'
+        
         datos = document.getElementById("bina").value;
         var datosContratos = {};
         datosContratos.Id = $("[id*=id]").val();
         datosContratos.Regis_borrador = datos;
-        //datosContratos.Datos = etiqueta;
+  
         datosContratos.Btn = btn;
         $(function () {
             $.ajax({
@@ -208,7 +207,6 @@ $(document).ready(function () {
 
     $('#file').on('change', function () {
         solo_word(this);
-
     });
 
     //aca es para guardar o actualizar datosSubir_1

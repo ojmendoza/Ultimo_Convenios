@@ -7,7 +7,7 @@ var local;
 $(document).ready(function () {
     $('.tooltipped').tooltip();
     $('select').material_select();
-    $('.modal').modal();
+    //$('.modal').modal();
    
     $(function () {
         // Toast Notification
@@ -32,7 +32,7 @@ $(document).ready(function () {
 
         },
         complete: function () {// Callback for Modal close
-            //limpiar();
+            limpiar();
             tabla.destroy();
             consultar(function () { });
         }
@@ -45,10 +45,7 @@ $(document).ready(function () {
         startingTop: '4%', // Starting top style attribute
         endingTop: '10%', // Ending top style attribute
         ready: function () {
-            visualizar_final(function () {
-                //tabla.destroy();
-                //consultar(function () { });
-            });
+            visualizar_final(function () {});
         },
         complete: function () {
             limpiar();
@@ -405,8 +402,7 @@ $(document).ready(function () {
     $(document).on('click', '.ver_final', function (event) {
         event.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);
-        
+        $("[id*=id]").val(data.Id);        
 
     });
 
@@ -488,10 +484,13 @@ $(document).ready(function () {
     };
 
     function guardar_observacion(callback) {
+        btn = '<a class="btn task-cat yellow darken-2  btn_p2" id="btn_p2">En proceso</a>'
+
         var codigo = $("[id*=id]").val();
         var datosconvenios = {};
         datosconvenios.Id = codigo;
         datosconvenios.Observacion = $("[id*=observacion]").val();
+        datosconvenios.Btn = btn;
         $(function () {
             $.ajax({
                 type: "POST",

@@ -494,14 +494,11 @@ $(document).ready(function () {
 
     //descargar archivo
     function Guardar_comentarios() {
-        btn = '<a class="btn task-cat yellow darken-2  btn_p2" id="btn_p2">En proceso</a>'
-        //etiqueta = "<button  title='Subir Archivo final' class= 'btn waves-effect waves-light Subir_final yellow lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1'><i class='material-icons'>file_upload</i></button>"
-
+        btn = '<a class="btn task-cat yellow darken-2  btn_p2" id="btn_p2">En proceso</a>'        
         var datoscoment = {};
         datoscoment.Id = $("[id*=id]").val();
         datoscoment.Observacion = $("[id*=Observacion]").val();
-        datoscoment.Btn = btn;
-        //datoscoment.Datos = etiqueta;
+        datoscoment.Btn = btn;        
         $(function () {
             $.ajax({
                 type: "POST",

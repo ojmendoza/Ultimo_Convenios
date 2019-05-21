@@ -157,11 +157,15 @@ Partial Class Views_AsignacionConvenios
         Dim query As New Conexion
         Dim updateString As String
         Try
-            updateString = "update CONVENIOS_CONTRATOS set observacion=@observacion where cod_cenv_tra=@id;"
+            updateString = "begin tran" +
+                " Update CONVENIOS_CONTRATOS set observacion=@oberva where cod_cenv_tra=@id; " +
+                " Update BOTONES set btn=@btn where cod_cenv_tra=@id;" +
+                " commit tran"
 
-            Dim param As SqlParameter() = New SqlParameter(1) {}
+            Dim param As SqlParameter() = New SqlParameter(2) {}
             param(0) = New SqlParameter("@id", datos.Id)
-            param(1) = New SqlParameter("@observacion", CStr(datos.Observacion))
+            param(1) = New SqlParameter("@oberva", datos.Observacion)
+            param(2) = New SqlParameter("@btn", datos.Btn)
             Return query.insertar(updateString, param)
         Catch ex As Exception
             Return ex.Message
