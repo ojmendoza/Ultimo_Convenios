@@ -30,7 +30,7 @@
                              </div>
                           </div>
                          <div class="valign-wrapper"> 
-                                          <div class=" input-field col s12 m6 l6" style="margin:initial">
+                                          <div class=" input-field col s6 m6 l9" style="margin:initial">
                                             <i class="material-icons prefix">date_range</i>
                                             <label for="fech_inicio">Fecha De Asignación</label>
                                             <input type="text" class="datepicker tooltipped" id="fech_inicio" data-tooltip="Fecha en que se Firma el Contrato"/>                                 

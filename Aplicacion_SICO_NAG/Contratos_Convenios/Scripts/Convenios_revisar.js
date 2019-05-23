@@ -2,7 +2,15 @@
 var btn;
 var etiqueta;
 var estado;
-var local;
+//var local;
+var index = [];
+var fechas = [];
+var nombres = [];
+var local = [];
+
+var conver = {};
+var meses = {};
+var mes = 6;
 
 $(document).ready(function () {
     $('.tooltipped').tooltip();
@@ -177,33 +185,33 @@ $(document).ready(function () {
         e.preventDefault();
 
             //var data = response.d;
-        var index = [];
-        var fechas = [];
-        var nombres = [];
+       
             //var dataObject = new Object();
             var rows = $("#datatable1").dataTable().fnGetNodes();
             for (var i = 0; i < rows.length; i++) {
                 index.push($(rows[i]).find("td:eq(0)").html());
                 fechas.push($(rows[i]).find("td:eq(5)").html());
                 nombres.push($(rows[i]).find("td:eq(1)").html());
+                local.push($(rows[i]).find("td:eq(3)").html());
               
             }
-            var conver = {};
-            var meses = {};
-            var mes = 6;
-            local = moment().format('DD/MM/YYYY');
+            
+            //local = moment().format('DD/MM/YYYY');
 
             for (var i = 0; i < index.length; i++) {
                 conver[i] = formato(fechas[i])
-                var fecha = new Date(moment(conver[i], "DD/MM/YYYY"));
+                var dt = new Date(moment(formato(fechas[i]), "DD/MM/YYYY"));
 
-                meses[i] = moment(fecha).subtract(mes, 'months').format('DD/MM/YYYY')
+                meses[i] =moment(dt).subtract(mes, 'months').format('DD/MM/YYYY')
+                
+                if (((meses[i] >=local[i]  ) || (fechas[i] > meses[i])) && (meses[i] != "Invalid date")) {
+                        Materialize.toast("El convenio: " + nombres[i] + " vence en: " + fechas[i], 50000, 'red rounded');
+                    } 
 
-                if ((local >= meses[i]) && (meses[i] <= moment(fecha).format('DD/MM/YYYY')) && (meses[i] != "Invalid date")) {
-                    Materialize.toast("El convenio: " + nombres[i] + " vence en: " + moment(fecha).format('DD/MM/YYYY'), 50000, 'red rounded');
-                }
-
-            }
+                
+              
+             };
+        
     });
 
     function visualizar(callback) {

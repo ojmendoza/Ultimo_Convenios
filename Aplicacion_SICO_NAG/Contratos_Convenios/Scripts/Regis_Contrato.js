@@ -13,7 +13,11 @@ $(document).ready(function () {
     $('input#input_text, textarea#textarea1').characterCounter();
    
     consultar();      
-    
+
+    $('.datepicker').on('mousedown', function (e) {
+        e.preventDefault();
+    });
+
     //  format: 'yyyy/mmm/dd' ,
     $('#fech_inicio, #fech_final,#fech_firma').pickadate({
         selectMonths: true,

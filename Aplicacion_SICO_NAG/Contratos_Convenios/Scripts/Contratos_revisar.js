@@ -2,8 +2,18 @@
 var btn;
 var etiqueta;
 var estado;
-var local;
 
+var index = [];
+var fechas = [];
+var nombres = [];
+var local = [];
+
+var conver = {};
+var meses = {};
+//var fechaf = {};
+var fechaI = {};
+//var meses = {};
+var mes = 6;
 
 $(document).ready(function () {
     $('.tooltipped').tooltip();
@@ -102,37 +112,39 @@ $(document).ready(function () {
         setTimeout(function () { callback() }, 500)
     };
 
-    $(document).on('click','.revisar',function (e) {
+    $(document).on('click', '.revisar', function (e) {
         e.preventDefault();
 
-            //var data = response.d;
-            var index = [];
-            var fechas = [];
-            var nombres = [];
-            //var dataObject = new Object();
-            var rows = $("#datatable1").dataTable().fnGetNodes();
-            for (var i = 0; i < rows.length; i++) {
-                index.push($(rows[i]).find("td:eq(0)").html());
-                fechas.push($(rows[i]).find("td:eq(5)").html());
-                nombres.push($(rows[i]).find("td:eq(1)").html());
-            }
-            var conver = {};
-            var meses = {};
-            var mes = 6;
-            local = moment().format('DD/MM/YYYY');
-           
-            for (var i = 0; i < index.length; i++) {
-                conver[i] = formato(fechas[i])
-                var dt = new Date(moment(conver[i], "DD/MM/YYYY"));
-               
-                meses[i] = moment(dt).subtract(mes, 'months').format('DD/MM/YYYY')
-               
-                if ((local >= meses[i]) && (meses[i] <= moment(dt).format('DD/MM/YYYY')) && (meses[i] != "Invalid date")) {
-                    Materialize.toast("El convenio: " + nombres[i] + " vence en: " + moment(dt).format('DD/MM/YYYY'), 50000, 'red rounded');
-                }
+        //var data = response.d;
 
+        //var dataObject = new Object();
+        var rows = $("#datatable1").dataTable().fnGetNodes();
+        for (var i = 0; i < rows.length; i++) {
+            index.push($(rows[i]).find("td:eq(0)").html());
+            fechas.push($(rows[i]).find("td:eq(5)").html());
+            nombres.push($(rows[i]).find("td:eq(1)").html());
+            local.push($(rows[i]).find("td:eq(3)").html());
+
+        }
+
+        //local = moment().format('DD/MM/YYYY');
+
+        for (var i = 0; i < index.length; i++) {
+           
+            var dt = new Date(moment(fechas[i], "DD/MM/YYYY"));
+            var fechI = new Date(moment(local[i], "DD/MM/YYYY"));
+            var fechF = new Date(moment(fechas[i], "DD/MM/YYYY"));
+            fechaI[i] = moment(fechI).format('DD/MM/YYYY');
+            meses[i] = moment(dt).subtract(mes, 'months').format('DD/MM/YYYY');
+            conver[i] = moment(fechF).format('DD/MM/YYYY');
+
+            if ((fechaI[i] <= meses[i] || meses[i] < conver[i] ) && meses[i] != "Invalid date") {
+                Materialize.toast("El convenio: " + nombres[i] + " vence en: " + conver[i], 50000, 'red rounded');
+                console.log(meses[i] + " " + fechaI[i] + " " + conver[i])
             }
-          
+           
+        };
+
     });
 
     //funciones fisualizar archivos
