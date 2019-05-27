@@ -6,19 +6,24 @@
     <link href="../Css/Consulta.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <div class="col s12 m7 l7 " id="Div1">
+     <div class="col s12 m7 l7 " id="Div1">
         <div class="card responsive-table">
+            <input type="text" style="display: none" id="id" />
+            <input type="text" style="display: none" id="datos" />
+            <textarea id="archivo" class="materialize-textarea" data-length="50000000" style="display: none"></textarea>
             <div class="card-content black-text">
                 <div class="dataTable thead th">
-                    <span class="card-title center">CONTRATOS</span>
-                    <table id="datatable" class=" none-data-table display nowrap " style="width: 100%">
+                    <span class="card-title center">Reporte Contratos</span>
+                    <table id="datatable1" class=" none-data-table display nowrap " style="width: 100%">
                         <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Titulo del Contrato</th>
-                                <th>Primer Archivo(Borrador)</th>
-                                <th>Fecha </th>
-                                <th>Estado </th>
+                                <th>Descripción</th> 
+                                <th>Fecha Firma Contrato </th>
+                                <th>Fecha Vencimiento</th>
+                                <th>Archivos</th>
+                                <th>Estado</th> 
                             </tr>
                         </thead>
                     </table>
@@ -26,5 +31,31 @@
             </div>
         </div>
     </div>
+    <div id="modal2" class="modal" >
+        <div class="modal-content">
+            <span class="card-title center">Documentos PDF</span>
+               <table id="dataModal" class="mdl-data-table display nowrap "   style="width:100%" border: black 5px solid; >
+                     <thead class="center">
+                           <tr >   
+                               <th>PDF</th>
+                          </tr>
+                    </thead>
+               </table>   
+              </div>
+       </div>
+
+    <div id="modal1" class="modal" >
+        <div class="modal-content">
+            <span class="card-title center">Documentos Word</span>
+               <table id="dataModal1" class="mdl-data-table display nowrap "   style="width:100%" border: black 5px solid; >
+                     <thead class="center">
+                           <tr >   
+                               <th>WORD</th>
+                          </tr>
+                    </thead>
+               </table>   
+              </div>
+       </div>
+
 </asp:Content>
 

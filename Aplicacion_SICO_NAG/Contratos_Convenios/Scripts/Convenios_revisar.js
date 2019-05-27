@@ -2,15 +2,17 @@
 var btn;
 var etiqueta;
 var estado;
-//var local;
+
 var index = [];
 var fechas = [];
 var nombres = [];
-var local = [];
 
 var conver = {};
 var meses = {};
+//var Diahoy = {};
+
 var mes = 6;
+var local;
 
 $(document).ready(function () {
     $('.tooltipped').tooltip();
@@ -184,34 +186,41 @@ $(document).ready(function () {
     $(document).on('click', '.revisar', function (e) {
         e.preventDefault();
 
-            //var data = response.d;
-       
-            //var dataObject = new Object();
-            var rows = $("#datatable1").dataTable().fnGetNodes();
-            for (var i = 0; i < rows.length; i++) {
-                index.push($(rows[i]).find("td:eq(0)").html());
-                fechas.push($(rows[i]).find("td:eq(5)").html());
-                nombres.push($(rows[i]).find("td:eq(1)").html());
-                local.push($(rows[i]).find("td:eq(3)").html());
-              
-            }
-            
-            //local = moment().format('DD/MM/YYYY');
+        var rows = $("#datatable1").dataTable().fnGetNodes();
+        for (var j = 0; j < rows.length; j++) {
+            index.push($(rows[j]).find("td:eq(0)").html());
+            fechas.push($(rows[j]).find("td:eq(5)").html());
+            nombres.push($(rows[j]).find("td:eq(1)").html());
+        }
+        local = moment().format('DD/MM/YYYY');
+        var i;
+        for (i = 0; i < index.length; i++) {
+            var mes = new Date(moment(fechas[i], 'DD/MM/YYYY'));
+            var fechafin = new Date(moment(fechas[i], 'DD/MM/YYYY'));
+            var hoy = new Date(moment(local, 'DD/MM/YYYY'))
+            meses[i] = moment(mes).subtract(180, 'days').format('DD/MM/YYYY');
+            conver[i] = moment(fechafin).format('DD/MM/YYYY');
+            //Diahoy[i] = fechafinal(local);
 
-            for (var i = 0; i < index.length; i++) {
-                conver[i] = formato(fechas[i])
-                var dt = new Date(moment(formato(fechas[i]), "DD/MM/YYYY"));
+            if (conver[i] != "Invalid date") {
+                if (local <= meses[i]) {
+                    if (meses[i] >= conver[i] && fechas[i] <= meses[i]) {
+                        Materialize.toast("El contrato: " + nombres[i] + " vence: " + fechas[i], 50000, "rounded red");
+                        console.log(index[i] + ' correcto ' + conver[i]);
+                    } else {
+                        console.log(index[i] + ' no correcto ' + conver[i]);
+                    };
+                } else {
+                    console.log(index[i] + ' solo cumple meses menor que final ' + conver[i]);
+                };
+            } else {
+                console.log(index[i] + ' es invalidos ' + conver[i]);
+            };
 
-                meses[i] =moment(dt).subtract(mes, 'months').format('DD/MM/YYYY')
-                
-                if (((meses[i] >=local[i]  ) || (fechas[i] > meses[i])) && (meses[i] != "Invalid date")) {
-                        Materialize.toast("El convenio: " + nombres[i] + " vence en: " + fechas[i], 50000, 'red rounded');
-                    } 
+            //console.log(meses[i] + " " + conver[i] + '  ' + Diahoy[i]);
+        };
 
-                
-              
-             };
-        
+
     });
 
     function visualizar(callback) {
