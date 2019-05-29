@@ -42,6 +42,58 @@ Partial Class Views_AsignacionContratos
     End Function
 #End Region
 
+#Region "Notificacion"
+    <Services.WebMethod()>
+    <ScriptMethod()>
+    Public Shared Function Notificacion() As PropiedadesContratoConvenio()
+        Dim sql = "  begin tran " &
+                 " declare @final as date; " &
+                 " declare @hoy as date; " &
+                 " declare @futuro as date; " &
+                "  declare @FECH2 as varchar(100);   " &
+                 "  declare @idarray table(id int, nombre_documento varchar(max)); " &
+               "  declare @tabla2 table(fecha varchar(max), nombre_documento varchar(max)); " &
+                  "  declare @count int;  " &
+                  "  insert @idarray(id,nombre_documento) select cod_cenv_tra,nombre_documento FROM CONVENIOS_CONTRATOS where tipo_documento ='Contrato'; " &
+                  "   set @count=(select COUNT(*) from @idarray); " &
+                   "  while(@count > 0) " &
+                    "  begin " &
+                     "     declare @nombre varchar(max)=(select top(1) nombre_documento from @idarray order by id); " &
+                       "   declare @id int =(select top(1) id from @idarray order by id); " &
+                        "    set @FECH2 = (select fech_final FROM CONVENIOS_CONTRATOS WHERE cod_cenv_tra=@id and tipo_documento ='Contrato'); " &
+                         "     set @final = CONVERT(date,@FECH2,103); " &
+                         "     set @hoy = GETDATE(); " &
+                          "    set @futuro = DATEADD(MM,6,CONVERT(date,@hoy,103)); " &
+                          "    if(@final is not null ) " &
+                           "   Begin " &
+                           "      if(@final >= @hoy and @final<=@futuro) " &
+                           "      begin " &
+                          "        insert @tabla2(nombre_documento,fecha) select @nombre,@final;" &
+                          "      end " &
+                          "   end " &
+                         "  delete @idarray where 	id=@id; " &
+                         "  SET @count = (select COUNT(*) from @idarray); " &
+                      "  end; " &
+                    "   select nombre_documento,fecha from @tabla2 ; " &
+               " commit tran"
+
+        Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
+        Using con As New SqlConnection(cadena)
+            Dim cmd As SqlCommand = New SqlCommand(sql, con)
+            con.Open()
+            Using rdr As SqlDataReader = cmd.ExecuteReader()
+                While rdr.Read()
+                    Dim fila As New PropiedadesContratoConvenio()
+                    fila.Nombre = rdr.Item("nombre_documento").ToString()
+                    fila.Fech_fin = rdr.Item("fecha").ToString()
+                    filas.Add(fila)
+                End While
+            End Using
+        End Using
+        Return filas.ToArray()
+    End Function
+#End Region
+
 #Region "Visualizar"
     <Services.WebMethod()>
     <ScriptMethod()>

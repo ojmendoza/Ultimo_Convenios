@@ -4,13 +4,14 @@ var base64;
 var datos;
 var tabla;
 var archivo;
+var bina;
 $(document).ready(function () {
     $('select').material_select();
     $(".modal").modal();
     $('input#input_text,textarea#textarea1').characterCounter();
 
     consultar(function () { });
-    $('.datepicker').on('mousedown',function (e) {
+    $('.datepicker').on('mousedown', function (e) {
         e.preventDefault();
     });
 
@@ -37,13 +38,12 @@ $(document).ready(function () {
     // agregar datos de los contratos
     function guardarConvenio(callback) {
         fecha_inicio = document.getElementById("fech_inicio").value;
-
+        bina = document.getElementById("bina").value;
         var datosConvenios = {};
         datosConvenios.Nombre = $("[id*=nom_contra]").val();
+        datosConvenios.Regis_borrador = bina;
         datosConvenios.Fech_inicio = fecha_inicio;
         datosConvenios.Descripcion = $("[id*=descrip]").val();
-
-        //datosConvenios.Esta_Doc = $("[id*=est_contra]").val();
 
         $(function () {
             $.ajax({
@@ -63,7 +63,7 @@ $(document).ready(function () {
 
             });
         });
-        setTimeout(function () { callback(); }, 200);
+        setTimeout(function () { callback(); }, 600);
 
     };
 
@@ -97,35 +97,8 @@ $(document).ready(function () {
 
             });
         });
-        setTimeout(function () { callback(); }, 700);
+        setTimeout(function () { callback(); }, 900);
     };
-
-    //funcion guardar archivo
-    function guardarArchivo(callback) {
-        datos = document.getElementById("bina").value;
-        var datosContratos = {};
-        datosContratos.Regis_borrador = datos;
-        $(function () {
-            $.ajax({
-                type: "POST",
-                url: "/Views/Registro_Convenios.aspx/Guardar_Archivo",
-                data: JSON.stringify({ 'datos': datosContratos }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    // Materialize.toast('Datos insertados correctamente', 4000, 'rounded')
-
-                },
-                error: function (response, xhr) {
-                    Materialize.toast('Error, Los datos no pudieron ser insertados', 4000, 'rounded');
-                    console.log(response);
-                }
-
-            });
-        });
-        setTimeout(function () { callback(); }, 500);
-    };
-
 
     //funcion guardar memo
     function guardarFinal(callback) {
@@ -192,13 +165,17 @@ $(document).ready(function () {
     //controladora para guardar
     function guardar() {
         guardarConvenio(function () {
-            guardarArchivo(function () {
-                guardarbtn(function () {
-                    Materialize.toast('Datos insertados correctamente', 4000, 'rounded')
-                    //  limpiar()
-                });
+            // guardarArchivo(function () {
+            guardarbtn(function () {
+
+
+                Materialize.toast('Datos insertados correctamente', 4000, 'rounded')
+                //  limpiar()
             });
+            //});
         });
+
+
     };
 
     //FUNCION DE LLENAR DATATABLE
@@ -335,6 +312,10 @@ $(document).ready(function () {
     //aca es para guardar o actualizar datosSubir_1
     $('#btn_insertar').click(function (e) {
         e.preventDefault();
+        if (document.getElementById('fech_inicio').value < moment().format('DD/MM/YYYY')) {
+            Materialize.toast('ERROR, La fecha deber Mayor o igual que hoy', 6000, 'rounded');
+            return false;
+        }
 
         if ($("[id*=nom_contra]").val() == "") {
             Materialize.toast('ERROR, Ingrese el nombre del Convenio', 6000, 'rounded');
@@ -349,11 +330,13 @@ $(document).ready(function () {
 
         if ($("[id*=id]").val() == "") {
             guardar();
+
             limpiar();
             tabla.destroy();
             consultar(function () { });
         } else {
             ActualizarConvenios(function () {
+
                 Materialize.toast("Datos Actualizados", 2000, "rounded green");
                 tabla.destroy();
                 consultar(function () { });
@@ -378,7 +361,23 @@ $(document).ready(function () {
 
     //aca es para subir el final
     $('#Subir_2').click(function (e) {
+
         e.preventDefault();
+        if ($("[id*=fech_firma]").val() == "") {
+            Materialize.toast('ERROR, Ingrese la Fecha que se firma el Convenio', 6000, 'rounded');
+            return false;
+        }
+
+        if ($("[id*=fech_final]").val() == "") {
+            Materialize.toast('ERROR, Ingrese la FEcha que se Vence el Convenio', 6000, 'rounded');
+            return false;
+        }
+
+        if (documet.getElementById('fech_final') >= documet.getElementById('fech_firma')) {
+            Materialize.toast('ERROR, La fecha de firma debe ser menor que la fecha de vencimiento', 6000, 'rounded');
+            return false;
+        }
+
         guardarFinal(function () { });
         limpiar();
     });
@@ -452,18 +451,19 @@ $(document).ready(function () {
 
     $(document).on("change", '#file', function (e) {
         e.preventDefault();
-      
+
         $('.btn_Actualizar').hide();
         $('.Subir_final').hide();
     }),
 
-     $('#file').on('change', function () {
+        $('#file').on('change', function () {
             solo_word(this);
 
         });
 
 
     $('#file_final').on('change', function () {
+
         solo_pdf(this);
     });
 
@@ -473,13 +473,13 @@ $(document).ready(function () {
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);
         $('.btn_Actualizar').hide();
-        $('.Subir_memo').hide();
+
     });
 
     $('#modal1').modal({
         dismissible: true,
         ready: function () {
-          
+
         },
         complete: function () {
             limpiar();
@@ -496,7 +496,7 @@ $(document).ready(function () {
         $("[id*=nom_contra]").val("");
         $("[id*=fech_inicio]").val("");
         $("[id*=fech_final]").val("");
-        $("[id*=fecha_firma]").val("");
+        $("[id*=fech_firma]").val("");
         $("[id*=est_contra]").val("");
         $("[id*=borrador]").val("");
         $("[id*=memo]").val("");

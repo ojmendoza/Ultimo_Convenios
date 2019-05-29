@@ -9,16 +9,14 @@ var nombres = [];
 
 var conver = {};
 var meses = {};
-//var Diahoy = {};
-
-//var mes = 6;
+var Diahoy = {};
 var local;
 
 $(document).ready(function () {
     $('.tooltipped').tooltip();
     $('select').material_select();
     $('.modal').modal();
-    
+   
 
     consultar(function () { });  
 
@@ -113,52 +111,11 @@ $(document).ready(function () {
 
     $(document).on('click', '.revisar', function (e) {
         e.preventDefault();
-
-        var rows = $("#datatable1").dataTable().fnGetNodes();
-        for (var j = 0; j < rows.length; j++) {
-            index.push($(rows[j]).find("td:eq(0)").html());
-            fechas.push($(rows[j]).find("td:eq(5)").html());
-            nombres.push($(rows[j]).find("td:eq(1)").html());
-        }
-        local = moment().format('DD/MM/YYYY');
-        var i;
-        for (i = 0; i < index.length; i++) {
-            var mes = new Date(moment(fechas[i], 'DD/MM/YYYY'));
-            var fechafin = new Date(moment(fechas[i], 'DD/MM/YYYY'));
-            var hoy = new Date(moment(local, 'DD/MM/YYYY'))
-            meses[i] = moment(mes).subtract(180, 'days').format('DD/MM/YYYY');
-            conver[i] = moment(fechafin).format('DD/MM/YYYY');
-            //Diahoy[i] = fechafinal(local);
-
-            if (conver[i] != "Invalid date") {
-                if (local <= meses[i]) {
-
-                    if (meses[i] >= conver[i] && fechas[i] <= meses[i]) {
-                        Materialize.toast("El contrato: " + nombres[i] + " vence: " + fechas[i], 50000, "rounded red");
-                        console.log(index[i] + ' correcto ' + conver[i]);
-                    } else {
-                        console.log(index[i] + ' no correcto ' + conver[i]);
-                    };
-
-                } else {
-                    console.log(index[i] + ' solo cumple meses menor que final ' + conver[i]);
-                };
-            } else {
-                console.log(index[i] + ' es invalidos ' + conver[i]);
-            };
-            
-            //console.log(meses[i] + " " + conver[i] + '  ' + Diahoy[i]);
-        };
-       
+        Notificaciones();
 
     });
-    //function fechafinal(hoy) {
-    //    hoy = new Date();
-    //    var devolucion = new Date();
-    //    devolucion.setDate(hoy.getDate() + 180);
 
-    //    return  devolucion.toLocaleDateString();
-    //};
+    
 
     //funciones fisualizar archivos
     function visualizar(callback) {
@@ -453,11 +410,7 @@ $(document).ready(function () {
         $("[id*=archivo]").val("");
         $("[id*=Observacion]").val("");
     };
-
-    function formato(texto) {
-        
-        return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
-    }
+    
 
     function descargarArchivo(contenidoEnBlob, nombreArchivo,callback) {
         //creamos un FileReader para leer el Blob
@@ -563,5 +516,40 @@ $(document).ready(function () {
         var bb = new Blob([ab], { type: mimeString });
         return bb;
     };
+
+    function Notificaciones() {   
+        
+            $.ajax({
+                type: "POST",
+                url: "/Views/AsignacionContratos.aspx/Notificacion",
+                data:"{}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    var datos = r.d
+                    d: r.d;                  
+                    //console.log(datos.length)
+                    for (var i = 0; i < datos.length; i++) {                       
+                        if (r.d[i].Fech_fin == "") {
+                            Materialize.toast("No existen contratos por vencer!!", 3000, "green rounded")
+                        } else {
+                            Materialize.toast("El contrato: " + r.d[i].Nombre + " Vence en: " + r.d[i].Fech_fin, 3000, "grey rounded")
+                        }
+
+                    }            
+
+                    console.log(r.d)
+                },
+                failure: function (response) {
+                    Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
+                },
+                error: function (response, xhr) {
+                    Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
+                }
+
+            });
+       
+
+    };   
 
 });

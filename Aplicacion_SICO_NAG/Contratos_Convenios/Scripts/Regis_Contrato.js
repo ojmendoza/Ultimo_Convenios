@@ -42,11 +42,12 @@ $(document).ready(function () {
     // agregar datos de los contratos
     function guardarContratos(callback) {
         fecha_inicio = document.getElementById("fech_inicio").value;
-        //fecha_final = document.getElementById("descripcion").value;
+        datos = document.getElementById("bina").value;
         var datosContratos = {};
         datosContratos.Nombre = $("[id*=nom_contra]").val();
         datosContratos.Fech_inicio = fecha_inicio;
-        datosContratos.Descripcion = $("[id*=descripcion]").val();             
+        datosContratos.Descripcion = $("[id*=descripcion]").val();  
+        datosContratos.Regis_borrador = datos;
         $(function () {
             $.ajax({
                 type: "POST",
@@ -68,32 +69,7 @@ $(document).ready(function () {
         setTimeout(function () { callback(); }, 200);
 
     };
-
-    //funcion guardar archivo
-    function guardarArchivo(callback) {
-        datos = document.getElementById("bina").value;
-        var datosContratos = {};
-        datosContratos.Regis_borrador = datos;
-        $(function () {
-            $.ajax({
-                type: "POST",
-                url: "/Views/Registro_Contratos.aspx/Guardar_Archivo",
-                data: JSON.stringify({ 'datos': datosContratos }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    // Materialize.toast('Datos insertados correctamente', 4000, 'rounded')
-
-                },
-                error: function (response, xhr) {
-                    Materialize.toast('Error, Los datos no pudieron ser insertados', 4000, 'rounded');
-                    console.log(response);
-                }
-
-            });
-        });
-        setTimeout(function () { callback(); }, 700);
-    };
+ 
 
     function guardarbtn(callback) {
         datos = "<button  title='Subir Archivo final' class= 'btn waves-effect waves-light Subir_final red lighten-2 modal-trigger' disabled='true' id='Subir_final' type='submit' style='position Static' href='#modal1'><i class='material-icons'>file_upload</i></button>"
@@ -188,12 +164,12 @@ $(document).ready(function () {
     //controladora para guardar
     function guardar(callback) {
         guardarContratos(function () {
-            guardarArchivo(function () {
+            //guardarArchivo(function () {
                 guardarbtn(function () {
                     Materialize.toast('Datos insertados correctamente', 4000, 'rounded');
                     //limpiar();
                 });
-            });
+            //});
         });
         setTimeout(function () { callback();}, 2000)
     };
@@ -322,6 +298,11 @@ $(document).ready(function () {
     $('#btn_insertar').click(function (e) {
         e.preventDefault();
 
+        if (document.getElementById('fech_inicio').value < moment().format('DD/MM/YYYY')) {
+            Materialize.toast('ERROR, La fecha deber Mayor o igual que hoy', 6000, 'rounded');
+            return false;
+        }
+
         if ($("[id*=nom_contra]").val() == "") {
             Materialize.toast('ERROR, Ingrese el nombre del Convenio', 6000, 'rounded');
             return false;
@@ -366,6 +347,20 @@ $(document).ready(function () {
       //aca es para subir el final
     $('#Subir_2').click(function (e) {
         e.preventDefault();
+        if ($("[id*=fech_firma]").val() == "") {
+            Materialize.toast('ERROR, Ingrese la Fecha que se firma el Contrato', 6000, 'rounded');
+            return false;
+        }
+
+        if ($("[id*=fech_final]").val() == "") {
+            Materialize.toast('ERROR, Ingrese la FEcha que se Vence el Contrato', 6000, 'rounded');
+            return false;
+        }
+
+        if (documet.getElementById('fech_final') >= documet.getElementById('fech_firma')) {
+            Materialize.toast('ERROR, La fecha de firma debe ser menor que la fecha de vencimiento', 6000, 'rounded');
+            return false;
+        }
         guardarFinal(function () { });
         limpiar();
     });

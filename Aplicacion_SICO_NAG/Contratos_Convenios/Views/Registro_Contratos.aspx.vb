@@ -23,7 +23,7 @@ Public Class Registro_Contratos
         Try
             Using conexion As SqlConnection = New SqlConnection(cadena)
                 conexion.Open()
-                insertString = "INSERT INTO CONVENIOS_CONTRATOS(nombre_documento,tipo_documento,fech_inicio,estado_documento,descrip) VALUES(@nombre_documento,@tipo_documento,@fech_inicio,@estado_documento,@descrip)"
+                insertString = "INSERT INTO CONVENIOS_CONTRATOS(nombre_documento,tipo_documento,fech_inicio,estado_documento,descrip,registro_borrador) VALUES(@nombre_documento,@tipo_documento,@fech_inicio,@estado_documento,@descrip,@registro_borrador)"
                 Dim comando As SqlCommand = New SqlCommand(insertString, conexion)
 
                 comando.Parameters.AddWithValue("@nombre_documento", datos.Nombre)
@@ -31,6 +31,7 @@ Public Class Registro_Contratos
                 comando.Parameters.AddWithValue("@fech_inicio", datos.Fech_inicio)
                 comando.Parameters.AddWithValue("@estado_documento", "P1")
                 comando.Parameters.AddWithValue("@descrip", datos.Descripcion)
+                comando.Parameters.AddWithValue("@registro_borrador", datos.Regis_borrador)
                 res = comando.ExecuteNonQuery()
             End Using
             Return res
@@ -40,26 +41,7 @@ Public Class Registro_Contratos
     End Function
 #End Region
 
-#Region "guardar archivo"
-    <WebMethod()>
-    Public Shared Function Guardar_Archivo(datos As PropiedadesContratoConvenio) As String
-        Dim query As New Conexion
-        Dim insertString As String
-        Dim codigo As New VARIABLES
-        codigo.cod_cont = CInt(query.ObtenerCodigo("CONVENIOS_CONTRATOS", "cod_cenv_tra"))
-        Try
-            insertString = "Update CONVENIOS_CONTRATOS set registro_borrador=@registro_borrador where cod_cenv_tra=@id"
-            Dim param As SqlParameter() = New SqlParameter(1) {}
-            param(0) = New SqlParameter("@id", codigo.cod_cont)
-            param(1) = New SqlParameter("@registro_borrador", CStr(datos.Regis_borrador))
-            Return query.insertar(insertString, param)
-        Catch ex As Exception
-            Return ex.Message
-        End Try
-    End Function
-#End Region
-
-#Region "guardar archivo"
+#Region "guardar botones"
     <WebMethod()>
     Public Shared Function Guardar_btn(datos As PropiedadesContratoConvenio) As String
         Dim query As New Conexion
@@ -80,7 +62,7 @@ Public Class Registro_Contratos
     End Function
 #End Region
 
-#Region "actualizar"
+#Region "actualizar contratos"
     <WebMethod()>
     Public Shared Function Actualizar_Contrato(datos As PropiedadesContratoConvenio) As String
 
@@ -108,29 +90,7 @@ Public Class Registro_Contratos
     End Function
 #End Region
 
-    '#Region "guardar memo"
-    '    <Services.WebMethod(EnableSession:=True)>
-    '    Public Shared Function Guardar_memo(datos As PropiedadesContratoConvenio) As String
-    '        Dim query As New Conexion
-    '        Dim insertString As String
-    '        Try
-    '            insertString = "begin tran " &
-    '                            " declare @registro as varchar;" &
-    '                            " select 	@registro = registro_memo from CONVENIOS_CONTRATOS	where cod_cenv_tra=@id;" &
-    '                           " if (@registro Is null) Or (@registro =' ')" &
-    '                            " update  CONVENIOS_CONTRATOS set registro_memo=@registro_memo where cod_cenv_tra=@id;" &
-    '                           " commit tran"
-    '            Dim param As SqlParameter() = New SqlParameter(1) {}
-    '            param(0) = New SqlParameter("@id", datos.Id)
-    '            param(1) = New SqlParameter("@registro_memo", CStr(datos.Regis_memo))
-    '            Return query.insertar(insertString, param)
-    '        Catch ex As Exception
-    '            Return ex.Message
-    '        End Try
-    '    End Function
-    '#End Region
-
-#Region "guardar Final"
+#Region "guardar archivo Final"
     <Services.WebMethod(EnableSession:=True)>
     Public Shared Function Guardar_ArchivoF(datos As PropiedadesContratoConvenio) As String
         Dim query As New Conexion

@@ -14,7 +14,6 @@ Partial Class Default3
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
 
     End Sub
-
 #Region "insertar"
     <WebMethod()>
     Public Shared Function Guardar_Convenio(datos As PropiedadesContratoConvenio) As String
@@ -24,15 +23,16 @@ Partial Class Default3
         Try
             Using conexion As SqlConnection = New SqlConnection(cadena)
                 conexion.Open()
-                insertString = "INSERT INTO CONVENIOS_CONTRATOS(nombre_documento,tipo_documento,fech_inicio,estado_documento,descrip) VALUES(@nombre_documento,@tipo_documento,@fech_inicio,@estado_documento,@descrip)"
+                insertString = "INSERT INTO CONVENIOS_CONTRATOS(nombre_documento,registro_borrador,tipo_documento,fech_inicio,estado_documento,descrip) " &
+                           "VALUES(@nombre_documento,@registro_borrador,@tipo_documento,@fech_inicio,@estado_documento,@descrip)"
                 Dim comando As SqlCommand = New SqlCommand(insertString, conexion)
 
                 comando.Parameters.AddWithValue("@nombre_documento", datos.Nombre)
+                comando.Parameters.AddWithValue("@registro_borrador", CStr(datos.Regis_borrador))
                 comando.Parameters.AddWithValue("@tipo_documento", "Convenio")
                 comando.Parameters.AddWithValue("@fech_inicio", datos.Fech_inicio)
                 comando.Parameters.AddWithValue("@estado_documento", "P1")
                 comando.Parameters.AddWithValue("@descrip", datos.Descripcion)
-
                 res = comando.ExecuteNonQuery()
             End Using
             Return res
@@ -42,7 +42,7 @@ Partial Class Default3
     End Function
 #End Region
 
-#Region "guardar etiquetas"
+#Region "guardar etiqueta"
     <WebMethod()>
     Public Shared Function Guardar_btn(datos As PropiedadesContratoConvenio) As String
         Dim query As New Conexion
@@ -56,25 +56,6 @@ Partial Class Default3
             param(1) = New SqlParameter("@etiqueta", datos.Datos)
             param(2) = New SqlParameter("@btn", datos.Btn)
             param(3) = New SqlParameter("@estado", datos.Estado)
-            Return query.insertar(insertString, param)
-        Catch ex As Exception
-            Return ex.Message
-        End Try
-    End Function
-#End Region
-
-#Region "guardar archivo"
-    <Services.WebMethod(EnableSession:=True)>
-    Public Shared Function Guardar_Archivo(datos As PropiedadesContratoConvenio) As String
-        Dim query As New Conexion
-        Dim insertString As String
-        Dim codigo As New VARIABLES
-        codigo.cod_cont = CInt(query.ObtenerCodigo("CONVENIOS_CONTRATOS", "cod_cenv_tra"))
-        Try
-            insertString = "Update CONVENIOS_CONTRATOS set registro_borrador=@registro_borrador where cod_cenv_tra=@id"
-            Dim param As SqlParameter() = New SqlParameter(1) {}
-            param(0) = New SqlParameter("@id", codigo.cod_cont)
-            param(1) = New SqlParameter("@registro_borrador", CStr(datos.Regis_borrador))
             Return query.insertar(insertString, param)
         Catch ex As Exception
             Return ex.Message
@@ -98,8 +79,6 @@ Partial Class Default3
                 comando.Parameters.AddWithValue("@nombre_documento", datos.Nombre)
                 comando.Parameters.AddWithValue("@fech_inicio", datos.Fech_inicio)
                 comando.Parameters.AddWithValue("@descrip", datos.Descripcion)
-
-
                 res = comando.ExecuteNonQuery()
             End Using
             Return res
@@ -109,7 +88,7 @@ Partial Class Default3
     End Function
 #End Region
 
-#Region "guardar Final"
+#Region "guardar archivo Final"
     <Services.WebMethod(EnableSession:=True)>
     Public Shared Function Guardar_ArchivoF(datos As PropiedadesContratoConvenio) As String
         Dim query As New Conexion
@@ -139,8 +118,6 @@ Partial Class Default3
     Public Shared Function seleccionar() As PropiedadesContratoConvenio()
         Dim sql = "  SELECT [etiqueta],CONVENIOS_CONTRATOS.[cod_cenv_tra],[nombre_documento],[tipo_documento],[registro_borrador],[registro_inal],[estado_documento],[fech_inicio],[fecha_firma],[fech_final],[descrip]" &
             "FROM CONVENIOS_CONTRATOS inner join BOTONES on (CONVENIOS_CONTRATOS.cod_cenv_tra = BOTONES.cod_cenv_tra)  where [tipo_documento]='Convenio'"
-
-
         Dim filas As List(Of PropiedadesContratoConvenio) = New List(Of PropiedadesContratoConvenio)
         Using con As New SqlConnection(cadena)
             Dim cmd As SqlCommand = New SqlCommand(sql, con)

@@ -183,45 +183,13 @@ $(document).ready(function () {
         limpiar();
     });
 
+
     $(document).on('click', '.revisar', function (e) {
         e.preventDefault();
-
-        var rows = $("#datatable1").dataTable().fnGetNodes();
-        for (var j = 0; j < rows.length; j++) {
-            index.push($(rows[j]).find("td:eq(0)").html());
-            fechas.push($(rows[j]).find("td:eq(5)").html());
-            nombres.push($(rows[j]).find("td:eq(1)").html());
-        }
-        local = moment().format('DD/MM/YYYY');
-        var i;
-        for (i = 0; i < index.length; i++) {
-            var mes = new Date(moment(fechas[i], 'DD/MM/YYYY'));
-            var fechafin = new Date(moment(fechas[i], 'DD/MM/YYYY'));
-            var hoy = new Date(moment(local, 'DD/MM/YYYY'))
-            meses[i] = moment(mes).subtract(180, 'days').format('DD/MM/YYYY');
-            conver[i] = moment(fechafin).format('DD/MM/YYYY');
-            //Diahoy[i] = fechafinal(local);
-
-            if (conver[i] != "Invalid date") {
-                if (local <= meses[i]) {
-                    if (meses[i] >= conver[i] && fechas[i] <= meses[i]) {
-                        Materialize.toast("El contrato: " + nombres[i] + " vence: " + fechas[i], 50000, "rounded red");
-                        console.log(index[i] + ' correcto ' + conver[i]);
-                    } else {
-                        console.log(index[i] + ' no correcto ' + conver[i]);
-                    };
-                } else {
-                    console.log(index[i] + ' solo cumple meses menor que final ' + conver[i]);
-                };
-            } else {
-                console.log(index[i] + ' es invalidos ' + conver[i]);
-            };
-
-            //console.log(meses[i] + " " + conver[i] + '  ' + Diahoy[i]);
-        };
-
+        Notificaciones();
 
     });
+
 
     function visualizar(callback) {
         var codigo = $("[id*=id]").val();
@@ -493,12 +461,7 @@ $(document).ready(function () {
         $("[id*=datos]").val("");
         $("[id*=archivo]").val("");
         $("[id*=observacion]").val("");
-    };
-
-    function formato(texto) {
-
-        return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
-    };
+    };  
 
     function guardar_observacion(callback) {
         btn = '<a class="btn task-cat yellow darken-2  btn_p2" id="btn_p2">En proceso</a>'
@@ -557,5 +520,41 @@ $(document).ready(function () {
         reader.readAsDataURL(contenido);
         setTimeout(function () { callback(); }, 2000)
     };
+
+
+    function Notificaciones() {
+
+        $.ajax({
+            type: "POST",
+            url: "/Views/AsignacionConvenios.aspx/Notificacion",
+            data: "{}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                var datos = r.d;
+                d: r.d;
+                //console.log(datos.length)
+                for (var i = 0; i < datos.length; i++) {
+                    if (r.d[i].Fech_fin == "") {
+                        Materialize.toast("No existen contratos por vencer!!", 3000, "green rounded")
+                    } else {
+                        Materialize.toast("El Convenio: " + r.d[i].Nombre + " Vence en: " + r.d[i].Fech_fin, 3000, "grey rounded")
+                    }
+
+                }
+
+                console.log(r.d)
+            },
+            failure: function (response) {
+                Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
+            },
+            error: function (response, xhr) {
+                Materialize.toast('ERROR, intente nuevamente.', 4000, 'rounded');
+            }
+
+        });
+
+
+    };   
 
 });
