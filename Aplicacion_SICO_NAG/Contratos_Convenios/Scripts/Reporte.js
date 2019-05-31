@@ -71,18 +71,12 @@ $(document).ready(function () {
                             "className": "dt-left",
                             data: "Regis_firma"
                         },
-                        //{
-                        //    "className": "dt-left",
-                        //    data: "Btn"
-                        //},
+                      
                         {
                             "className": "dt-left",
                             data: "Fech_fin"
                         },
-                        //{
-                        //    defaultContent: ' <a title="Agregar Comentarios" class="btn task-cat grey darken-2 modal-trigger Comentarios" href="#modal3" ><i class="material-icons">comment</i></a>'
-
-                        //},
+                       
                         {
                             defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal1"  ><i class="material-icons">file_download</i></a>' +
                                 ' <a title="Ver y Descargar Final" class= "btn task-cat blue darken-2 modal-trigger ver_final" href="#modal2" > <i class="material-icons">file_download</i></a> '
@@ -143,7 +137,7 @@ $(document).ready(function () {
         $(function () {
             $.ajax({
                 type: "POST",
-                url: "/Views/AsignacionContratos.aspx/Visualizar",
+                url: "/Views/ReporteContratos.aspx/Visualizar",
                 data: JSON.stringify({ 'codigo': codigo }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -174,12 +168,12 @@ $(document).ready(function () {
                         ],
                     });
 
-                    d: r.d;
-                    var datos = r.d[0].Regis_borrador;
-                    if ((datos == 'null') | (datos == ' ')) {
-                        r.d[0].Regis_borrador = "<a class='descargar btn' Title='descargar' disable='true' >descargar</a>"
+                    //d: r.d;
+                    //var datos = r.d[0].Regis_borrador;
+                    //if ((datos == 'null') | (datos == ' ')) {
+                    //    r.d[0].Regis_borrador = "<a class='descargar btn' Title='descargar' disable='true' >descargar</a>"
 
-                    }
+                    //}
                 },
 
 
@@ -200,7 +194,7 @@ $(document).ready(function () {
         $(function () {
             $.ajax({
                 type: "POST",
-                url: "/Views/AsignacionContratos.aspx/Ver_final",
+                url: "/Views/ReporteContratos.aspx/Ver_final",
                 data: JSON.stringify({ 'codigo': codigo }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -232,6 +226,12 @@ $(document).ready(function () {
                             },
                         ],
                     });
+                    d: r.d;
+                    if (r.d[0].Regis_final == "NO EXISTE REGISTRO") {
+                        $(function () {
+                            alert('Error, No Se ha Subido el Archivo Final');
+                        });
+                    }; 
                 },
                 error: function (response, xhr) {
                     Materialize.toast('Error, Los datos no pudieron ser visualizados', 4000, 'rounded');
@@ -283,23 +283,7 @@ $(document).ready(function () {
         }
 
     });
-    $('#modal3').modal({
-        dismissible: true, // Modal can be dismissed by clicking outside of the modal   
-        opacity: .5, // Opacity of modal background
-        inDuration: 300, // Transition in duration
-        outDuration: 200, // Transition out duration
-        startingTop: '4%', // Starting top style attribute
-        endingTop: '10%', // Ending top style attribute
-        ready: function () {
-
-        },
-        complete: function () {
-            limpiar();
-            tabla.destroy();
-            consultar(function () { });
-        }
-
-    });
+   
 
     //visializar y descargar archivos en base
     $(document).on('click', '.ver_borrador', function (event) {
@@ -314,35 +298,21 @@ $(document).ready(function () {
         $("[id*=id]").val(data.Id);
 
     });
-    $(document).on('click', '.Comentarios', function (event) {
-        event.preventDefault();
-        var data = tabla.row($(this).parents("tr")).data();
-        $("[id*=id]").val(data.Id);
-    })
-
+ 
     
     $(document).on("click", ".descargar", function (e) {
         e.preventDefault();
         descargarArchivo($('[id*=archivo]').val(), "documento_editable", function () { });
 
     });
-    $("#ingesar_obs").click(function (e) {
-        e.preventDefault();
-        Guardar_comentarios();
-        $("[id*=Observacion]").val("");
-    });
+  
 
     var limpiar = function () {
         $("[id*=id]").val("");
         $("[id*=datos]").val("");
-        $("[id*=archivo]").val("");
-        $("[id*=Observacion]").val("");
+        $("[id*=archivo]").val("");     
     };
 
-    function formato(texto) {
-
-        return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
-    }
 
     function descargarArchivo(contenidoEnBlob, nombreArchivo, callback) {
         //creamos un FileReader para leer el Blob
@@ -379,7 +349,7 @@ $(document).ready(function () {
         $(function () {
             $.ajax({
                 type: "POST",
-                url: "/Views/AsignacionContratos.aspx/descargar",
+                url: "/Views/ReporteContratos.aspx/descargar",
                 data: JSON.stringify({ 'codigo': codigo }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -400,32 +370,7 @@ $(document).ready(function () {
             });
         });
         setTimeout(function () { callback(); }, 100)
-    };
-
-    //descargar archivo
-    function Guardar_comentarios() {
-        var datoscoment = {};
-        datoscoment.Id = $("[id*=id]").val();
-        datoscoment.Observacion = $("[id*=Observacion]").val();
-        $(function () {
-            $.ajax({
-                type: "POST",
-                url: "/Views/AsignacionContratos.aspx/Modificar_borrador",
-                data: JSON.stringify({ 'datos': datoscoment }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (r) {
-                    Materialize.toast('ENVIADOS CORRECTAMENTE', 4000, 'rounded green');
-                },
-                error: function (response, xhr) {
-                    Materialize.toast('Error, NO SE PUDO ENVIAR EL COMENTARIO', 4000, 'rounded red');
-                    console.log(response.d);
-                }
-
-            });
-        });
-
-    };
+    };   
 
     function dataURItoBlob(dataURI) {
         // convert base64 to raw binary data held in a string

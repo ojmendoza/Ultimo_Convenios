@@ -189,6 +189,7 @@ $(document).ready(function () {
             success: function (response) {
                 tabla = $("#datatable").DataTable({
                     "scrollX": true,
+                    "order": [[2, 'desc']],
                     "language": {
                         "lengthMenu": "",
                         "zeroRecords": "No se encontraron resultados en su busqueda",
@@ -363,17 +364,17 @@ $(document).ready(function () {
     $('#Subir_2').click(function (e) {
 
         e.preventDefault();
-        if ($("[id*=fech_firma]").val() == "") {
+        if ($("[id*=fech_firma]").value == "") {
             Materialize.toast('ERROR, Ingrese la Fecha que se firma el Convenio', 6000, 'rounded');
             return false;
         }
 
-        if ($("[id*=fech_final]").val() == "") {
+        if ($("[id*=fech_final]").value == "") {
             Materialize.toast('ERROR, Ingrese la FEcha que se Vence el Convenio', 6000, 'rounded');
             return false;
         }
 
-        if (documet.getElementById('fech_final') >= documet.getElementById('fech_firma')) {
+        if (document.getElementById('fech_final').value > document.getElementById('fech_firma').value) {
             Materialize.toast('ERROR, La fecha de firma debe ser menor que la fecha de vencimiento', 6000, 'rounded');
             return false;
         }
@@ -482,10 +483,54 @@ $(document).ready(function () {
 
         },
         complete: function () {
+            $('#preload1').removeClass('loader-page');
+            $('#preload').removeClass('loader-page');
+            $(".loader-page").css({ visibility: "hidden", opacity: "0" })
+            
             limpiar();
             tabla.destroy();
             consultar(function () { });
         }
+    });
+
+    //preload
+    $(document).on('change', '.finale', function (e) {
+        e.preventDefault()
+        while ($("[id*=bina]").val() == "") {
+            $('#preload').addClass('loader-page');
+            //$('#preload1').addClass('loader-page');
+            $(".loader-page").css({ visibility: "visible", opacity: "100" })
+            break;
+        }
+        if (document.getElementsByClassName('love').value != "") {
+            setTimeout(function () {
+                $(".loader-page").css({ visibility: "hidden", opacity: "0" })
+                //$('#preload1').removeClass('loader-page');
+                $('#preload').removeClass('loader-page');
+
+            }, 1500);
+        }
+
+    });
+
+    //preload
+    $(document).on('change', '.borra', function (e) {
+        e.preventDefault()
+        while ($("[id*=bina]").val() == "") {
+            //$('#preload').addClass('loader-page');
+            $('#preload1').addClass('loader-page');
+            $(".loader-page").css({ visibility: "visible", opacity: "100" })
+            break;
+        }
+        if (document.getElementsByClassName('love').value != "") {
+            setTimeout(function () {
+                $(".loader-page").css({ visibility: "hidden", opacity: "0" })
+                $('#preload1').removeClass('loader-page');
+                //$('#preload').removeClass('loader-page');
+
+            }, 1500);
+        }
+
     });
 
     //Funcion para limpiar los Campos
@@ -499,6 +544,7 @@ $(document).ready(function () {
         $("[id*=fech_firma]").val("");
         $("[id*=est_contra]").val("");
         $("[id*=borrador]").val("");
+        $("[id*=final]").val("");
         $("[id*=memo]").val("");
         $("[id*=descrip]").val("");
         $('select').material_select();

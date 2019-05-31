@@ -3,15 +3,18 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="../Scripts/Regis_Convenio.js"></script>
+     <link href="../Css/loader.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-  <div class="convenios">
+      <div class="convenios">
         <h4 class="center" style="font-family:Cooper">Registro de Convenios</h4>
         <br />
         <div class="row">
            <div class="col s12 m12 l12">
-            <div class="col s12 m5 l5">
-                 <div class="card">
+                           <div class="col s12 m5 l5" >
+                
+                 <div class="card" >
+                     <div id="preload1" class=""> </div>
                      <div class ="card-content black-text">
                          <span class="card-title">Ingresar Datos de los Convenios </span>
                          <br />
@@ -39,7 +42,7 @@
                                  </div>
                             <div class="valign-wrapper ">
                             
-                                <textarea id="bina" class="materialize-textarea" data-length="500000000" style="display:none"></textarea>
+                                <textarea id="bina" class="materialize-textarea love" data-length="500000000" style="display:none"></textarea>
                                 <input id="id" type="text" style="display:none" />
                             </div>
                          <div class="valign-wrapper ">
@@ -49,10 +52,10 @@
                                 <input type="file" id="file" />
                               </div>
                               <div class="file-path-wrapper" >
-                                <input class="file-path validate" type="text" id="borrador"/>
+                                <input class="file-path validate borra" type="text" id="borrador"/>
                               </div>           
                             </div>                           
-
+                             
                          </div>                          
 
                          <div class="card-action center">
@@ -71,10 +74,11 @@
                         <br />  
                      </div>
                         
+                     </div>                    
                      </div>
-                </div>
             </div>
               
+
 
             <div class="col s12 m7 l7 " id="Div1">
           <div class="card responsive-table">
@@ -138,10 +142,10 @@
                                     <input type="file" id="file_final" />
                                   </div>
                                   <div class="file-path-wrapper" >
-                                    <input class="file-path validate" type="text" id="final" />
+                                    <input class="file-path validate finale" type="text" id="final" />
                                   </div>           
                             </div>
-                          
+                          <div id="preload" class=""></div>
 
                      </div>
                      <div class="card-action center">

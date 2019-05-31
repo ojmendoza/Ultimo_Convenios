@@ -20,6 +20,7 @@ $(document).ready(function () {
             success: function (response) {
                 tabla = $("#datatable1").DataTable({
                     "scrollX": true,
+                    "order": [[1, 'desc']],
                     "language": {
                         "lengthMenu": "",
                         "zeroRecords": "No se encontraron resultados en su busqueda",
@@ -92,8 +93,7 @@ $(document).ready(function () {
 
     //Funcion para llenar los datos en los textbox a Modificar  
     function Datos_amodificar() {
-        var datos = $("[id*=id]").val();
-    
+        var datos = $("[id*=id]").val();   
 
         $.ajax({
             type: "POST",
@@ -212,11 +212,41 @@ $(document).ready(function () {
     //aca es para guardar o actualizar datosSubir_1
     $('#btn_insertar').click(function (e) {
         e.preventDefault();
+        if ($("[id*=bina]").val() == "") {
+            Materialize.toast("Error, No puede quedar vacío",2000,'red');
+            return false;
+        }
+        if ($("[id*=id]").val() == "") {
+            Materialize.toast("Error, No puede quedar vacío", 2000, 'red');
+            return false;
+        }
+        
+       
         guardar_modificaciones(function () {
             tabla.destroy();
             limpiar();
             consultar(function () { });
         });             
+
+    });
+
+    //preload
+    $(document).on('change', '.file-path', function (e) {
+        e.preventDefault()
+        while ($("[id*=bina]").val() == "") {
+            $('#preload').addClass('loader-page');
+            //$('#preload1').addClass('loader-page');
+            $(".loader-page").css({ visibility: "visible", opacity: "100" })
+            break;
+        }
+        if (document.getElementsByClassName('love').value != "") {
+            setTimeout(function () {
+                $(".loader-page").css({ visibility: "hidden", opacity: "0" })
+                //$('#preload1').removeClass('loader-page');
+                $('#preload').removeClass('loader-page');
+
+            }, 1500);
+        }
 
     });
 

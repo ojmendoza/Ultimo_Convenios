@@ -66,7 +66,7 @@ $(document).ready(function () {
 
             });
         });
-        setTimeout(function () { callback(); }, 200);
+        setTimeout(function () { callback(); }, 600);
 
     };
  
@@ -162,7 +162,7 @@ $(document).ready(function () {
     };
 
     //controladora para guardar
-    function guardar(callback) {
+    function guardar() {
         guardarContratos(function () {
             //guardarArchivo(function () {
                 guardarbtn(function () {
@@ -171,7 +171,7 @@ $(document).ready(function () {
                 });
             //});
         });
-        setTimeout(function () { callback();}, 2000)
+        
     };
 
     //FUNCION DE LLENAR DATATABLE
@@ -185,6 +185,7 @@ $(document).ready(function () {
                 success: function (response) {
                     tabla = $("#datatable").DataTable({
                         "scrollX": true,
+                        "order":[[2,'desc']],
                         "language": {
                             "lengthMenu": "",
                             "zeroRecords": "No se encontraron resultados en su busqueda",
@@ -315,20 +316,22 @@ $(document).ready(function () {
         }
 
         if ($("[id*=id]").val() == "") {
-            guardar(function () { });            
+            guardar(); 
+            limpiar();
             tabla.destroy();
             consultar();
         } else {
             ActualizarContratos(function () {
                 Materialize.toast("Datos Actualizados", 2000, "rounded green");
+                limpiar();
                 tabla.destroy();
                 consultar();
             });
-            limpiar();
+            
            
             
         }
-        consultar();
+        
     });
 
     //mandar datos de la tabla a controles
@@ -347,17 +350,17 @@ $(document).ready(function () {
       //aca es para subir el final
     $('#Subir_2').click(function (e) {
         e.preventDefault();
-        if ($("[id*=fech_firma]").val() == "") {
+        if ($("[id*=fech_firma]").value == "") {
             Materialize.toast('ERROR, Ingrese la Fecha que se firma el Contrato', 6000, 'rounded');
             return false;
         }
 
-        if ($("[id*=fech_final]").val() == "") {
+        if ($("[id*=fech_final]").value == "") {
             Materialize.toast('ERROR, Ingrese la FEcha que se Vence el Contrato', 6000, 'rounded');
             return false;
         }
 
-        if (documet.getElementById('fech_final') >= documet.getElementById('fech_firma')) {
+        if (document.getElementById('fech_final').value > document.getElementById('fech_firma').value) {
             Materialize.toast('ERROR, La fecha de firma debe ser menor que la fecha de vencimiento', 6000, 'rounded');
             return false;
         }
@@ -441,9 +444,51 @@ $(document).ready(function () {
     $('#file').on('change', function () {
         solo_word(this);             
     });
+
    
     $('#file_final').on('change', function () {
-        solo_pdf(this);
+        solo_pdf(this);        
+    });
+  
+    
+    //preload
+    $(document).on('change', '.finale', function (e) {
+        e.preventDefault()
+        while ($("[id*=bina]").val() == "") {
+            $('#preload').addClass('loader-page');
+            //$('#preload1').addClass('loader-page');
+            $(".loader-page").css({ visibility: "visible", opacity: "100" })
+            break;
+        }
+        if (document.getElementsByClassName('love').value != "") {
+            setTimeout(function () {
+                $(".loader-page").css({ visibility: "hidden", opacity: "0" })
+                //$('#preload1').removeClass('loader-page');
+                $('#preload').removeClass('loader-page');
+
+            }, 1500);
+        }
+
+    });
+
+    //preload
+    $(document).on('change', '.borra', function (e) {
+        e.preventDefault()
+        while ($("[id*=bina]").val() == "") {
+            //$('#preload').addClass('loader-page');
+            $('#preload1').addClass('loader-page');
+            $(".loader-page").css({ visibility: "visible", opacity: "100" })
+            break;
+        }
+        if (document.getElementsByClassName('love').value != "") {
+            setTimeout(function () {
+                $(".loader-page").css({ visibility: "hidden", opacity: "0" })
+                $('#preload1').removeClass('loader-page');
+                //$('#preload').removeClass('loader-page');
+
+            }, 1500);
+        }
+
     });
        
     //subir el archivo final    
@@ -451,8 +496,7 @@ $(document).ready(function () {
         e.preventDefault();
         var data = tabla.row($(this).parents("tr")).data();
         $("[id*=id]").val(data.Id);        
-        $('.btn_Actualizar').hide();
-        //$('.Subir_memo').hide();   
+         $('.btn_Actualizar').hide();        
     });
 
     $('#modal1').modal({
@@ -461,6 +505,9 @@ $(document).ready(function () {
            
         },
         complete: function () {
+            $('#preload1').removeClass('loader-page');
+            $('#preload').removeClass('loader-page');
+            $(".loader-page").css({ visibility: "hidden", opacity: "0" })
             limpiar();
             tabla.destroy();
             consultar();
@@ -479,7 +526,8 @@ $(document).ready(function () {
         $("[id*=fech_firma]").val("");
         $("[id*=est_contra]").val("");
         $("[id*=file]").val("");
-        //$("[id*=file_memo]").val("");
+        $("[id*=archivo]").val("");
+        $("[id*=archivo1]").val(""); 
         $("[id*=descripcion]").val("");
         $("[id*=file_final]").val("");   
         //$("[id*=file_frma]").val(""); 

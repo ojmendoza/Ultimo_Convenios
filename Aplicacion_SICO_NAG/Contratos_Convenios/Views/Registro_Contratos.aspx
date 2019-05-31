@@ -2,9 +2,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
      <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-
     <script src="../Scripts/Regis_Contrato.js"></script>
-
+   <link href="../Css/loader.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="contratos">
@@ -42,7 +41,7 @@
                                  </div>
                             <div class="valign-wrapper ">
                            
-                                <textarea id="bina" class="materialize-textarea" data-length="500000000" style="display:none"></textarea>
+                                <textarea id="bina" class="materialize-textarea love" data-length="500000000" style="display:none"></textarea>
                                 <input id="id" type="text" style="display:none" />
                             </div>
                          <div class="valign-wrapper ">
@@ -52,10 +51,10 @@
                                 <input type="file" id="file" />
                               </div>
                               <div class="file-path-wrapper" >
-                                <input class="file-path validate" type="text" />
+                                <input class="file-path validate borra" type="text" id="archivo1" />
                               </div>           
                             </div>                           
-
+                             <div id="preload1" class=""></div>
                          </div>                          
 
                          <div class="card-action center">
@@ -137,10 +136,11 @@
                                     <input type="file" id="file_final" />
                                   </div>
                                   <div class="file-path-wrapper" >
-                                    <input class="file-path validate" type="text" />
-                                  </div>           
+                                    <input class="file-path validate finale" type="text" id="archivo" />
+                                  </div> 
+                               
                             </div>
-
+                          <div id="preload" class=""></div>
                      </div>
                      <div class="card-action center">
                              <div class="col s6 m6 l6" >

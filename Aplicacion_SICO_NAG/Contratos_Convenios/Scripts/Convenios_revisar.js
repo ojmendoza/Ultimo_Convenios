@@ -94,6 +94,7 @@ $(document).ready(function () {
             success: function (response) {
                 tabla = $("#datatable1").DataTable({
                     "scrollX": true,
+                    "order": [[0, 'desc']],
                     "language": {
                         "lengthMenu": "",
                         "zeroRecords": "No se encontraron resultados en su busqueda",
@@ -179,6 +180,10 @@ $(document).ready(function () {
     //aca es para subir las bservaciones
     $('#ingresar_observaciones').click(function (e) {
         e.preventDefault();
+        if ($("[id*=observacion]").val() == "") {
+            Materialize.toast("Error, Ingrese las observaciones ",2000,'red');
+            return false;
+        }
         guardar_observacion(function () { });
         limpiar();
     });
@@ -322,6 +327,12 @@ $(document).ready(function () {
                             },
                         ],
                     });
+                    d: r.d;
+                    if (r.d[0].Regis_final == "NO EXISTE REGISTRO") {
+                        $(function () {
+                            alert('Error, No Se ha Subido el Archivo Final');
+                        });
+                    };     
                 },
                 error: function (response, xhr) {
                     Materialize.toast('Error, Los datos no pudieron ser visualizados', 4000, 'rounded');
@@ -541,6 +552,9 @@ $(document).ready(function () {
                         Materialize.toast("El Convenio: " + r.d[i].Nombre + " Vence en: " + r.d[i].Fech_fin, 3000, "grey rounded")
                     }
 
+                }
+                if (r.d.length == 0) {
+                    Materialize.toast("No existen convenios por vencer!!", 3000, "green rounded")
                 }
 
                 console.log(r.d)

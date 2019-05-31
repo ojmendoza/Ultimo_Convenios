@@ -107,10 +107,12 @@ Partial Class Views_AsignacionContratos
             Using rdr As SqlDataReader = cmd.ExecuteReader()
                 While rdr.Read()
                     Dim fila As New PropiedadesContratoConvenio()
-                    'CStr("<div class='embed-container'><iframe width='560' height='315' src='" & rdr.Item("registro_borrador").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")frameborder='0' allowfullscreen
-                    'fila.Regis_borrador = CStr("<div class='embed-container'><iframe width='600' height='415' src='" & rdr.Item("registro_borrador").ToString() & "' download='Borrador_editable.docx' frameborder='0' allowfullscreen></iframe></div> ")
-                    fila.Regis_borrador = CStr("<a class='descargar btn' Title = 'descargar' >descargar</a>")
-                    'fila.Regis_borrador = rdr.Item("registro_borrador").ToString()
+                    Dim valor As String = rdr.Item("registro_borrador").ToString()
+                    If valor = "" Or valor = "null" Then
+                        fila.Regis_borrador = CStr("<a class='descargar btn disabled'  Title = 'descargar' >descargar</a>")
+                    Else
+                        fila.Regis_borrador = CStr("<a class='descargar btn'  Title = 'descargar' >descargar</a>")
+                    End If
                     filas.Add(fila)
                 End While
             End Using
@@ -154,8 +156,16 @@ Partial Class Views_AsignacionContratos
             Using rdr As SqlDataReader = cmd.ExecuteReader()
                 While rdr.Read()
                     Dim fila As New PropiedadesContratoConvenio()
+                    Dim valor As String = rdr.Item("registro_inal").ToString()
+                    If valor = "" Or valor = "null" Then
+                        fila.Regis_final = "NO EXISTE REGISTRO"
+
+                    Else
+                        fila.Regis_final = CStr("<div class='embed-container'><iframe width='600' height='415' src='" & rdr.Item("registro_inal").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
+
+                    End If
                     'CStr("<div class='embed-container'><iframe width='560' height='315' src='" & rdr.Item("registro_borrador").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
-                    fila.Regis_final = CStr("<div class='embed-container'><iframe width='600' height='415' src='" & rdr.Item("registro_inal").ToString() & "' frameborder='0' allowfullscreen></iframe></div> ")
+
                     filas.Add(fila)
                 End While
             End Using

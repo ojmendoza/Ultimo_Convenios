@@ -39,6 +39,7 @@ $(document).ready(function () {
             success: function (response) {
                 tabla = $("#datatable1").DataTable({
                     "scrollX": true,
+                    "order": [[0, 'desc']],
                     "language": {
                         "lengthMenu": "",
                         "zeroRecords": "No se encontraron resultados en su busqueda",
@@ -154,12 +155,6 @@ $(document).ready(function () {
                         ],
                     });
 
-                    d: r.d;
-                    var datos = r.d[0].Regis_borrador;
-                    if ((datos == 'null') | (datos == ' ')) {
-                        r.d[0].Regis_borrador = "<a class='descargar btn' Title='descargar' disable='true' >descargar</a>"
-
-                    }
                 },
 
                 error: function (response, xhr) {
@@ -209,6 +204,12 @@ $(document).ready(function () {
                             },
                         ],
                     });
+                    d: r.d;
+                    if (r.d[0].Regis_final == "NO EXISTE REGISTRO" ) {
+                        $(function () {
+                            alert('Error, No Se ha Subido el Archivo Final');
+                        });
+                    };                
                 },
                 error: function (response, xhr) {
                     Materialize.toast('Error, Los datos no pudieron ser visualizados', 4000, 'rounded');
@@ -400,8 +401,12 @@ $(document).ready(function () {
     });   
     $("#ingesar_obs").click(function (e) {
         e.preventDefault();
+        if ($("[id*=Observacion]").val() == "") {
+            Materialize.toast("Error, Ingrese las observaciones ", 2000, 'red');
+            return false;
+        }
         Guardar_comentarios();
-        $("[id*=Observacion]").val("");
+        limpiar();
     });  
 
     var limpiar = function () {
@@ -454,11 +459,11 @@ $(document).ready(function () {
                 success: function (r) {                    
                     d: r.d;
                     var regis = r.d[0].Regis_borrador;
-                    if ((regis != "null") | (regis != " ")) {
+                    if ((regis != "null") || (regis != " ")) {
                         $("[id*=archivo]").val(r.d[0].Regis_borrador);
-                    }
+                    } 
                    
-                    //console.log(r.d[0].Regis_borrador);
+                    console.log(regis);
                 },
                 error: function (response, xhr) {
                     Materialize.toast('Error, Los datos no pudieron ser descargados', 4000, 'rounded');
@@ -530,14 +535,16 @@ $(document).ready(function () {
                     d: r.d;                  
                     //console.log(datos.length)
                     for (var i = 0; i < datos.length; i++) {                       
-                        if (r.d[i].Fech_fin == "") {
-                            Materialize.toast("No existen contratos por vencer!!", 3000, "green rounded")
+                        if (r.d[i].Fech_fin == "")  {
+                            Materialize.toast("No existen contratos por vencer!!", 10000, "green rounded")
                         } else {
-                            Materialize.toast("El contrato: " + r.d[i].Nombre + " Vence en: " + r.d[i].Fech_fin, 3000, "grey rounded")
+                            Materialize.toast("El contrato: " + r.d[i].Nombre + " Vence en: " + r.d[i].Fech_fin, 20000, "grey rounded")
                         }
 
                     }            
-
+                    if (r.d.length==0) {
+                        Materialize.toast("No existen contratos por vencer!!", 10000, "green rounded")
+                    }
                     console.log(r.d)
                 },
                 failure: function (response) {
