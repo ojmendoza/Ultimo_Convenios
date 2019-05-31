@@ -220,7 +220,10 @@ $(document).ready(function () {
             Materialize.toast("Error, No puede quedar vacío", 2000, 'red');
             return false;
         }
-        
+        if (document.getElementById('borrador').value == "") {
+            Materialize.toast('ERROR, Ingrese el documento', 6000, 'rounded');
+            return false;
+        }
        
         guardar_modificaciones(function () {
             tabla.destroy();

@@ -298,22 +298,31 @@ $(document).ready(function () {
     //aca es para guardar o actualizar datosSubir_1
     $('#btn_insertar').click(function (e) {
         e.preventDefault();
+        if ($("[id*=nom_contra]").val() == "") {
+            Materialize.toast('ERROR, Ingrese el nombre del Contrato', 6000, 'rounded');
+            return false;
+        }
+
+        if ($("[id*=descripcion]").val() == "") {
+            Materialize.toast('ERROR, Escriba una breve descripcion', 6000, 'rounded');
+            return false;
+        }
+
+        if (document.getElementById('fech_inicio').value == "") {
+            Materialize.toast('ERROR, Ingrese la fecha', 6000, 'rounded');
+            return false;
+        }
+
+        if (document.getElementById('archivo1').value == "") {
+            Materialize.toast('ERROR, Ingrese el documento', 6000, 'rounded');
+            return false;
+        }
 
         if (document.getElementById('fech_inicio').value < moment().format('DD/MM/YYYY')) {
             Materialize.toast('ERROR, La fecha deber Mayor o igual que hoy', 6000, 'rounded');
             return false;
         }
 
-        if ($("[id*=nom_contra]").val() == "") {
-            Materialize.toast('ERROR, Ingrese el nombre del Convenio', 6000, 'rounded');
-            return false;
-        }
-
-
-        if ($("[id*=descripcion]").val() == "") {
-            Materialize.toast('ERROR, Escriba una breve descripcion', 6000, 'rounded');
-            return false;
-        }
 
         if ($("[id*=id]").val() == "") {
             guardar(); 
@@ -327,8 +336,6 @@ $(document).ready(function () {
                 tabla.destroy();
                 consultar();
             });
-            
-           
             
         }
         
@@ -350,17 +357,23 @@ $(document).ready(function () {
       //aca es para subir el final
     $('#Subir_2').click(function (e) {
         e.preventDefault();
-        if ($("[id*=fech_firma]").value == "") {
+
+        if (document.getElementById('fech_firma').value == "") {
             Materialize.toast('ERROR, Ingrese la Fecha que se firma el Contrato', 6000, 'rounded');
             return false;
         }
 
-        if ($("[id*=fech_final]").value == "") {
-            Materialize.toast('ERROR, Ingrese la FEcha que se Vence el Contrato', 6000, 'rounded');
+        if (document.getElementById('fech_final').value == "") {
+            Materialize.toast('ERROR, Ingrese la Fecha que se Vence el Contrato', 6000, 'rounded');
             return false;
         }
 
-        if (document.getElementById('fech_final').value > document.getElementById('fech_firma').value) {
+        if (document.getElementById('archivo').value == "") {
+            Materialize.toast('ERROR, Ingrese el documento', 6000, 'rounded');
+            return false;
+        }
+                     
+        if (document.getElementById('fech_final').value < document.getElementById('fech_firma').value) {
             Materialize.toast('ERROR, La fecha de firma debe ser menor que la fecha de vencimiento', 6000, 'rounded');
             return false;
         }

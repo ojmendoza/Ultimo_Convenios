@@ -19,22 +19,22 @@
                            <div class="valign-wrapper ">
                                  <div class="input-field col s6 m6 l9" style="margin:initial" >
                                     <i class="material-icons prefix">account_balance</i>
-                                    <input id="nom_contra"   type="text"  class="validate tooltipped letras mayus" data-tooltip="Nombre del Contrato" />
+                                    <input id="nom_contra" maxlength="250" type="text"  class="validate tooltipped letras mayus" data-tooltip="Nombre del Contrato" />
                                     <label for="nom_contra">Nombre del Contrato</label>
                                   </div>
                             </div>
                           <div class="valign-wrapper">
                               <div class="input-field col s6 m6 l9" style="margin:initial">
                                 <i class="material-icons prefix">directions</i>
-                                <textarea id="descripcion" class="materialize-textarea tooltipped" data-length="1000" data-tooltip="Descripción u Ojetivo del Contrato "></textarea>
-                                 <label for="descripcion">Descripción u Ojetivo</label>
+                                <textarea id="descripcion" class="materialize-textarea tooltipped" data-length="1000" data-tooltip="Descripción u Objetivo del Contrato "></textarea>
+                                 <label for="descripcion">Descripción u Objetivo</label>
                              </div>
                           </div>
 
                          <div class="valign-wrapper"> 
                                           <div class=" input-field col s6 m6 l9" style="margin:initial">
                                             <i class="material-icons prefix">date_range</i>
-                                            <label for="fech_inicio">Fecha de Incripción</label>
+                                            <label for="fech_inicio">Fecha de Asignación</label>
                                             <input type="text" class="datepicker tooltipped" id="fech_inicio" data-tooltip="Fecha en que se sube al sistema"/>                                 
                                          </div>
                                     
@@ -57,7 +57,7 @@
                              <div id="preload1" class=""></div>
                          </div>                          
 
-                         <div class="card-action center">
+                         <div class="valign-wrapper ">
                          <div class="col s6 m6 l6" >
                             <button class="btn waves-effect waves-light " type="submit" name="action" id="btn_insertar">Guardar
                              <i class="material-icons right">send</i>

@@ -44,8 +44,32 @@ $(document).ready(function () {
                             "previous": "Anterior"
                         }
                     },
-
                     retrieve: true,
+                    dom: "<'row'<'col-sm-6'B><'col-sm-6'f>>" + "<'row'<'col-sm-12't>>" + "<'row'<'col-sm-12'l>>" + "<'row'<'col-sm-12'' '>>" + "<'row'<'col-sm-6'i><'col-sm-6'p>>",
+                     buttons: [
+                        {
+                            extend: 'colvis',
+                            text: 'Campos Visibles',
+                            postfixButtons: ['colvisRestore']
+                        },
+
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Reporte Convenio',
+                            exportOptions: {
+                                columns: [':visible']
+                            }
+                        },
+
+                        {
+                            extend: 'print',
+                            text: 'Imprimir',
+                            title: 'Reporte Convenio',
+                            exportOptions: {
+                                columns: [':visible']
+                            }
+                        }
+                    ],
 
                     data: response.d,
 
@@ -71,18 +95,12 @@ $(document).ready(function () {
                             "className": "dt-left",
                             data: "Regis_firma"
                         },
-                        //{
-                        //    "className": "dt-left",
-                        //    data: "Btn"
-                        //},
+                       
                         {
                             "className": "dt-left",
                             data: "Fech_fin"
                         },
-                        //{
-                        //    defaultContent: ' <a title="Agregar Comentarios" class="btn task-cat grey darken-2 modal-trigger Comentarios" href="#modal3" ><i class="material-icons">comment</i></a>'
-
-                        //},
+                       
                         {
                             defaultContent: ' <a title="Ver y Descargar Borrador" class="btn task-cat blue darken-2 modal-trigger ver_borrador" href="#modal1"  ><i class="material-icons">file_download</i></a>' +
                                 ' <a title="Ver y Descargar Final" class= "btn task-cat blue darken-2 modal-trigger ver_final" href="#modal2" > <i class="material-icons">file_download</i></a> '

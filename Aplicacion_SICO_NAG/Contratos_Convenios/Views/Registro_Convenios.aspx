@@ -21,21 +21,21 @@
                              <div class="valign-wrapper ">
                                  <div class="input-field col s6 m6 l9" style="margin:initial" >
                                     <i class="material-icons prefix">account_balance</i>
-                                    <input id="nom_contra"   type="text"  class="validate tooltipped letras mayus" data-tooltip="Nombre del Contrato" />
-                                    <label for="nom_contra">Nombre del Contrato</label>
+                                    <input id="nom_contra"  maxlength="250" type="text"  class="validate tooltipped letras mayus" data-tooltip="Nombre del Contrato" />
+                                    <label for="nom_contra">Nombre del Convenio</label>
                                   </div>
                             </div>
                          <div class="valign-wrapper">
                               <div class="input-field col s6 m6 l9" style="margin:initial">
                                 <i class="material-icons prefix">directions</i>
-                                <textarea id="descrip" class="materialize-textarea tooltipped" data-length="10000" data-tooltip="Descripción u Ojetivo del Contrato "></textarea>
-                                 <label for="descrip">Descripción u Ojetivo</label>
+                                <textarea id="descrip" class="materialize-textarea tooltipped" data-length="10000" data-tooltip="Descripción u Objetivo del Contrato "></textarea>
+                                 <label for="descrip">Descripción u Objetivo</label>
                              </div>
                           </div>
                          <div class="valign-wrapper"> 
                                           <div class=" input-field col s6 m6 l9" style="margin:initial">
                                             <i class="material-icons prefix">date_range</i>
-                                            <label for="fech_inicio">Fecha De Asignación</label>
+                                            <label for="fech_inicio">Fecha de Asignación</label>
                                             <input type="text" class="datepicker tooltipped" id="fech_inicio" data-tooltip="Fecha en que se Firma el Contrato"/>                                 
                                          </div>
                                   
@@ -58,7 +58,7 @@
                              
                          </div>                          
 
-                         <div class="card-action center">
+                         <div class="valign-wrapper ">
                          <div class="col s6 m6 l6" >
                             <button class="btn waves-effect waves-light " type="submit" name="action" id="btn_insertar">Guardar
                              <i class="material-icons right">send</i>

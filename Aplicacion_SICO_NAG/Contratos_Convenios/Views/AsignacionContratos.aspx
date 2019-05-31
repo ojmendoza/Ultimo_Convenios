@@ -29,7 +29,7 @@
                                 <th>Titulo del Contrato</th>
                                 <th>Archivos</th>
                                 <th>Fecha Firma Contrato </th>
-                                <th>Prioridad </th>
+                                <th>Documento</th>
                                 <th>Fecha Vencimiento</th>
                                 <th>Observaciones</th>
                                 <th>Estado </th>

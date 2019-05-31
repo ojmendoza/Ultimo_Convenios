@@ -44,8 +44,33 @@ $(document).ready(function () {
                             "previous": "Anterior"
                         }
                     },
-
                     retrieve: true,
+                    dom: "<'row'<'col-sm-6'B><'col-sm-6'f>>" + "<'row'<'col-sm-12't>>" + "<'row'<'col-sm-12'l>>" + "<'row'<'col-sm-12'' '>>" + "<'row'<'col-sm-6'i><'col-sm-6'p>>",
+                   
+                    buttons: [
+                        {
+                            extend: 'colvis',
+                            text: 'Campos Visibles',
+                            postfixButtons: ['colvisRestore']
+                        },
+                       
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Reporte Contrato',
+                            exportOptions: {
+                                columns: [':visible']
+                            }
+                        },
+
+                        {
+                            extend: 'print',
+                            text: 'Imprimir',
+                            title: 'Reporte Contrato',
+                            exportOptions: {
+                                columns: [':visible']
+                            }
+                        }
+                    ],
 
                     data: response.d,
 

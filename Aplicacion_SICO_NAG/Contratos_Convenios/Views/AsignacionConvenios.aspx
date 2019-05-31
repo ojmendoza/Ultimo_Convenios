@@ -29,7 +29,7 @@
                                 <th>Titulo del Convenio</th>
                                 <th>Archivos</th>
                                 <th>Fecha Firma Convenio </th>
-                                <th>Prioridad </th>
+                                <th>Documento</th>
                                 <th>Fecha Vencimiento</th>
                                 <th>Observaciones</th>
                                 <th>Estado </th>

@@ -19,9 +19,9 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Titulo del Contrato</th>
+                                <th>Titulo del Convenio</th>
                                 <th>Descripción</th> 
-                                <th>Fecha Firma Contrato </th>
+                                <th>Fecha Firma Convenio </th>
                                 <th>Fecha Vencimiento</th>
                                 <th>Archivos</th>
                                 <th>Estado</th> 
